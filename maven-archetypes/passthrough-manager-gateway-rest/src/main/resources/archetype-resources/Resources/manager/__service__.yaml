@@ -1,0 +1,21 @@
+name: ${service}
+version: ${serviceVersion}.0
+organization: Banco BPM IT
+description:
+importType: swagger
+swaggerLocation: ../swagger/${artifactId}.0.json
+resourcePath:
+backendBasePath:
+tags:
+  - group: Service Scope
+    value:
+  - group: Functional Domain
+    value:
+  - group: API Category
+    value:
+  - group: Service Organization Owner
+    value: Banco BPM IT
+  - group: Service Application Owner
+    value:
+  - group: Supported Banks
+    value:

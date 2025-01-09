@@ -1,0 +1,14 @@
+interfaces:
+  #per ogni interfaccia che deve essere analizzata
+  - type: SWAGGER
+    #percorso relativo al file swagger
+    location: ../swagger/${artifactId}.0.json
+    #lista di campi da offuscare
+    fields:
+      - nome_campo_da_offuscare
+
+additionalHeaders:
+#questi header vengono aggiunti automaticamente al file redactor di output
+
+additionalPaths:
+#questi percorsi vengono aggiunti automaticamente al file redactor di output
