@@ -15,7 +15,7 @@
         <maven.compiler.target>1.8</maven.compiler.target>
 
         <frameworktestjunit-version>1.6</frameworktestjunit-version>
-        <frameworktestjunitgeneratormavenplugin-version>1.4.1</frameworktestjunitgeneratormavenplugin-version>
+        <frameworktestjunitgeneratormavenplugin-version>1.4.2</frameworktestjunitgeneratormavenplugin-version>
         <junit-version>5.7.0</junit-version>
         <hamcrest-version>2.2</hamcrest-version>
         <lombok-version>1.18.18</lombok-version>
@@ -33,7 +33,7 @@
         <applChiamante>Internal Unit Test Application</applChiamante>
         <applicationCode>${applicationCode}</applicationCode>
         <nomeSwagger>../swagger/${applicationCode}_${serviceName}.0.json</nomeSwagger>
-        <nomePackage>${project.groupId}.${DapplicationCode}.${serviceNameLow}.${serviceVersion}</nomePackage>
+        <nomePackage>${project.groupId}.${applicationCode}.${serviceNameLow}.${serviceVersion}</nomePackage>
         <testPackage>${nomePackage}.testclient</testPackage>
         <multiRawSheets>false</multiRawSheets>
         <withAssert>true</withAssert>

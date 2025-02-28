@@ -35,7 +35,7 @@ fi
 MAIN_PROJECT_NAME=$1    # Nome del progetto principale, utilizzato tale per creazione git project
 GITLAB_GROUP_NAME=$2    # Nome del gruppo da creare su GitLab (passato da riga di comando)
 SECOND_GROUP_NAME="rtc"  # Nome del sottogruppo sempre uguale (rtc)
-# GITLAB_GROUP_ID="8477"  # ID del gruppo GitLab dove creare i gruppi e progetti (bbpm-svil-automation/Projects)
+#GITLAB_GROUP_ID="8477"  # ID del gruppo GitLab dove creare i gruppi e progetti (bbpm-svil-automation/Projects) (personale lrubboli)
 GITLAB_GROUP_ID="434"    # ID del gruppo GitLab BPM (bancoBPM/Axway-Gateway-Projects/sources)
 
 # Imposta l'archetipo Maven (default o alternativo)
@@ -264,7 +264,14 @@ git add .
 git commit -m "Initial commit for $MAIN_PROJECT_NAME on branch develop"
 
 # Configura il remote origin e fai il push del branch develop (sotto quello del mock)
-# git remote add origin "https://git.imolinfo.it/bpm-svil-automation/projects/$GITLAB_GROUP_NAME/$SECOND_GROUP_NAME/$MAIN_PROJECT_NAME.git"
+
+### MODIFICARE QUI CON PROPRIO URL GIT ###
+
+#git remote add origin "https://git.imolinfo.it/bpm-svil-automation/projects/$GITLAB_GROUP_NAME/$SECOND_GROUP_NAME/$MAIN_PROJECT_NAME.git"
+
+######
+
+# URL remoto BancoBPM
 git remote add origin "https://git.imolinfo.it/bancoBPM/Axway-Gateway-Projects/sources/$GITLAB_GROUP_NAME/$SECOND_GROUP_NAME/$MAIN_PROJECT_NAME.git"
 git push -u origin develop
 
@@ -343,7 +350,7 @@ RESPONSE=$(curl --write-out "%{http_code}" --silent --output /dev/null --request
   --header "PRIVATE-TOKEN: $GITLAB_TOKEN")
 
 # Verifica la risposta HTTP
-if [ "$RESPONSE" == "204" ]; then
+if [ "$RESPONSE" == "204" ] || [ "$RESPONSE" == "200" ] || [ "$RESPONSE" == "202" ]; then
   echo "Branch '$BRANCH_NAME' unprotected successfully."
 elif [ "$RESPONSE" == "404" ]; then
   echo "Branch '$BRANCH_NAME' not found or already unprotected (404)."

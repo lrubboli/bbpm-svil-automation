@@ -30,11 +30,10 @@ Inoltre costruire l'indirizzo su misura alla riga commento **Configura il remote
 ```
 
 ### Requisiti
-- file locale .env con Git token
+- file locale .env con *GITLAB_TOKEN*
+- jq command line tool 
+  (```pip install jq``` altrimenti (per windows) ```curl -L -o /usr/bin/jq.exe https://github.com/jqlang/jq/releases/latest/download/jq-win64.exe```)
 - archetipi correttamente installati
-- script di automation
-- dati del Git dove pushare (id e nomi dei gruppi interessati)
-- personal token per auth (modificare con il proprio nelle prime righe dello script)
 
 ## Installazione archetipi
 - aggiornare in base ad esigenza le versioni delle dipendenze

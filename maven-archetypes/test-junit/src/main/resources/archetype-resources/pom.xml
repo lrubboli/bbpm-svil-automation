@@ -33,7 +33,7 @@
         <applChiamante>Internal Unit Test Application</applChiamante>
         <applicationCode>${applicationCode}</applicationCode>
         <nomeSwagger>../swagger/${applicationCode}_${serviceName}.0.json</nomeSwagger>
-        <nomePackage>${project.groupId}.${DapplicationCode}.${serviceNameLow}.${serviceVersion}</nomePackage>
+        <nomePackage>${project.groupId}.${applicationCodeLow}.${serviceNameLow}.v${serviceVersion}</nomePackage>
         <testPackage>${nomePackage}.testclient</testPackage>
         <multiRawSheets>false</multiRawSheets>
         <withAssert>true</withAssert>

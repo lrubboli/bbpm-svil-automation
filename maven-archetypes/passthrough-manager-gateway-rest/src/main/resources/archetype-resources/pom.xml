@@ -9,8 +9,9 @@
 
     <properties>
         <project.build.sourceEncoding.version>UTF-8</project.build.sourceEncoding.version>
-        <rest.openapi.validator.maven.plugin.version>1.6.0</rest.openapi.validator.maven.plugin.version>
-        <manager.yaml.validator.maven.plugin.version>1.1.7</manager.yaml.validator.maven.plugin.version>
+        <rest.openapi.validator.maven.plugin.version>1.7.1</rest.openapi.validator.maven.plugin.version>
+        <openapi2jsonschema4j.version>1.0.6</openapi2jsonschema4j.version>
+        <manager.yaml.validator.maven.plugin.version>1.1.15</manager.yaml.validator.maven.plugin.version>
         <redactor.generator.maven.plugin.version>1.0.9</redactor.generator.maven.plugin.version>
         <jgitflow.maven.plugin.version>1.0-m5.1</jgitflow.maven.plugin.version>
         <username />
@@ -87,7 +88,7 @@
                     <plugin>
 						<groupId>it.imolinfo.maven.plugins</groupId>
 						<artifactId>openapi2jsonschema4j</artifactId>
-						<version>1.0.6</version>
+						<version>${openapi2jsonschema4j.version}</version>
 						<configuration>
 							<strict>true</strict>
 						</configuration>
@@ -105,22 +106,6 @@
 							</execution>
 						</executions>
 					</plugin>
-                    <!-- Plugin per la validazione del manager -->
-					<plugin>
-                        <groupId>it.imolainformatica.plugins</groupId>
-                        <artifactId>manager-yaml-validator-maven-plugin</artifactId>
-                        <version>1.0.7</version>
-                        <executions>
-                            <execution>
-                                <id>validate</id>
-                                <phase>validate</phase>
-                                <configuration />
-                                <goals>
-                                    <goal>validate</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-                    </plugin>
                     <!-- Plugin creazione devenv, gestione properties environmentalizzate -->
 					<plugin>
 						<groupId>it.imolainformatica.plugins</groupId>
@@ -160,7 +145,7 @@
                         </configuration>
                     </plugin>
                     
-                     
+<!--                     
                     <plugin>
                         <groupId>it.imolinfo.maven.plugins</groupId>
                         <artifactId>passthrough-generator</artifactId>
@@ -200,7 +185,7 @@
                             </execution>
                         </executions>
                     </plugin>
-                    
+-->
                 </plugins>
             </build>
 

@@ -18,5 +18,8 @@
         <requiredProperty key="applicationCode"/>
         <requiredProperty key="serviceName"/>
         <requiredProperty key="packageName"/>
+        <requiredProperty key="serviceNameLow"/>
+        <requiredProperty key="serviceVersion"/>
+        <requiredProperty key="applicationCodeLow"/>
     </requiredProperties>
 </archetype-descriptor>

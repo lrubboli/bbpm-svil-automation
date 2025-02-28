@@ -1,111 +1,107 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<project
+	xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
-    <modelVersion>4.0.0</modelVersion>
-
-    <groupId>${groupId}</groupId>
-    <artifactId>${artifactId}</artifactId>
-    <version>${version}</version>
-    <packaging>jar</packaging>
-
-    <properties>
-        <project.build.sourceEncoding.version>UTF-8</project.build.sourceEncoding.version>
-        <rest.openapi.validator.maven.plugin.version>1.6.0</rest.openapi.validator.maven.plugin.version>
-        <manager.yaml.validator.maven.plugin.version>1.1.7</manager.yaml.validator.maven.plugin.version>
-        <redactor.generator.maven.plugin.version>1.0.9</redactor.generator.maven.plugin.version>
-        <jgitflow.maven.plugin.version>1.0-m5.1</jgitflow.maven.plugin.version>
-        <username />
-        <password />
-    </properties>
-
-    <profiles>
-        <profile>
-            <id>standard</id>
-            <activation>
-                <activeByDefault>true</activeByDefault>
-            </activation>
-
-            <build>
-                <plugins>
-                    <!-- Plugin per la validazione automatica dell'interfaccia swagger -->
-                    <plugin>
-                        <groupId>it.imolainformatica.plugins</groupId>
-                        <artifactId>rest-openapi-validator-maven-plugin</artifactId>
-                        <version>${rest.openapi.validator.maven.plugin.version}</version>
-                        <configuration>
-                            <inputContractBasePath>${basedir}/Resources/swagger/${artifactId}.0.json</inputContractBasePath>
-                            <usageProfile>DEFAULT</usageProfile>
-                        </configuration>
-                        <executions>
-                            <execution>
-                                <id>validate</id>
-                                <phase>validate</phase>
-                                <configuration />
-                                <goals>
-                                    <goal>validate</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-                    </plugin>
-                    <!-- Plugin per la validazione automatica del file manager.yaml -->
-                    <plugin>
-                        <groupId>it.imolainformatica.plugins</groupId>
-                        <artifactId>manager-yaml-validator-maven-plugin</artifactId>
-                        <version>${manager.yaml.validator.maven.plugin.version}</version>
-                        <executions>
-                            <execution>
-                                <id>validate</id>
-                                <phase>validate</phase>
-                                <configuration />
-                                <goals>
-                                    <goal>validate</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-                    </plugin>
-                    <!-- Plugin per la generazione del file redactor .xml -->
-                    <plugin>
-                        <groupId>it.imolainformatica.plugins</groupId>
-                        <artifactId>redactor-generator-maven-plugin</artifactId>
-                        <version>${redactor.generator.maven.plugin.version}</version>
-                        <configuration>
-                        </configuration>
-                        <executions>
-                            <execution>
-                                <id>generate</id>
-                                <phase>prepare-package</phase>
-                                <configuration>
-                                    <redactorConfigurationFile>${basedir}/Resources/redactor/redactor.yaml</redactorConfigurationFile>
-                                    <redactorOutputDirectory>${basedir}/Resources/redactor</redactorOutputDirectory>
-                                </configuration>
-                                <goals>
-                                    <goal>generate-redactor</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-                    </plugin>
-                    <!-- Plugin per il versionamento del progetto tramite GitFlow -->
-                    <plugin>
-                        <groupId>external.atlassian.jgitflow</groupId>
-                        <artifactId>jgitflow-maven-plugin</artifactId>
-                        <version>${jgitflow.maven.plugin.version}</version>
-                        <configuration>
-                            <username>${username}</username>
-                            <password>${password}</password>
-                            <noDeploy>true</noDeploy>
-                            <useReleaseProfile>false</useReleaseProfile>
-                            <releaseBranchVersionSuffix>RC</releaseBranchVersionSuffix>
-                            <flowInitContext>
-                                <masterBranchName>master</masterBranchName>
-                                <developBranchName>develop</developBranchName>
-                                <featureBranchPrefix>feature/</featureBranchPrefix>
-                                <releaseBranchPrefix>release/</releaseBranchPrefix>
-                                <hotfixBranchPrefix>hotfix/</hotfixBranchPrefix>
-                            </flowInitContext>
-                        </configuration>
-                    </plugin>
-                </plugins>
-            </build>
-
-        </profile>
-    </profiles>
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>${groupId}</groupId>
+	<artifactId>${artifactId}</artifactId>
+	<version>${version}</version>
+	<packaging>jar</packaging>
+	<properties>
+		<project.build.sourceEncoding.version>UTF-8</project.build.sourceEncoding.version>
+		<rest.openapi.validator.maven.plugin.version>1.7.1</rest.openapi.validator.maven.plugin.version>
+		<manager.yaml.validator.maven.plugin.version>1.1.15</manager.yaml.validator.maven.plugin.version>
+		<redactor.generator.maven.plugin.version>1.0.9</redactor.generator.maven.plugin.version>
+		<jgitflow.maven.plugin.version>1.0-m5.1</jgitflow.maven.plugin.version>
+		<username />
+		<password />
+	</properties>
+	<profiles>
+		<profile>
+			<id>standard</id>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+			<build>
+				<plugins>
+					<!-- Plugin per la validazione automatica dell'interfaccia swagger -->
+					<plugin>
+						<groupId>it.imolainformatica.plugins</groupId>
+						<artifactId>rest-openapi-validator-maven-plugin</artifactId>
+						<version>${rest.openapi.validator.maven.plugin.version}</version>
+						<configuration>
+							<inputContractBasePath>${basedir}/Resources/swagger/${artifactId}.0.json</inputContractBasePath>
+							<usageProfile>DEFAULT</usageProfile>
+						</configuration>
+						<executions>
+							<execution>
+								<id>validate</id>
+								<phase>validate</phase>
+								<configuration />
+								<goals>
+									<goal>validate</goal>
+								</goals>
+							</execution>
+						</executions>
+					</plugin>
+					<!-- Plugin per la validazione automatica del file manager.yaml -->
+					<plugin>
+						<groupId>it.imolainformatica.plugins</groupId>
+						<artifactId>manager-yaml-validator-maven-plugin</artifactId>
+						<version>${manager.yaml.validator.maven.plugin.version}</version>
+						<executions>
+							<execution>
+								<id>validate</id>
+								<phase>validate</phase>
+								<configuration />
+								<goals>
+									<goal>validate</goal>
+								</goals>
+							</execution>
+						</executions>
+					</plugin>
+					<!-- Plugin per la generazione del file redactor .xml -->
+					<plugin>
+						<groupId>it.imolainformatica.plugins</groupId>
+						<artifactId>redactor-generator-maven-plugin</artifactId>
+						<version>${redactor.generator.maven.plugin.version}</version>
+						<configuration></configuration>
+						<executions>
+							<execution>
+								<id>generate</id>
+								<phase>prepare-package</phase>
+								<configuration>
+									<redactorConfigurationFile>${basedir}/Resources/redactor/redactor.yaml</redactorConfigurationFile>
+									<redactorOutputDirectory>${basedir}/Resources/redactor</redactorOutputDirectory>
+								</configuration>
+								<goals>
+									<goal>generate-redactor</goal>
+								</goals>
+							</execution>
+						</executions>
+					</plugin>
+					<!-- Plugin per il versionamento del progetto tramite GitFlow -->
+					<plugin>
+						<groupId>external.atlassian.jgitflow</groupId>
+						<artifactId>jgitflow-maven-plugin</artifactId>
+						<version>${jgitflow.maven.plugin.version}</version>
+						<configuration>
+							<username>${username}</username>
+							<password>${password}</password>
+							<noDeploy>true</noDeploy>
+							<useReleaseProfile>false</useReleaseProfile>
+							<releaseBranchVersionSuffix>RC</releaseBranchVersionSuffix>
+							<flowInitContext>
+								<masterBranchName>master</masterBranchName>
+								<developBranchName>develop</developBranchName>
+								<featureBranchPrefix>feature/</featureBranchPrefix>
+								<releaseBranchPrefix>release/</releaseBranchPrefix>
+								<hotfixBranchPrefix>hotfix/</hotfixBranchPrefix>
+							</flowInitContext>
+						</configuration>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+	</profiles>
 </project>
