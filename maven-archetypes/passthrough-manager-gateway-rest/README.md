@@ -1,2 +1,0 @@
-mvn archetype:generate "-DarchetypeGroupId=it.imolainformatica.archetype" "-DarchetypeArtifactId=passthrough-solo-manager-rest" "-DarchetypeVersion=1.0.0-SNAPSHOT" "-DgroupId=it.imolinfo" "-DartifactId=TEST0_TestArchetypeAPI_v1" "-Dversion=1.0.0-SNAPSHOT"
-mvn archetype:generate "-DarchetypeGroupId=it.imolainformatica.archetype" "-DarchetypeArtifactId=passthrough-solo-manager-rest" "-DarchetypeVersion=1.0.0-SNAPSHOT"
