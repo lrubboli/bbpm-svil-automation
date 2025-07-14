@@ -9,9 +9,9 @@
 
     <properties>
         <project.build.sourceEncoding.version>UTF-8</project.build.sourceEncoding.version>
-        <rest.openapi.validator.maven.plugin.version>1.7.1</rest.openapi.validator.maven.plugin.version>
+        <rest.openapi.validator.maven.plugin.version>2.0.0</rest.openapi.validator.maven.plugin.version>
         <openapi2jsonschema4j.version>1.0.6</openapi2jsonschema4j.version>
-        <manager.yaml.validator.maven.plugin.version>1.1.15</manager.yaml.validator.maven.plugin.version>
+        <manager.yaml.validator.maven.plugin.version>1.1.20</manager.yaml.validator.maven.plugin.version>
         <redactor.generator.maven.plugin.version>1.0.9</redactor.generator.maven.plugin.version>
         <jgitflow.maven.plugin.version>1.0-m5.1</jgitflow.maven.plugin.version>
         <username />
