@@ -35,8 +35,8 @@ fi
 MAIN_PROJECT_NAME=$1    # Nome del progetto principale, utilizzato tale per creazione git project
 GITLAB_GROUP_NAME=$2    # Nome del gruppo da creare su GitLab (passato da riga di comando)
 SECOND_GROUP_NAME="rtc"  # Nome del sottogruppo sempre uguale (rtc)
-#GITLAB_GROUP_ID="8477"  # ID del gruppo GitLab dove creare i gruppi e progetti (bbpm-svil-automation/Projects) (personale lrubboli)
-GITLAB_GROUP_ID="434"    # ID del gruppo GitLab BPM (bancoBPM/Axway-Gateway-Projects/sources)
+GITLAB_GROUP_ID="8477"  # ID del gruppo GitLab dove creare i gruppi e progetti (bbpm-svil-automation/Projects) (personale lrubboli)
+#GITLAB_GROUP_ID="434"    # ID del gruppo GitLab BPM (bancoBPM/Axway-Gateway-Projects/sources)
 
 # Imposta l'archetipo Maven (default o alternativo)
 ARTECHTYPE_DEFAULT="passthrough-solo-manager-rest"
@@ -243,11 +243,33 @@ if [ $? -ne 0 ]; then
 fi
 echo "Folder test successfully created"
 
-echo "Current directory: $(pwd)"
+# Torna alla directory principale del progetto
+cd ../../..
 ls -la
 
-# Torna alla directory principale del progetto
-cd ../..
+# Gestione file JSON da copiare (con lo stesso nome del progetto)
+SPEC_FILE_NAME="${MAIN_PROJECT_NAME}.json"
+SOURCE_SPEC_PATH="$(dirname "$0")/$SPEC_FILE_NAME"
+TARGET_SPEC_DIR="Resources/swagger"
+TARGET_SPEC_PATH="${TARGET_SPEC_DIR}/${SPEC_FILE_NAME}"
+
+# Crea directory swagger se non esiste
+mkdir -p "$TARGET_SPEC_DIR"
+
+if [ -f "$SOURCE_SPEC_PATH" ]; then
+    cp "$SOURCE_SPEC_PATH" "$TARGET_SPEC_PATH"
+    if [ $? -eq 0 ]; then
+        echo "File $SPEC_FILE_NAME copiato correttamente in $TARGET_SPEC_DIR"
+    else
+        echo "Errore nella copia del file $SPEC_FILE_NAME in $TARGET_SPEC_DIR"
+        exit 1
+    fi
+else
+    echo "Attenzione: file $SPEC_FILE_NAME non trovato nella directory dello script. Nessun file copiato in $TARGET_SPEC_DIR"
+fi
+
+echo "Current directory: $(pwd)"
+ls -la
 
 # Inizializza git, crea branch develop e committa i file per il progetto principale
 git init
@@ -267,12 +289,12 @@ git commit -m "Initial commit for $MAIN_PROJECT_NAME on branch develop"
 
 ### MODIFICARE QUI CON PROPRIO URL GIT ###
 
-#git remote add origin "https://git.imolinfo.it/bpm-svil-automation/projects/$GITLAB_GROUP_NAME/$SECOND_GROUP_NAME/$MAIN_PROJECT_NAME.git"
+git remote add origin "https://git.imolinfo.it/bpm-svil-automation/projects/$GITLAB_GROUP_NAME/$SECOND_GROUP_NAME/$MAIN_PROJECT_NAME.git"
 
 ######
 
 # URL remoto BancoBPM
-git remote add origin "https://git.imolinfo.it/bancoBPM/Axway-Gateway-Projects/sources/$GITLAB_GROUP_NAME/$SECOND_GROUP_NAME/$MAIN_PROJECT_NAME.git"
+#git remote add origin "https://git.imolinfo.it/bancoBPM/Axway-Gateway-Projects/sources/$GITLAB_GROUP_NAME/$SECOND_GROUP_NAME/$MAIN_PROJECT_NAME.git"
 git push -u origin develop
 
 # Crea il branch master come orfano con solo README.md
