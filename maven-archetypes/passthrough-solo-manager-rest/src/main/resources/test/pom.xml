@@ -1,0 +1,422 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>${groupId}</groupId>
+    <artifactId>${applicationCode}_${serviceName}</artifactId>
+    <version>${version}</version>
+    <packaging>jar</packaging>
+
+    <properties>
+        <file.encoding>UTF-8</file.encoding>
+        <maven.build.timestamp.format>yyyy-MM-dd</maven.build.timestamp.format>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
+
+        <frameworktestjunit-version>1.6</frameworktestjunit-version>
+        <frameworktestjunitgeneratormavenplugin-version>1.4.2</frameworktestjunitgeneratormavenplugin-version>
+        <junit-version>5.7.0</junit-version>
+        <hamcrest-version>2.2</hamcrest-version>
+        <lombok-version>1.18.18</lombok-version>
+        <logback-version>1.2.3</logback-version>
+        <slf4j-bridge-version>1.7.22</slf4j-bridge-version>
+        <surefire-version>3.0.0-M4</surefire-version>
+
+        <jackson-version>2.12.2</jackson-version>
+        <cxf-version>3.2.1</cxf-version>
+
+        <io-swaggerv3-jaxrs2-version>2.1.13</io-swaggerv3-jaxrs2-version>
+        <io-swaggerv3-codegen-version>3.0.33</io-swaggerv3-codegen-version>
+        <io-swagger-parser-version>1.0.61</io-swagger-parser-version>
+
+        <applChiamante>Internal Unit Test Application</applChiamante>
+        <applicationCode>${applicationCode}</applicationCode>
+        <nomeSwagger>../swagger/${applicationCode}_${serviceName}_v${serviceVersion}.0.json</nomeSwagger>
+        <nomePackage>${project.groupId}.${applicationCodeLow}.${serviceNameLow}.v${serviceVersion}</nomePackage>
+        <testPackage>${nomePackage}.testclient</testPackage>
+        <multiRawSheets>false</multiRawSheets>
+        <withAssert>true</withAssert>
+        <useOAuth>false</useOAuth>
+        <useProxy>false</useProxy>
+    </properties>
+
+    <repositories>
+        <repository>
+            <id>local-maven</id>
+            <url>file://${project.basedir}${file.separator}maven_repository_locale</url>
+        </repository>
+    </repositories>
+
+    <pluginRepositories>
+        <pluginRepository>
+            <id>local-maven</id>
+            <url>file://${project.basedir}${file.separator}maven_repository_locale</url>
+        </pluginRepository>
+    </pluginRepositories>
+
+    <dependencies>
+
+        <dependency>
+            <groupId>it.bancobpm.apisr</groupId>
+            <artifactId>frameworktestjunit</artifactId>
+            <version>${frameworktestjunit-version}</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-engine</artifactId>
+            <version>${junit-version}</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.hamcrest</groupId>
+            <artifactId>hamcrest</artifactId>
+            <version>2.2</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-classic</artifactId>
+            <version>${logback-version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>jul-to-slf4j</artifactId>
+            <version>${slf4j-bridge-version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>${lombok-version}</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>com.fasterxml.jackson.jaxrs</groupId>
+            <artifactId>jackson-jaxrs-json-provider</artifactId>
+            <version>${jackson-version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.fasterxml.jackson.datatype</groupId>
+            <artifactId>jackson-datatype-jsr310</artifactId>
+            <version>${jackson-version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>javax.ws.rs</groupId>
+            <artifactId>javax.ws.rs-api</artifactId>
+            <version>2.1.1</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>javax.annotation</groupId>
+            <artifactId>javax.annotation-api</artifactId>
+            <version>1.3.2</version>
+        </dependency>
+
+        <dependency>
+            <groupId>io.swagger</groupId>
+            <artifactId>swagger-parser</artifactId>
+            <version>${io-swagger-parser-version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>io.swagger.core.v3</groupId>
+            <artifactId>swagger-jaxrs2</artifactId>
+            <version>${io-swaggerv3-jaxrs2-version}</version>
+            <scope>compile</scope>
+        </dependency>
+
+        <!-- Bean Validation API support -->
+        <dependency>
+            <groupId>javax.validation</groupId>
+            <artifactId>validation-api</artifactId>
+            <version>1.1.0.Final</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <!-- CXF client -->
+        <dependency>
+            <groupId>org.apache.cxf</groupId>
+            <artifactId>cxf-rt-rs-client</artifactId>
+            <version>${cxf-version}</version>
+            <scope>test</scope>
+        </dependency>
+
+        <!-- CXF server -->
+        <dependency>
+            <groupId>org.apache.cxf</groupId>
+            <artifactId>cxf-rt-frontend-jaxrs</artifactId>
+            <version>${cxf-version}</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.cxf</groupId>
+            <artifactId>cxf-rt-rs-service-description</artifactId>
+            <version>${cxf-version}</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.cxf</groupId>
+            <artifactId>cxf-rt-ws-policy</artifactId>
+            <version>${cxf-version}</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.cxf</groupId>
+            <artifactId>cxf-rt-features-logging</artifactId>
+            <version>${cxf-version}</version>
+            <scope>test</scope>
+        </dependency>
+
+        <!-- Per failover gestione mapping eccezioni!!! -->
+        <dependency>
+            <groupId>com.jayway.jsonpath</groupId>
+            <artifactId>json-path</artifactId>
+            <version>2.5.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.ibm.websphere.appserver.api</groupId>
+            <artifactId>com.ibm.websphere.appserver.api.ssl</artifactId>
+            <version>1.4.50</version>
+        </dependency>
+
+        <dependency>
+            <groupId>io.swagger.codegen.v3</groupId>
+            <artifactId>swagger-codegen-maven-plugin</artifactId>
+            <version>${io-swaggerv3-codegen-version}</version>
+        </dependency>
+
+    </dependencies>
+
+    <build>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.eclipse.m2e</groupId>
+                    <artifactId>lifecycle-mapping</artifactId>
+                    <version>1.0.0</version>
+                    <configuration>
+                        <lifecycleMappingMetadata>
+                            <pluginExecutions>
+
+                                <pluginExecution>
+                                    <pluginExecutionFilter>
+                                        <groupId>io.swagger.codegen.v3</groupId>
+                                        <artifactId>swagger-codegen-maven-plugin</artifactId>
+                                        <versionRange>[3.0.0,)</versionRange>
+                                        <goals>
+                                            <goal>generate</goal>
+                                        </goals>
+                                    </pluginExecutionFilter>
+                                    <action>
+                                        <ignore />
+                                    </action>
+                                </pluginExecution>
+
+                                <pluginExecution>
+                                    <pluginExecutionFilter>
+                                        <groupId>it.bancobpm.apisr</groupId>
+                                        <artifactId>frameworktestjunitgeneratormavenplugin</artifactId>
+                                        <versionRange>[1.0.0,)</versionRange>
+                                        <goals>
+                                            <goal>frameworktestjunitgenerator</goal>
+                                        </goals>
+                                    </pluginExecutionFilter>
+                                    <action>
+                                        <ignore />
+                                    </action>
+                                </pluginExecution>
+
+                            </pluginExecutions>
+                        </lifecycleMappingMetadata>
+                    </configuration>
+                </plugin>
+
+                <plugin>
+                    <groupId>it.bancobpm.apisr</groupId>
+                    <artifactId>frameworktestjunitgeneratormavenplugin</artifactId>
+                    <version>${frameworktestjunitgeneratormavenplugin-version}</version>
+                    <configuration>
+                        <applChiamante>${applChiamante}</applChiamante>
+                        <applicationCode>${applicationCode}</applicationCode>
+                        <swagger>${nomeSwagger}</swagger>
+                        <swaggerPackage>${nomePackage}.businesslogic</swaggerPackage>
+                        <testPackage>${testPackage}</testPackage>
+                        <multiRawSheets>${multiRawSheets}</multiRawSheets>
+                        <withAssert>${withAssert}</withAssert>
+                        <useOAuth>${useOAuth}</useOAuth>
+                        <useProxy>${useProxy}</useProxy>
+                    </configuration>
+                    <executions>
+                        <execution>
+                            <phase>generate-test-sources</phase>
+                            <goals>
+                                <goal>frameworktestjunitgenerator</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+
+        <plugins>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>build-helper-maven-plugin</artifactId>
+                <version>3.2.0</version>
+                <executions>
+                    <execution>
+                        <phase>generate-sources</phase>
+                        <goals>
+                            <goal>add-source</goal>
+                        </goals>
+                        <configuration>
+                            <sources>
+                                <source>${project.build.directory}/generated-sources/swagger</source>
+                            </sources>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <plugin>
+                <groupId>io.swagger.codegen.v3</groupId>
+                <artifactId>swagger-codegen-maven-plugin</artifactId>
+                <version>${io-swaggerv3-codegen-version}</version>
+                <executions>
+                    <execution>
+                        <id>generate-from-swagger</id>
+                        <phase>generate-sources</phase>
+                        <goals>
+                            <goal>generate</goal>
+                        </goals>
+                        <configuration>
+                            <inputSpec>${nomeSwagger}</inputSpec>
+                            <output>target/generated-sources</output>
+                            <language>jaxrs-cxf-client</language>
+                            <configOptions>
+                                <sourceFolder>swagger</sourceFolder>
+                                <apiPackage>${nomePackage}.businesslogic</apiPackage>
+                                <invokerPackage>${nomePackage}.invoker</invokerPackage>
+                                <modelPackage>${nomePackage}.model</modelPackage>
+                                <dateLibrary>java8</dateLibrary>
+                            </configOptions>
+                            <generateApiTests>false</generateApiTests>
+                            <generateModelTests>false</generateModelTests>
+                            <generateModels>true</generateModels>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.8.1</version>
+                <configuration>
+                    <encoding>UTF-8</encoding>
+                </configuration>
+                <executions>
+                    <execution>
+                        <phase>generate-sources</phase>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <plugin>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>${surefire-version}</version>
+                <configuration>
+                    <systemPropertyVariables>
+                        <env>${nomeProfilo}</env>
+                    </systemPropertyVariables>
+                    <forkedProcessExitTimeoutInSeconds>120</forkedProcessExitTimeoutInSeconds>
+                    <outputDirectory>${basedir}/target/junit-report</outputDirectory>
+                    <argLine>-Xmx1024m</argLine>
+                    <statelessTestsetReporter
+                            implementation="org.apache.maven.plugin.surefire.extensions.junit5.JUnit5Xml30StatelessReporter">
+                        <disable>false</disable>
+                        <version>3.0</version>
+                        <usePhrasedFileName>false</usePhrasedFileName>
+                        <usePhrasedTestSuiteClassName>true</usePhrasedTestSuiteClassName>
+                        <usePhrasedTestCaseClassName>true</usePhrasedTestCaseClassName>
+                        <usePhrasedTestCaseMethodName>true</usePhrasedTestCaseMethodName>
+                    </statelessTestsetReporter>
+                    <consoleOutputReporter
+                            implementation="org.apache.maven.plugin.surefire.extensions.junit5.JUnit5ConsoleOutputReporter">
+                        <disable>false</disable>
+                        <encoding>UTF-8</encoding>
+                        <usePhrasedFileName>false</usePhrasedFileName>
+                    </consoleOutputReporter>
+                    <statelessTestsetInfoReporter
+                            implementation="org.apache.maven.plugin.surefire.extensions.junit5.JUnit5StatelessTestsetInfoReporter">
+                        <disable>false</disable>
+                        <usePhrasedFileName>false</usePhrasedFileName>
+                        <usePhrasedClassNameInRunning>true</usePhrasedClassNameInRunning>
+                        <usePhrasedClassNameInTestCaseSummary>true</usePhrasedClassNameInTestCaseSummary>
+                    </statelessTestsetInfoReporter>
+                </configuration>
+            </plugin>
+
+        </plugins>
+    </build>
+
+    <reporting>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-report-plugin</artifactId>
+                <version>${surefire-version}</version>
+            </plugin>
+        </plugins>
+    </reporting>
+
+    <profiles>
+        <profile>
+            <id>test_sandbox_imola_77</id>
+            <properties>
+                <!--nome profilo deve corrispondere a un file di properties che ha il formato test-<nomeProfilo>.properties-->
+                <nomeProfilo>imola-77-sandbox</nomeProfilo>
+            </properties>
+        </profile>
+        <profile>
+            <id>test_sandbox_imola_3</id>
+            <properties>
+                <!--nome profilo deve corrispondere a un file di properties che ha il formato test-<nomeProfilo>.properties-->
+                <nomeProfilo>imola-sandbox-3</nomeProfilo>
+            </properties>
+        </profile>
+        <profile>
+            <id>test_sandbox_imola_4</id>
+            <properties>
+                <!--nome profilo deve corrispondere a un file di properties che ha il formato test-<nomeProfilo>.properties-->
+                <nomeProfilo>imola-sandbox-4</nomeProfilo>
+            </properties>
+        </profile>
+        <profile>
+            <id>test_esercizio_integrato_77</id>
+            <properties>
+                <!--nome profilo deve corrispondere a un file di properties che ha il formato test-<nomeProfilo>.properties-->
+                <nomeProfilo>integrato-77-esercizio</nomeProfilo>
+            </properties>
+        </profile>
+        <profile>
+            <id>test_esercizio_collaudo_77</id>
+            <properties>
+                <!--nome profilo deve corrispondere a un file di properties che ha il formato test-<nomeProfilo>.properties-->
+                <nomeProfilo>collaudo-77-esercizio</nomeProfilo>
+            </properties>
+        </profile>
+    </profiles>
+
+</project>
