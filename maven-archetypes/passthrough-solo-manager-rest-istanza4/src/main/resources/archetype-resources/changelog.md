@@ -3,7 +3,7 @@
 
 Features:
 
-- Prima versione servizio: 
+- Prima versione servizio: *${description}*
 
 Security:
 

@@ -1,7 +1,7 @@
 <archetype-descriptor
         xmlns="http://maven.apache.org/plugins/maven-archetype-plugin/archetype-descriptor/1.1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:schemaLocation="http://maven.apache.org/plugins/maven-archetype-plugin/archetype-descriptor/1.1.0 https://maven.apache.org/xsd/archetype-descriptor-1.1.0.xsd"
-        name="passthrough-solo-manager-rest">
+        name="passthrough-solo-manager-rest-istanza4">
     <fileSets>
         <fileSet filtered="true" packaged="false">
             <directory>Resources</directory>
@@ -14,6 +14,12 @@
         <requiredProperty key="service"/>
         <requiredProperty key="serviceName"/>
         <requiredProperty key="serviceVersion"/>
-        <requiredProperty key="currentDate"/>
+        <requiredProperty key="description"/>
+        <requiredProperty key="resourcePath"/>
+        <requiredProperty key="serviceScope"/>
+        <requiredProperty key="functionalDomain"/>
+        <requiredProperty key="apiCategory"/>
+        <requiredProperty key="serviceApplicationOwner"/>
+        <requiredProperty key="supportedBanks"/>
     </requiredProperties>
 </archetype-descriptor>
