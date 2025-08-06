@@ -8,23 +8,9 @@ usage() {
     echo "  $0 my_project my_group --archetype alternative-archetype"
     echo "  $0 my_project my_group --no-mock"
     echo "  $0 my_project my_group --archetype alternative-archetype --no-mock"
-    exit 1
+    #exit 1
 }
 
-# Carica le variabili dal file .env
-ENV_FILE=".env"
-if [ -f "$ENV_FILE" ]; then
-    export $(grep -v '^#' "$ENV_FILE" | xargs)
-else
-    echo "Error: $ENV_FILE file not found. Please create it and add GITLAB_TOKEN."
-    exit 1
-fi
-
-# Verifica che GITLAB_TOKEN sia impostato
-if [ -z "$GITLAB_TOKEN" ]; then
-    echo "Error: GITLAB_TOKEN is not set in $ENV_FILE."
-    exit 1
-fi
 
 # Controlla che almeno due argomenti siano stati passati
 if [ "$#" -lt 2 ]; then
@@ -35,8 +21,8 @@ fi
 MAIN_PROJECT_NAME=$1    # Nome del progetto principale, utilizzato tale per creazione git project
 GITLAB_GROUP_NAME=$2    # Nome del gruppo da creare su GitLab (passato da riga di comando)
 SECOND_GROUP_NAME="rtc"  # Nome del sottogruppo sempre uguale (rtc)
-#GITLAB_GROUP_ID="8477"  # ID del gruppo GitLab dove creare i gruppi e progetti (bbpm-svil-automation/Projects) (personale lrubboli)
-GITLAB_GROUP_ID="434"    # ID del gruppo GitLab BPM (bancoBPM/Axway-Gateway-Projects/sources)
+GITLAB_GROUP_ID="8477"  # ID del gruppo GitLab dove creare i gruppi e progetti (bbpm-svil-automation/Projects) (personale lrubboli)
+#GITLAB_GROUP_ID="434"    # ID del gruppo GitLab BPM (bancoBPM/Axway-Gateway-Projects/sources)
 
 # Imposta l'archetipo Maven (default o alternativo)
 ARTECHTYPE_DEFAULT="passthrough-solo-manager-rest"
@@ -136,7 +122,7 @@ if [ "$GROUP_ID" == "null" ] || [ -z "$GROUP_ID" ]; then
 
   if [ "$GROUP_ID" == "null" ]; then
     echo "Error creating main group. Exiting..."
-    exit 1
+    #exit 1
   fi
   echo "Main group $GITLAB_GROUP_NAME created with ID: $GROUP_ID"
 else
@@ -161,7 +147,7 @@ if [ "$SUBGROUP_ID" == "null" ] || [ -z "$SUBGROUP_ID" ]; then
 
   if [ "$SUBGROUP_ID" == "null" ]; then
     echo "Error creating subgroup. Exiting..."
-    exit 1
+    #exit 1
   fi
   echo "Subgroup 'rtc' created with ID: $SUBGROUP_ID"
 else
@@ -188,7 +174,7 @@ if [ "$PROJECT_ID" == "null" ] || [ -z "$PROJECT_ID" ]; then
 
   if [ "$PROJECT_ID" == "null" ]; then
     echo "Error creating project. Exiting..."
-    exit 1
+    #exit 1
   fi
   echo "Project $MAIN_PROJECT_NAME created with ID: $PROJECT_ID"
 else
@@ -214,7 +200,7 @@ mvn archetype:generate \
 cd $MAIN_PROJECT_NAME
 if [ $? -ne 0 ]; then
   echo "Error: directory $MAIN_PROJECT_NAME not found. Exiting..."
-  exit 1
+  #exit 1
 fi
 
 echo "Current directory: $(pwd)"
@@ -239,7 +225,7 @@ yes | mvn archetype:generate \
 cd test/
 if [ $? -ne 0 ]; then
   echo "Error: directory Resources/test not found. Exiting..."
-  exit 1
+  #exit 1
 fi
 echo "Folder test successfully created"
 
@@ -247,115 +233,31 @@ echo "Current directory: $(pwd)"
 ls -la
 
 # Torna alla directory principale del progetto
-cd ../..
+cd ..
 
-# Inizializza git, crea branch develop e committa i file per il progetto principale
-git init
-git checkout -b develop
+ls -la
 
-# Verifica che ci siano cambiamenti da committare
-if [ -z "$(git status --porcelain)" ]; then
-  echo "No changes to commit. Exiting..."
-  exit 1
-fi
+# Gestione file JSON da copiare (con lo stesso nome del progetto)
+SPEC_FILE_NAME="${MAIN_PROJECT_NAME}"
+SOURCE_SPEC_PATH="$(dirname "$0")/$SPEC_FILE_NAME"
+TARGET_SPEC_DIR="${MAIN_PROJECT_NAME}/Resources/swagger"
+TARGET_SPEC_PATH="${TARGET_SPEC_DIR}/${SPEC_FILE_NAME}"
 
-# Aggiungi e committa i file nel branch develop
-git add .
-git commit -m "Initial commit for $MAIN_PROJECT_NAME on branch develop"
+# Crea directory swagger se non esiste
+mkdir -p "$TARGET_SPEC_DIR"
 
-# Configura il remote origin e fai il push del branch develop (sotto quello del mock)
-
-### MODIFICARE QUI CON PROPRIO URL GIT ###
-
-#git remote add origin "https://git.imolinfo.it/bpm-svil-automation/projects/$GITLAB_GROUP_NAME/$SECOND_GROUP_NAME/$MAIN_PROJECT_NAME.git"
-
-######
-
-# URL remoto BancoBPM
-git remote add origin "https://git.imolinfo.it/bancoBPM/Axway-Gateway-Projects/sources/$GITLAB_GROUP_NAME/$SECOND_GROUP_NAME/$MAIN_PROJECT_NAME.git"
-git push -u origin develop
-
-# Crea il branch master come orfano con solo README.md
-git checkout --orphan master
-git rm -rf .  # Rimuove tutti i file dal master
-echo "# $MAIN_PROJECT_NAME" > README.md
-git add README.md
-git commit -m "Initial commit for $MAIN_PROJECT_NAME on branch master"
-git push -u origin master
-
-echo "Branches develop and master for project $MAIN_PROJECT_NAME pushed to GitLab successfully."
-
-# Verifica se deve saltare la creazione del progetto mock
-if [ "$SKIP_MOCK" = false ]; then
-    # Crea progetto parallelo con prefisso "mock" allo stesso livello del progetto principale
-    MOCK_PROJECT_NAME=$(echo $MAIN_PROJECT_NAME | sed -r 's/(API_v|Service_v)/Mock\1/')
-
-    # Verifica se il progetto mock esiste già
-    MOCK_PROJECT_RESPONSE=$(curl --silent --header "Private-Token: $GITLAB_TOKEN" \
-         "https://git.imolinfo.it/api/v4/groups/$SUBGROUP_ID/projects?search=$MOCK_PROJECT_NAME")
-
-    MOCK_PROJECT_ID=$(echo $MOCK_PROJECT_RESPONSE | jq -r '.[0].id')
-
-    if [ "$MOCK_PROJECT_ID" == "null" ] || [ -z "$MOCK_PROJECT_ID" ]; then
-      echo "Creating mock project $MOCK_PROJECT_NAME on GitLab under subgroup 'rtc'..."
-      MOCK_PROJECT_RESPONSE=$(curl --silent --header "Private-Token: $GITLAB_TOKEN" \
-           --data "name=$MOCK_PROJECT_NAME" \
-           --data "path=$MOCK_PROJECT_NAME" \
-           --data "namespace_id=$SUBGROUP_ID" \
-           --data "visibility=private" \
-           https://git.imolinfo.it/api/v4/projects)
-
-      MOCK_PROJECT_ID=$(echo $MOCK_PROJECT_RESPONSE | jq -r '.id')
-
-      if [ "$MOCK_PROJECT_ID" == "null" ]; then
-        echo "Error creating mock project. Exiting..."
-        exit 1
-      fi
-      echo "Mock project $MOCK_PROJECT_NAME created with ID: $MOCK_PROJECT_ID"
+if [ -f "$SOURCE_SPEC_PATH" ]; then
+    cp "$SOURCE_SPEC_PATH" "$TARGET_SPEC_PATH"
+    if [ $? -eq 0 ]; then
+        echo "File $SPEC_FILE_NAME copiato correttamente in $TARGET_SPEC_DIR"
     else
-      echo "Mock project $MOCK_PROJECT_NAME already exists with ID: $MOCK_PROJECT_ID"
+        echo "Errore nella copia del file $SPEC_FILE_NAME in $TARGET_SPEC_DIR"
+        exit 1
     fi
-
-    # Creazione di una directory vuota per il progetto mock
-    mkdir -p ../$MOCK_PROJECT_NAME
-    cd ../$MOCK_PROJECT_NAME
-
-    # Inizializza git nel progetto mock, crea branch develop e committa
-    git init
-    git checkout -b develop
-
-    # Creazione di un README.md nel progetto mock per il branch develop
-    echo "# $MOCK_PROJECT_NAME" > README.md
-    git add README.md
-    git commit -m "Initial commit for $MOCK_PROJECT_NAME on branch develop"
-
-    # Configura il remote origin e fai il push del branch develop per il progetto mock
-    git remote add origin "https://git.imolinfo.it/bancoBPM/Axway-Gateway-Projects/sources/$GITLAB_GROUP_NAME/$SECOND_GROUP_NAME/$MOCK_PROJECT_NAME.git"
-    git push -u origin develop
-
-    echo "Branch develop for mock project $MOCK_PROJECT_NAME pushed to GitLab successfully."
 else
-    echo "Skipping mock project creation as per --no-mock option."
-fi
-
-# Opzionale: Unprotect project branches
-# Definisci le variabili necessarie
-BRANCH_NAME="develop"  # Nome del branch da unprotectare
-PROJECT_ID_FINAL=$PROJECT_ID  # Utilizza PROJECT_ID del progetto principale
-
-# Unprotect branch 'develop' del progetto principale
-echo "Unprotecting branch '$BRANCH_NAME' for project $MAIN_PROJECT_NAME..."
-RESPONSE=$(curl --write-out "%{http_code}" --silent --output /dev/null --request DELETE \
-  "https://git.imolinfo.it/api/v4/projects/$PROJECT_ID_FINAL/protected_branches/$BRANCH_NAME" \
-  --header "PRIVATE-TOKEN: $GITLAB_TOKEN")
-
-# Verifica la risposta HTTP
-if [ "$RESPONSE" == "204" ] || [ "$RESPONSE" == "200" ] || [ "$RESPONSE" == "202" ]; then
-  echo "Branch '$BRANCH_NAME' unprotected successfully."
-elif [ "$RESPONSE" == "404" ]; then
-  echo "Branch '$BRANCH_NAME' not found or already unprotected (404)."
-else
-  echo "Failed to unprotect branch '$BRANCH_NAME'. HTTP status: $RESPONSE"
+    echo "Attenzione: file $SPEC_FILE_NAME non trovato nella directory dello script. Nessun file copiato in $TARGET_SPEC_DIR"
 fi
 
 echo "Script completato con successo!"
+
+
