@@ -34,6 +34,29 @@ ARCHETYPE_VERSION="1.0.0-SNAPSHOT"
 SELECTED_ARCHETYPE=$ARTECHTYPE_DEFAULT
 SKIP_MOCK=false
 
+# Percorso del file properties esterno
+CONFIG_FILE="scaffold-config.properties"
+
+# Verifica se esiste
+if [ ! -f "$CONFIG_FILE" ]; then
+  echo "Errore: file di configurazione $CONFIG_FILE non trovato."
+  exit 1
+fi
+
+# Costruisce la stringa di parametri -D a partire dal file properties
+while IFS='=' read -r key value || [ -n "$key" ]; do
+  # Rimuovi spazi bianchi iniziali e finali, incluso il newline
+  key=$(echo "$key" | tr -d '[:space:]')
+  value=$(echo "$value" | tr -d '[:space:]')
+
+  # Salta righe con chiave o valore vuoti, o commenti
+  [[ -z "$key" || -z "$value" || "$key" == \#* ]] && continue
+
+   EXTRA_MVN_PARAMS="$EXTRA_MVN_PARAMS -D${key}=${value}"
+done < "$CONFIG_FILE"
+
+
+
 # Parsing degli argomenti opzionali
 shift 2  # Rimuove i primi due argomenti (MAIN_PROJECT_NAME e GITLAB_GROUP_NAME)
 
@@ -79,8 +102,8 @@ SERVICEVERSION="${SERVICE#*_v}"
 # Creo stringa versione snapshot da inserire nel pom
 POMVERSION="${SERVICEVERSION}.0.0-SNAPSHOT"
 # Versioni minuscole
-SIGLALOW="${SIGLA,,}"
-SERVICENAMELOW="${SERVICENAME,,}"
+SIGLALOW=$(echo "$SIGLA" | tr '[:upper:]' '[:lower:]')
+SERVICENAMELOW=$(echo "$SERVICENAME" | tr '[:upper:]' '[:lower:]')
 
 # Stampa i risultati
 echo "SIGLA: $SIGLA"
@@ -183,18 +206,33 @@ fi
 
 # Procedi con la generazione del progetto e il caricamento dei file
 echo "Generating project scaffolding with archetype $SELECTED_ARCHETYPE..."
-mvn archetype:generate \
-  -DarchetypeGroupId=$ARCHETYPE_GROUP_ID \
-  -DarchetypeArtifactId=$SELECTED_ARCHETYPE \
-  -DarchetypeVersion=$ARCHETYPE_VERSION \
-  -DgroupId=it.imolinfo \
-  -DartifactId=$MAIN_PROJECT_NAME \
-  -Dversion=$POMVERSION \
-  -DserviceName=$SERVICENAME \
-  -DserviceVersion=$SERVICEVERSION \
-  -Dservice=$SERVICE \
-  -DcurrentDate=$(date +%d-%m-%Y) \
-  -DinteractiveMode=false
+# Costruzione array
+MVN_ARGS=(
+  "-DarchetypeGroupId=$ARCHETYPE_GROUP_ID"
+  "-DarchetypeArtifactId=$SELECTED_ARCHETYPE"
+  "-DarchetypeVersion=$ARCHETYPE_VERSION"
+  "-DgroupId=it.imolinfo"
+  "-DartifactId=$MAIN_PROJECT_NAME"
+  "-Dversion=$POMVERSION"
+  "-DserviceName=$SERVICENAME"
+  "-DserviceVersion=$SERVICEVERSION"
+  "-Dservice=$SERVICE"
+  "-DcurrentDate=$(date +%d-%m-%Y)"
+  "-DinteractiveMode=false"
+)
+
+# Legge dal file e aggiunge i parametri extra
+while IFS='=' read -r key value; do
+  # Rimuovi spazi bianchi iniziali e finali, incluso il newline
+  key=$(echo "$key" | tr -d '[:space:]')
+  value=$(echo "$value" | tr -d '[:space:]')
+
+  [[ -z "$key" || "$key" =~ ^# ]] && continue
+  MVN_ARGS+=("-D${key}=${value}")
+done < "$CONFIG_FILE"
+
+# Lancia Maven
+mvn archetype:generate "${MVN_ARGS[@]}"
 
 # Verifica che la directory sia stata creata correttamente
 cd $MAIN_PROJECT_NAME
@@ -233,12 +271,12 @@ echo "Current directory: $(pwd)"
 ls -la
 
 # Torna alla directory principale del progetto
-cd ..
-
+cd ../../..
+echo "Current directory PRIMA DI COPIARE JSON: $(pwd)"
 ls -la
 
 # Gestione file JSON da copiare (con lo stesso nome del progetto)
-SPEC_FILE_NAME="${MAIN_PROJECT_NAME}"
+SPEC_FILE_NAME="${MAIN_PROJECT_NAME}.json"
 SOURCE_SPEC_PATH="$(dirname "$0")/$SPEC_FILE_NAME"
 TARGET_SPEC_DIR="${MAIN_PROJECT_NAME}/Resources/swagger"
 TARGET_SPEC_PATH="${TARGET_SPEC_DIR}/${SPEC_FILE_NAME}"

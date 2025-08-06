@@ -1,0 +1,5878 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "description": "Swagger per API Aletti Planet",
+    "version": "1.2",
+    "title": "AlettiPlanetAPI_v1"
+  },
+  "securityDefinitions": {
+    "oauth-sec": {
+      "type": "oauth2",
+      "flow": "password",
+      "tokenUrl": "https://",
+      "scopes": {
+        "login_light": "Autenticazione senza secondo fattore",
+        "login_full": "Autenticazione con secondo fattore"
+      }
+    }
+  },
+  "basePath": "/alpla/AlettiPlanetAPI/v1",
+  "security": [
+    {
+      "oauth-sec": [
+        "login_full"
+      ]
+    }
+  ],
+  "schemes": [
+    "https"
+  ],
+  "paths": {
+    "/contratti": {
+      "get": {
+        "summary": "Leggi i contratti a cui l'utente ha accesso",
+        "description": "Ritorna la lista di contratti, che opzionalmente include i contratti chiusi, a cui l'utente ha accesso",
+        "operationId": "leggiListaContratti",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "includiChiusi",
+            "in": "query",
+            "description": "Imposta se includere o meno i contratti che sono già stati chiusi",
+            "required": true,
+            "type": "boolean"
+          },
+          {
+            "name": "numeroRisultati",
+            "in": "query",
+            "description": "Il numero di risultati da leggere",
+            "required": true,
+            "type": "number"
+          },
+          {
+            "name": "offsetPagina",
+            "in": "query",
+            "description": "L'offset da applicare alla ricerca",
+            "required": true,
+            "type": "number"
+          },
+          {
+            "name": "filtroRicerca",
+            "in": "query",
+            "description": "Il filtro di ricerca del contratto",
+            "required": false,
+            "type": "string",
+            "pattern": "^(?!\\s*$).+"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tt-IdOperazione-CodiceApplicazioneChiamante"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tt-IdOperazione-CodiceOperazione"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tt-IdCorrelazione"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-CodiceABI"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-CodiceCanale"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-CodiceApplicazioneChiamante"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-Cliente-CodiceNdg"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-Cliente-CodiceUtenzaIb-Identificativo-Utente"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-Cliente-CodiceUtenzaCb-Identificativo-Utente"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-Cliente-CodiceUtenzaCb-Identificativo-Postazione"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-UtenzaInterna-Matricola"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-UtenzaInterna-CodiceUnitaOrganizzativa"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-Controparte-IdControparte"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Lista con tutti i contratti a cui l'utente ha accesso",
+            "headers": {
+              "Bbpm-Tt-IdOperazioneRichiesta-CodiceApplicazioneChiamante": {
+                "description": "Header Bbpm-Tt-IdOperazioneRichiesta-CodiceApplicazioneChiamante",
+                "type": "string",
+                "pattern": "^(?!\\s*$).+"
+              },
+              "Bbpm-Tt-IdCorrelazione": {
+                "description": "Header Bbpm-Tt-IdCorrelazione",
+                "type": "string",
+                "pattern": "^(?!\\s*$).+"
+              },
+              "Bbpm-Tt-IdOperazioneRichiesta-CodiceOperazione": {
+                "description": "Header Bbpm-Tt-IdOperazioneRichiesta-CodiceOperazione",
+                "type": "string",
+                "pattern": "^(?!\\s*$).+"
+              },
+              "Bbpm-Tt-CodiceOperazioneRisposta": {
+                "description": "Header Bbpm-Tt-CodiceOperazioneRisposta",
+                "type": "string",
+                "pattern": "^(?!\\s*$).+"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/RispostaLeggiListaContratti"
+            }
+          },
+          "400": {
+            "$ref": "#/responses/Errore400"
+          },
+          "500": {
+            "$ref": "#/responses/Errore500"
+          }
+        }
+      }
+    },
+    "/contratto/anagrafica/contratto": {
+      "get": {
+        "summary": "Leggi l'anagrafica di un contratto",
+        "description": "Ritorna le informazioni anagrafiche di un contratto",
+        "operationId": "leggiAnagraficaContratto",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "codice",
+            "in": "query",
+            "description": "Il codice del contratto in questione",
+            "required": true,
+            "type": "string",
+            "pattern": "^[A-Z0-9]{10}$"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tt-IdOperazione-CodiceApplicazioneChiamante"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tt-IdOperazione-CodiceOperazione"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tt-IdCorrelazione"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-CodiceABI"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-CodiceCanale"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-CodiceApplicazioneChiamante"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-Cliente-CodiceNdg"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-Cliente-CodiceUtenzaIb-Identificativo-Utente"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-Cliente-CodiceUtenzaCb-Identificativo-Utente"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-Cliente-CodiceUtenzaCb-Identificativo-Postazione"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-UtenzaInterna-Matricola"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-UtenzaInterna-CodiceUnitaOrganizzativa"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-Controparte-IdControparte"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Anagrafica del contratto",
+            "headers": {
+              "Bbpm-Tt-IdOperazioneRichiesta-CodiceApplicazioneChiamante": {
+                "description": "Header Bbpm-Tt-IdOperazioneRichiesta-CodiceApplicazioneChiamante",
+                "type": "string",
+                "pattern": "^(?!\\s*$).+"
+              },
+              "Bbpm-Tt-IdCorrelazione": {
+                "description": "Header Bbpm-Tt-IdCorrelazione",
+                "type": "string",
+                "pattern": "^(?!\\s*$).+"
+              },
+              "Bbpm-Tt-IdOperazioneRichiesta-CodiceOperazione": {
+                "description": "Header Bbpm-Tt-IdOperazioneRichiesta-CodiceOperazione",
+                "type": "string",
+                "pattern": "^(?!\\s*$).+"
+              },
+              "Bbpm-Tt-CodiceOperazioneRisposta": {
+                "description": "Header Bbpm-Tt-CodiceOperazioneRisposta",
+                "type": "string",
+                "pattern": "^(?!\\s*$).+"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/AnagraficaContratto"
+            }
+          },
+          "400": {
+            "$ref": "#/responses/Errore400"
+          },
+          "500": {
+            "$ref": "#/responses/Errore500"
+          }
+        }
+      }
+    },
+    "/contratto/anagrafica/cliente": {
+      "get": {
+        "summary": "Leggi l'anagrafica del cliente di un contratto",
+        "description": "Ritorna le informazioni anagrafiche del cliente di un contratto",
+        "operationId": "leggiAnagraficaCliente",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "codice",
+            "in": "query",
+            "description": "Il codice del contratto in questione",
+            "required": true,
+            "type": "string",
+            "pattern": "^[A-Z0-9]{10}$"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tt-IdOperazione-CodiceApplicazioneChiamante"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tt-IdOperazione-CodiceOperazione"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tt-IdCorrelazione"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-CodiceABI"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-CodiceCanale"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-CodiceApplicazioneChiamante"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-Cliente-CodiceNdg"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-Cliente-CodiceUtenzaIb-Identificativo-Utente"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-Cliente-CodiceUtenzaCb-Identificativo-Utente"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-Cliente-CodiceUtenzaCb-Identificativo-Postazione"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-UtenzaInterna-Matricola"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-UtenzaInterna-CodiceUnitaOrganizzativa"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-Controparte-IdControparte"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Anagrafica del cliente",
+            "headers": {
+              "Bbpm-Tt-IdOperazioneRichiesta-CodiceApplicazioneChiamante": {
+                "description": "Header Bbpm-Tt-IdOperazioneRichiesta-CodiceApplicazioneChiamante",
+                "type": "string",
+                "pattern": "^(?!\\s*$).+"
+              },
+              "Bbpm-Tt-IdCorrelazione": {
+                "description": "Header Bbpm-Tt-IdCorrelazione",
+                "type": "string",
+                "pattern": "^(?!\\s*$).+"
+              },
+              "Bbpm-Tt-IdOperazioneRichiesta-CodiceOperazione": {
+                "description": "Header Bbpm-Tt-IdOperazioneRichiesta-CodiceOperazione",
+                "type": "string",
+                "pattern": "^(?!\\s*$).+"
+              },
+              "Bbpm-Tt-CodiceOperazioneRisposta": {
+                "description": "Header Bbpm-Tt-CodiceOperazioneRisposta",
+                "type": "string",
+                "pattern": "^(?!\\s*$).+"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/AnagraficaCliente"
+            }
+          },
+          "400": {
+            "$ref": "#/responses/Errore400"
+          },
+          "500": {
+            "$ref": "#/responses/Errore500"
+          }
+        }
+      }
+    },
+    "/contratto/causali": {
+      "get": {
+        "summary": "Leggi le causali disponibili",
+        "description": "Ritorna la lista delle causali disponibili con il loro codice identificativo e descrizione",
+        "operationId": "leggiListaCausali",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/parameters/Bbpm-Tt-IdOperazione-CodiceApplicazioneChiamante"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tt-IdOperazione-CodiceOperazione"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tt-IdCorrelazione"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-CodiceABI"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-CodiceCanale"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-CodiceApplicazioneChiamante"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-Cliente-CodiceNdg"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-Cliente-CodiceUtenzaIb-Identificativo-Utente"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-Cliente-CodiceUtenzaCb-Identificativo-Utente"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-Cliente-CodiceUtenzaCb-Identificativo-Postazione"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-UtenzaInterna-Matricola"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-UtenzaInterna-CodiceUnitaOrganizzativa"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-Controparte-IdControparte"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Lista con le causali disponibili",
+            "headers": {
+              "Bbpm-Tt-IdOperazioneRichiesta-CodiceApplicazioneChiamante": {
+                "description": "Header Bbpm-Tt-IdOperazioneRichiesta-CodiceApplicazioneChiamante",
+                "type": "string",
+                "pattern": "^(?!\\s*$).+"
+              },
+              "Bbpm-Tt-IdCorrelazione": {
+                "description": "Header Bbpm-Tt-IdCorrelazione",
+                "type": "string",
+                "pattern": "^(?!\\s*$).+"
+              },
+              "Bbpm-Tt-IdOperazioneRichiesta-CodiceOperazione": {
+                "description": "Header Bbpm-Tt-IdOperazioneRichiesta-CodiceOperazione",
+                "type": "string",
+                "pattern": "^(?!\\s*$).+"
+              },
+              "Bbpm-Tt-CodiceOperazioneRisposta": {
+                "description": "Header Bbpm-Tt-CodiceOperazioneRisposta",
+                "type": "string",
+                "pattern": "^(?!\\s*$).+"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/RispostaLeggiListaCausali"
+            }
+          },
+          "400": {
+            "$ref": "#/responses/Errore400"
+          },
+          "500": {
+            "$ref": "#/responses/Errore500"
+          }
+        }
+      }
+    },
+    "/contratto/causali/csv": {
+      "get": {
+        "summary": "Scarica il CSV delle causali",
+        "description": "Scarica un file CSV con il codice e la descrizione delle causali disponibili",
+        "operationId": "scaricaCausaliCsv",
+        "produces": [
+          "text/csv"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/parameters/Bbpm-Tt-IdOperazione-CodiceApplicazioneChiamante"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tt-IdOperazione-CodiceOperazione"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tt-IdCorrelazione"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-CodiceABI"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-CodiceCanale"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-CodiceApplicazioneChiamante"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-Cliente-CodiceNdg"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-Cliente-CodiceUtenzaIb-Identificativo-Utente"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-Cliente-CodiceUtenzaCb-Identificativo-Utente"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-Cliente-CodiceUtenzaCb-Identificativo-Postazione"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-UtenzaInterna-Matricola"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-UtenzaInterna-CodiceUnitaOrganizzativa"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-Controparte-IdControparte"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "File CSV con il dettaglio delle causali",
+            "schema": {
+              "$ref": "#/definitions/File"
+            },
+            "headers": {
+              "Bbpm-Tt-IdOperazioneRichiesta-CodiceApplicazioneChiamante": {
+                "description": "Header Bbpm-Tt-IdOperazioneRichiesta-CodiceApplicazioneChiamante",
+                "type": "string",
+                "pattern": "^(?!\\s*$).+"
+              },
+              "Bbpm-Tt-IdCorrelazione": {
+                "description": "Header Bbpm-Tt-IdCorrelazione",
+                "type": "string",
+                "pattern": "^(?!\\s*$).+"
+              },
+              "Bbpm-Tt-IdOperazioneRichiesta-CodiceOperazione": {
+                "description": "Header Bbpm-Tt-IdOperazioneRichiesta-CodiceOperazione",
+                "type": "string",
+                "pattern": "^(?!\\s*$).+"
+              },
+              "Bbpm-Tt-CodiceOperazioneRisposta": {
+                "description": "Header Bbpm-Tt-CodiceOperazioneRisposta",
+                "type": "string",
+                "pattern": "^(?!\\s*$).+"
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/responses/Errore400"
+          },
+          "500": {
+            "$ref": "#/responses/Errore500"
+          }
+        }
+      }
+    },
+    "/contratto/rendimenti/periodo": {
+      "get": {
+        "summary": "Leggi i rendimenti di periodo del contratto",
+        "description": "Ritorna le informazioni sui rendimenti di periodo del contratto per un periodo specificato",
+        "operationId": "leggiRendimentiPeriodo",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "codice",
+            "in": "query",
+            "description": "Il codice del contratto in questione",
+            "required": true,
+            "type": "string",
+            "pattern": "^[A-Z0-9]{10}$"
+          },
+          {
+            "name": "dataInizio",
+            "in": "query",
+            "description": "La data di inizio del periodo",
+            "required": true,
+            "type": "string",
+            "pattern": "^[0-9]{2}-[0-9]{2}-[0-9]{4}$"
+          },
+          {
+            "name": "dataFine",
+            "in": "query",
+            "description": "La data di fine del periodo",
+            "required": true,
+            "type": "string",
+            "pattern": "^[0-9]{2}-[0-9]{2}-[0-9]{4}$"
+          },
+          {
+            "name": "tipoGrafico",
+            "in": "query",
+            "description": "Il tipo di grafico da generare",
+            "required": true,
+            "type": "string",
+            "enum": [
+              "RENDIMENTO",
+              "CONSISTENZA"
+            ]
+          },
+          {
+            "name": "tipoCalcolo",
+            "in": "query",
+            "description": "Il tipo di calcolo da utilizzare per il grafico",
+            "required": true,
+            "type": "string",
+            "enum": [
+              "MONEY_WEIGHTED_RATE_OF_RETURN",
+              "TIME_WEIGHTED_RATE_OF_RETURN"
+            ]
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tt-IdOperazione-CodiceApplicazioneChiamante"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tt-IdOperazione-CodiceOperazione"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tt-IdCorrelazione"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-CodiceABI"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-CodiceCanale"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-CodiceApplicazioneChiamante"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-Cliente-CodiceNdg"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-Cliente-CodiceUtenzaIb-Identificativo-Utente"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-Cliente-CodiceUtenzaCb-Identificativo-Utente"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-Cliente-CodiceUtenzaCb-Identificativo-Postazione"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-UtenzaInterna-Matricola"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-UtenzaInterna-CodiceUnitaOrganizzativa"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-Controparte-IdControparte"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Rendimenti del periodo",
+            "headers": {
+              "Bbpm-Tt-IdOperazioneRichiesta-CodiceApplicazioneChiamante": {
+                "description": "Header Bbpm-Tt-IdOperazioneRichiesta-CodiceApplicazioneChiamante",
+                "type": "string",
+                "pattern": "^(?!\\s*$).+"
+              },
+              "Bbpm-Tt-IdCorrelazione": {
+                "description": "Header Bbpm-Tt-IdCorrelazione",
+                "type": "string",
+                "pattern": "^(?!\\s*$).+"
+              },
+              "Bbpm-Tt-IdOperazioneRichiesta-CodiceOperazione": {
+                "description": "Header Bbpm-Tt-IdOperazioneRichiesta-CodiceOperazione",
+                "type": "string",
+                "pattern": "^(?!\\s*$).+"
+              },
+              "Bbpm-Tt-CodiceOperazioneRisposta": {
+                "description": "Header Bbpm-Tt-CodiceOperazioneRisposta",
+                "type": "string",
+                "pattern": "^(?!\\s*$).+"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/RendimentiPeriodo"
+            }
+          },
+          "400": {
+            "$ref": "#/responses/Errore400"
+          },
+          "500": {
+            "$ref": "#/responses/Errore500"
+          }
+        }
+      }
+    },
+    "/contratto/rendimenti/da-inizio-gestione": {
+      "get": {
+        "summary": "Leggi i rendimenti da inizio gestione del contratto",
+        "description": "Ritorna le informazioni sui rendimenti da inizio gestione del contratto fino ad una data specificata",
+        "operationId": "leggiRendimentiDaInizioGestione",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "codice",
+            "in": "query",
+            "description": "Il codice del contratto in questione",
+            "required": true,
+            "type": "string",
+            "pattern": "^[A-Z0-9]{10}$"
+          },
+          {
+            "name": "dataFine",
+            "in": "query",
+            "description": "La data di fine del periodo",
+            "required": true,
+            "type": "string",
+            "pattern": "^[0-9]{2}-[0-9]{2}-[0-9]{4}$"
+          },
+          {
+            "name": "tipoGrafico",
+            "in": "query",
+            "description": "Il tipo di grafico da generare",
+            "required": true,
+            "type": "string",
+            "enum": [
+              "RENDIMENTO",
+              "CONSISTENZA"
+            ]
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tt-IdOperazione-CodiceApplicazioneChiamante"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tt-IdOperazione-CodiceOperazione"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tt-IdCorrelazione"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-CodiceABI"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-CodiceCanale"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-CodiceApplicazioneChiamante"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-Cliente-CodiceNdg"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-Cliente-CodiceUtenzaIb-Identificativo-Utente"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-Cliente-CodiceUtenzaCb-Identificativo-Utente"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-Cliente-CodiceUtenzaCb-Identificativo-Postazione"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-UtenzaInterna-Matricola"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-UtenzaInterna-CodiceUnitaOrganizzativa"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-Controparte-IdControparte"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Rendimenti da inizio gestione",
+            "headers": {
+              "Bbpm-Tt-IdOperazioneRichiesta-CodiceApplicazioneChiamante": {
+                "description": "Header Bbpm-Tt-IdOperazioneRichiesta-CodiceApplicazioneChiamante",
+                "type": "string",
+                "pattern": "^(?!\\s*$).+"
+              },
+              "Bbpm-Tt-IdCorrelazione": {
+                "description": "Header Bbpm-Tt-IdCorrelazione",
+                "type": "string",
+                "pattern": "^(?!\\s*$).+"
+              },
+              "Bbpm-Tt-IdOperazioneRichiesta-CodiceOperazione": {
+                "description": "Header Bbpm-Tt-IdOperazioneRichiesta-CodiceOperazione",
+                "type": "string",
+                "pattern": "^(?!\\s*$).+"
+              },
+              "Bbpm-Tt-CodiceOperazioneRisposta": {
+                "description": "Header Bbpm-Tt-CodiceOperazioneRisposta",
+                "type": "string",
+                "pattern": "^(?!\\s*$).+"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/RendimentiDaInizioGestione"
+            }
+          },
+          "400": {
+            "$ref": "#/responses/Errore400"
+          },
+          "500": {
+            "$ref": "#/responses/Errore500"
+          }
+        }
+      }
+    },
+    "/contratto/rendimenti/multilinea": {
+      "get": {
+        "summary": "Leggi i rendimenti di periodo di un contratto multilinea",
+        "description": "Ritorna le informazioni sui rendimenti di periodo del contratto multilinea per un periodo specificato",
+        "operationId": "leggiRendimentiPeriodoMultilinea",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "codice",
+            "in": "query",
+            "description": "Il codice del contratto in questione",
+            "required": true,
+            "type": "string",
+            "pattern": "^[A-Z0-9]{10}$"
+          },
+          {
+            "name": "tipoGrafico",
+            "in": "query",
+            "description": "Il tipo di grafico da generare",
+            "required": true,
+            "type": "string",
+            "enum": [
+              "RENDIMENTO",
+              "CONSISTENZA"
+            ]
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tt-IdOperazione-CodiceApplicazioneChiamante"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tt-IdOperazione-CodiceOperazione"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tt-IdCorrelazione"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-CodiceABI"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-CodiceCanale"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-CodiceApplicazioneChiamante"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-Cliente-CodiceNdg"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-Cliente-CodiceUtenzaIb-Identificativo-Utente"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-Cliente-CodiceUtenzaCb-Identificativo-Utente"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-Cliente-CodiceUtenzaCb-Identificativo-Postazione"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-UtenzaInterna-Matricola"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-UtenzaInterna-CodiceUnitaOrganizzativa"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-Controparte-IdControparte"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Rendimenti di periodo per contratto multilinea",
+            "headers": {
+              "Bbpm-Tt-IdOperazioneRichiesta-CodiceApplicazioneChiamante": {
+                "description": "Header Bbpm-Tt-IdOperazioneRichiesta-CodiceApplicazioneChiamante",
+                "type": "string",
+                "pattern": "^(?!\\s*$).+"
+              },
+              "Bbpm-Tt-IdCorrelazione": {
+                "description": "Header Bbpm-Tt-IdCorrelazione",
+                "type": "string",
+                "pattern": "^(?!\\s*$).+"
+              },
+              "Bbpm-Tt-IdOperazioneRichiesta-CodiceOperazione": {
+                "description": "Header Bbpm-Tt-IdOperazioneRichiesta-CodiceOperazione",
+                "type": "string",
+                "pattern": "^(?!\\s*$).+"
+              },
+              "Bbpm-Tt-CodiceOperazioneRisposta": {
+                "description": "Header Bbpm-Tt-CodiceOperazioneRisposta",
+                "type": "string",
+                "pattern": "^(?!\\s*$).+"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/RendimentiPeriodoMultilinea"
+            }
+          },
+          "400": {
+            "$ref": "#/responses/Errore400"
+          },
+          "500": {
+            "$ref": "#/responses/Errore500"
+          }
+        }
+      }
+    },
+    "/contratto/rendiconto/trimestrale": {
+      "get": {
+        "summary": "Leggi il rendiconto trimestrale",
+        "description": "Ritorna il rendiconto trimestrale del contratto per il trimestre selezionato",
+        "operationId": "leggiRendicontoTrimestrale",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "codice",
+            "in": "query",
+            "description": "Il codice del contratto in questione",
+            "required": true,
+            "type": "string",
+            "pattern": "^[A-Z0-9]{10}$"
+          },
+          {
+            "name": "mese",
+            "in": "query",
+            "description": "Il mese (1 è Gennaio)",
+            "required": false,
+            "type": "number"
+          },
+          {
+            "name": "anno",
+            "in": "query",
+            "description": "L'anno",
+            "required": false,
+            "type": "number"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tt-IdOperazione-CodiceApplicazioneChiamante"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tt-IdOperazione-CodiceOperazione"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tt-IdCorrelazione"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-CodiceABI"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-CodiceCanale"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-CodiceApplicazioneChiamante"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-Cliente-CodiceNdg"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-Cliente-CodiceUtenzaIb-Identificativo-Utente"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-Cliente-CodiceUtenzaCb-Identificativo-Utente"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-Cliente-CodiceUtenzaCb-Identificativo-Postazione"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-UtenzaInterna-Matricola"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-UtenzaInterna-CodiceUnitaOrganizzativa"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-Controparte-IdControparte"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Il rendiconto del trimestre",
+            "headers": {
+              "Bbpm-Tt-IdOperazioneRichiesta-CodiceApplicazioneChiamante": {
+                "description": "Header Bbpm-Tt-IdOperazioneRichiesta-CodiceApplicazioneChiamante",
+                "type": "string",
+                "pattern": "^(?!\\s*$).+"
+              },
+              "Bbpm-Tt-IdCorrelazione": {
+                "description": "Header Bbpm-Tt-IdCorrelazione",
+                "type": "string",
+                "pattern": "^(?!\\s*$).+"
+              },
+              "Bbpm-Tt-IdOperazioneRichiesta-CodiceOperazione": {
+                "description": "Header Bbpm-Tt-IdOperazioneRichiesta-CodiceOperazione",
+                "type": "string",
+                "pattern": "^(?!\\s*$).+"
+              },
+              "Bbpm-Tt-CodiceOperazioneRisposta": {
+                "description": "Header Bbpm-Tt-CodiceOperazioneRisposta",
+                "type": "string",
+                "pattern": "^(?!\\s*$).+"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/RendicontoTrimestrale"
+            }
+          },
+          "400": {
+            "$ref": "#/responses/Errore400"
+          },
+          "500": {
+            "$ref": "#/responses/Errore500"
+          }
+        }
+      }
+    },
+    "/contratto/portafoglio/estrazione-mensile": {
+      "get": {
+        "summary": "Leggi l'estrazione mensile",
+        "description": "Ritorna l'estrazione mensile per il contratto",
+        "operationId": "leggiEstrazioneMensile",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "codice",
+            "in": "query",
+            "description": "Il codice del contratto in questione",
+            "required": true,
+            "type": "string",
+            "pattern": "^[A-Z0-9]{10}$"
+          },
+          {
+            "name": "mese",
+            "in": "query",
+            "description": "Il mese (1 è Gennaio)",
+            "required": false,
+            "type": "number"
+          },
+          {
+            "name": "anno",
+            "in": "query",
+            "description": "L'anno",
+            "required": false,
+            "type": "number"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tt-IdOperazione-CodiceApplicazioneChiamante"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tt-IdOperazione-CodiceOperazione"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tt-IdCorrelazione"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-CodiceABI"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-CodiceCanale"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-CodiceApplicazioneChiamante"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-Cliente-CodiceNdg"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-Cliente-CodiceUtenzaIb-Identificativo-Utente"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-Cliente-CodiceUtenzaCb-Identificativo-Utente"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-Cliente-CodiceUtenzaCb-Identificativo-Postazione"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-UtenzaInterna-Matricola"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-UtenzaInterna-CodiceUnitaOrganizzativa"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-Controparte-IdControparte"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "L'estrazione mensile",
+            "headers": {
+              "Bbpm-Tt-IdOperazioneRichiesta-CodiceApplicazioneChiamante": {
+                "description": "Header Bbpm-Tt-IdOperazioneRichiesta-CodiceApplicazioneChiamante",
+                "type": "string",
+                "pattern": "^(?!\\s*$).+"
+              },
+              "Bbpm-Tt-IdCorrelazione": {
+                "description": "Header Bbpm-Tt-IdCorrelazione",
+                "type": "string",
+                "pattern": "^(?!\\s*$).+"
+              },
+              "Bbpm-Tt-IdOperazioneRichiesta-CodiceOperazione": {
+                "description": "Header Bbpm-Tt-IdOperazioneRichiesta-CodiceOperazione",
+                "type": "string",
+                "pattern": "^(?!\\s*$).+"
+              },
+              "Bbpm-Tt-CodiceOperazioneRisposta": {
+                "description": "Header Bbpm-Tt-CodiceOperazioneRisposta",
+                "type": "string",
+                "pattern": "^(?!\\s*$).+"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/EstrazioneMensile"
+            }
+          },
+          "400": {
+            "$ref": "#/responses/Errore400"
+          },
+          "500": {
+            "$ref": "#/responses/Errore500"
+          }
+        }
+      }
+    },
+    "/contratto/portafoglio/fiscalita-posizione": {
+      "get": {
+        "summary": "Leggi la fiscalità della posizione",
+        "description": "Ritorna la fiscalità della posizione per il contratto",
+        "operationId": "leggiFiscalitaPosizione",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "codice",
+            "in": "query",
+            "description": "Il codice del contratto in questione",
+            "required": true,
+            "type": "string",
+            "pattern": "^[A-Z0-9]{10}$"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tt-IdOperazione-CodiceApplicazioneChiamante"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tt-IdOperazione-CodiceOperazione"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tt-IdCorrelazione"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-CodiceABI"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-CodiceCanale"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-CodiceApplicazioneChiamante"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-Cliente-CodiceNdg"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-Cliente-CodiceUtenzaIb-Identificativo-Utente"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-Cliente-CodiceUtenzaCb-Identificativo-Utente"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-Cliente-CodiceUtenzaCb-Identificativo-Postazione"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-UtenzaInterna-Matricola"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-UtenzaInterna-CodiceUnitaOrganizzativa"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-Controparte-IdControparte"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "La fiscalità della posizione",
+            "headers": {
+              "Bbpm-Tt-IdOperazioneRichiesta-CodiceApplicazioneChiamante": {
+                "description": "Header Bbpm-Tt-IdOperazioneRichiesta-CodiceApplicazioneChiamante",
+                "type": "string",
+                "pattern": "^(?!\\s*$).+"
+              },
+              "Bbpm-Tt-IdCorrelazione": {
+                "description": "Header Bbpm-Tt-IdCorrelazione",
+                "type": "string",
+                "pattern": "^(?!\\s*$).+"
+              },
+              "Bbpm-Tt-IdOperazioneRichiesta-CodiceOperazione": {
+                "description": "Header Bbpm-Tt-IdOperazioneRichiesta-CodiceOperazione",
+                "type": "string",
+                "pattern": "^(?!\\s*$).+"
+              },
+              "Bbpm-Tt-CodiceOperazioneRisposta": {
+                "description": "Header Bbpm-Tt-CodiceOperazioneRisposta",
+                "type": "string",
+                "pattern": "^(?!\\s*$).+"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/FiscalitaPosizione"
+            }
+          },
+          "400": {
+            "$ref": "#/responses/Errore400"
+          },
+          "500": {
+            "$ref": "#/responses/Errore500"
+          }
+        }
+      }
+    },
+    "/contratto/portafoglio/conferimenti-prelievi": {
+      "get": {
+        "summary": "Leggi i conferimenti e prelievi",
+        "description": "Ritorna la lista di conferimenti e prelievi per il contratto",
+        "operationId": "leggiConferimentiPrelievi",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "codice",
+            "in": "query",
+            "description": "Il codice del contratto in questione",
+            "required": true,
+            "type": "string",
+            "pattern": "^[A-Z0-9]{10}$"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tt-IdOperazione-CodiceApplicazioneChiamante"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tt-IdOperazione-CodiceOperazione"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tt-IdCorrelazione"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-CodiceABI"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-CodiceCanale"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-CodiceApplicazioneChiamante"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-Cliente-CodiceNdg"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-Cliente-CodiceUtenzaIb-Identificativo-Utente"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-Cliente-CodiceUtenzaCb-Identificativo-Utente"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-Cliente-CodiceUtenzaCb-Identificativo-Postazione"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-UtenzaInterna-Matricola"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-UtenzaInterna-CodiceUnitaOrganizzativa"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-Controparte-IdControparte"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "I conferimenti e prelievi",
+            "headers": {
+              "Bbpm-Tt-IdOperazioneRichiesta-CodiceApplicazioneChiamante": {
+                "description": "Header Bbpm-Tt-IdOperazioneRichiesta-CodiceApplicazioneChiamante",
+                "type": "string",
+                "pattern": "^(?!\\s*$).+"
+              },
+              "Bbpm-Tt-IdCorrelazione": {
+                "description": "Header Bbpm-Tt-IdCorrelazione",
+                "type": "string",
+                "pattern": "^(?!\\s*$).+"
+              },
+              "Bbpm-Tt-IdOperazioneRichiesta-CodiceOperazione": {
+                "description": "Header Bbpm-Tt-IdOperazioneRichiesta-CodiceOperazione",
+                "type": "string",
+                "pattern": "^(?!\\s*$).+"
+              },
+              "Bbpm-Tt-CodiceOperazioneRisposta": {
+                "description": "Header Bbpm-Tt-CodiceOperazioneRisposta",
+                "type": "string",
+                "pattern": "^(?!\\s*$).+"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/ConferimentiPrelievi"
+            }
+          },
+          "400": {
+            "$ref": "#/responses/Errore400"
+          },
+          "500": {
+            "$ref": "#/responses/Errore500"
+          }
+        }
+      }
+    },
+    "/contratto/portafoglio/ftt": {
+      "get": {
+        "summary": "Leggi le FTT",
+        "description": "Ritorna la lista di Financial Transaction Tax per il contratto",
+        "operationId": "leggiFtt",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "codice",
+            "in": "query",
+            "description": "Il codice del contratto in questione",
+            "required": true,
+            "type": "string",
+            "pattern": "^[A-Z0-9]{10}$"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tt-IdOperazione-CodiceApplicazioneChiamante"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tt-IdOperazione-CodiceOperazione"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tt-IdCorrelazione"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-CodiceABI"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-CodiceCanale"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-CodiceApplicazioneChiamante"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-Cliente-CodiceNdg"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-Cliente-CodiceUtenzaIb-Identificativo-Utente"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-Cliente-CodiceUtenzaCb-Identificativo-Utente"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-Cliente-CodiceUtenzaCb-Identificativo-Postazione"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-UtenzaInterna-Matricola"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-UtenzaInterna-CodiceUnitaOrganizzativa"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-Controparte-IdControparte"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Le Financial Transaction Tax",
+            "headers": {
+              "Bbpm-Tt-IdOperazioneRichiesta-CodiceApplicazioneChiamante": {
+                "description": "Header Bbpm-Tt-IdOperazioneRichiesta-CodiceApplicazioneChiamante",
+                "type": "string",
+                "pattern": "^(?!\\s*$).+"
+              },
+              "Bbpm-Tt-IdCorrelazione": {
+                "description": "Header Bbpm-Tt-IdCorrelazione",
+                "type": "string",
+                "pattern": "^(?!\\s*$).+"
+              },
+              "Bbpm-Tt-IdOperazioneRichiesta-CodiceOperazione": {
+                "description": "Header Bbpm-Tt-IdOperazioneRichiesta-CodiceOperazione",
+                "type": "string",
+                "pattern": "^(?!\\s*$).+"
+              },
+              "Bbpm-Tt-CodiceOperazioneRisposta": {
+                "description": "Header Bbpm-Tt-CodiceOperazioneRisposta",
+                "type": "string",
+                "pattern": "^(?!\\s*$).+"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/FinancialTransactionTax"
+            }
+          },
+          "400": {
+            "$ref": "#/responses/Errore400"
+          },
+          "500": {
+            "$ref": "#/responses/Errore500"
+          }
+        }
+      }
+    },
+    "/contratto/portafoglio": {
+      "get": {
+        "summary": "Leggi il portafoglio",
+        "description": "Ritorna il portafoglio di titoli per il contratto",
+        "operationId": "leggiPortafoglio",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "codice",
+            "in": "query",
+            "description": "Il codice del contratto in questione",
+            "required": true,
+            "type": "string",
+            "pattern": "^[A-Z0-9]{10}$"
+          },
+          {
+            "name": "dataValorizzazione",
+            "in": "query",
+            "description": "La data di valorizzazione",
+            "type": "string",
+            "pattern": "^[0-9]{2}-[0-9]{2}-[0-9]{4}$"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tt-IdOperazione-CodiceApplicazioneChiamante"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tt-IdOperazione-CodiceOperazione"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tt-IdCorrelazione"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-CodiceABI"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-CodiceCanale"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-CodiceApplicazioneChiamante"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-Cliente-CodiceNdg"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-Cliente-CodiceUtenzaIb-Identificativo-Utente"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-Cliente-CodiceUtenzaCb-Identificativo-Utente"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-Cliente-CodiceUtenzaCb-Identificativo-Postazione"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-UtenzaInterna-Matricola"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-UtenzaInterna-CodiceUnitaOrganizzativa"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-Controparte-IdControparte"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Il portafoglio",
+            "headers": {
+              "Bbpm-Tt-IdOperazioneRichiesta-CodiceApplicazioneChiamante": {
+                "description": "Header Bbpm-Tt-IdOperazioneRichiesta-CodiceApplicazioneChiamante",
+                "type": "string",
+                "pattern": "^(?!\\s*$).+"
+              },
+              "Bbpm-Tt-IdCorrelazione": {
+                "description": "Header Bbpm-Tt-IdCorrelazione",
+                "type": "string",
+                "pattern": "^(?!\\s*$).+"
+              },
+              "Bbpm-Tt-IdOperazioneRichiesta-CodiceOperazione": {
+                "description": "Header Bbpm-Tt-IdOperazioneRichiesta-CodiceOperazione",
+                "type": "string",
+                "pattern": "^(?!\\s*$).+"
+              },
+              "Bbpm-Tt-CodiceOperazioneRisposta": {
+                "description": "Header Bbpm-Tt-CodiceOperazioneRisposta",
+                "type": "string",
+                "pattern": "^(?!\\s*$).+"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/Portafoglio"
+            }
+          },
+          "400": {
+            "$ref": "#/responses/Errore400"
+          },
+          "500": {
+            "$ref": "#/responses/Errore500"
+          }
+        }
+      }
+    },
+    "/contratto/portafoglio/composizioni": {
+      "get": {
+        "summary": "Leggi le composizioni",
+        "description": "Ritorna le composizioni per il contratto",
+        "operationId": "leggiComposizioni",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "codice",
+            "in": "query",
+            "description": "Il codice del contratto in questione",
+            "required": true,
+            "type": "string",
+            "pattern": "^[A-Z0-9]{10}$"
+          },
+          {
+            "name": "dataSituazione",
+            "in": "query",
+            "description": "La data della situazione",
+            "type": "string",
+            "pattern": "^[0-9]{2}-[0-9]{2}-[0-9]{4}$"
+          },
+          {
+            "name": "tipoComposizioni",
+            "in": "query",
+            "description": "Il tipo delle composizioni",
+            "type": "string",
+            "pattern": "^(?!\\s*$).+"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tt-IdOperazione-CodiceApplicazioneChiamante"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tt-IdOperazione-CodiceOperazione"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tt-IdCorrelazione"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-CodiceABI"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-CodiceCanale"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-CodiceApplicazioneChiamante"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-Cliente-CodiceNdg"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-Cliente-CodiceUtenzaIb-Identificativo-Utente"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-Cliente-CodiceUtenzaCb-Identificativo-Utente"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-Cliente-CodiceUtenzaCb-Identificativo-Postazione"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-UtenzaInterna-Matricola"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-UtenzaInterna-CodiceUnitaOrganizzativa"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-Controparte-IdControparte"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Le composizioni",
+            "headers": {
+              "Bbpm-Tt-IdOperazioneRichiesta-CodiceApplicazioneChiamante": {
+                "description": "Header Bbpm-Tt-IdOperazioneRichiesta-CodiceApplicazioneChiamante",
+                "type": "string",
+                "pattern": "^(?!\\s*$).+"
+              },
+              "Bbpm-Tt-IdCorrelazione": {
+                "description": "Header Bbpm-Tt-IdCorrelazione",
+                "type": "string",
+                "pattern": "^(?!\\s*$).+"
+              },
+              "Bbpm-Tt-IdOperazioneRichiesta-CodiceOperazione": {
+                "description": "Header Bbpm-Tt-IdOperazioneRichiesta-CodiceOperazione",
+                "type": "string",
+                "pattern": "^(?!\\s*$).+"
+              },
+              "Bbpm-Tt-CodiceOperazioneRisposta": {
+                "description": "Header Bbpm-Tt-CodiceOperazioneRisposta",
+                "type": "string",
+                "pattern": "^(?!\\s*$).+"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/Composizioni"
+            }
+          },
+          "400": {
+            "$ref": "#/responses/Errore400"
+          },
+          "500": {
+            "$ref": "#/responses/Errore500"
+          }
+        }
+      }
+    },
+    "/contratto/portafoglio/ec-movimenti-titoli": {
+      "get": {
+        "summary": "Leggi l'estratto conto dei movimenti dei titoli",
+        "description": "Ritorna l'estratto conto dei movimenti dei titoli in un periodo per il contratto",
+        "operationId": "leggiECMovimentiTitoli",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "codice",
+            "in": "query",
+            "description": "Il codice del contratto in questione",
+            "required": true,
+            "type": "string",
+            "pattern": "^[A-Z0-9]{10}$"
+          },
+          {
+            "name": "dataInizio",
+            "in": "query",
+            "description": "La data di inizio del periodo",
+            "type": "string",
+            "pattern": "^[0-9]{2}-[0-9]{2}-[0-9]{4}$"
+          },
+          {
+            "name": "dataFine",
+            "in": "query",
+            "description": "La data di fine del periodo",
+            "type": "string",
+            "pattern": "^[0-9]{2}-[0-9]{2}-[0-9]{4}$"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tt-IdOperazione-CodiceApplicazioneChiamante"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tt-IdOperazione-CodiceOperazione"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tt-IdCorrelazione"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-CodiceABI"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-CodiceCanale"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-CodiceApplicazioneChiamante"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-Cliente-CodiceNdg"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-Cliente-CodiceUtenzaIb-Identificativo-Utente"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-Cliente-CodiceUtenzaCb-Identificativo-Utente"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-Cliente-CodiceUtenzaCb-Identificativo-Postazione"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-UtenzaInterna-Matricola"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-UtenzaInterna-CodiceUnitaOrganizzativa"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-Controparte-IdControparte"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "L'estratto conto dei movimenti dei titoli",
+            "headers": {
+              "Bbpm-Tt-IdOperazioneRichiesta-CodiceApplicazioneChiamante": {
+                "description": "Header Bbpm-Tt-IdOperazioneRichiesta-CodiceApplicazioneChiamante",
+                "type": "string",
+                "pattern": "^(?!\\s*$).+"
+              },
+              "Bbpm-Tt-IdCorrelazione": {
+                "description": "Header Bbpm-Tt-IdCorrelazione",
+                "type": "string",
+                "pattern": "^(?!\\s*$).+"
+              },
+              "Bbpm-Tt-IdOperazioneRichiesta-CodiceOperazione": {
+                "description": "Header Bbpm-Tt-IdOperazioneRichiesta-CodiceOperazione",
+                "type": "string",
+                "pattern": "^(?!\\s*$).+"
+              },
+              "Bbpm-Tt-CodiceOperazioneRisposta": {
+                "description": "Header Bbpm-Tt-CodiceOperazioneRisposta",
+                "type": "string",
+                "pattern": "^(?!\\s*$).+"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/ECMovimentiTitoli"
+            }
+          },
+          "400": {
+            "$ref": "#/responses/Errore400"
+          },
+          "500": {
+            "$ref": "#/responses/Errore500"
+          }
+        }
+      }
+    },
+    "/contratto/portafoglio/ec-liquidita": {
+      "get": {
+        "summary": "Leggi l'estratto conto della liquidità",
+        "description": "Ritorna l'estratto conto della liquidità in un periodo per il contratto",
+        "operationId": "leggiECLiquidita",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "codice",
+            "in": "query",
+            "description": "Il codice del contratto in questione",
+            "required": true,
+            "type": "string",
+            "pattern": "^[A-Z0-9]{10}$"
+          },
+          {
+            "name": "dataInizio",
+            "in": "query",
+            "description": "La data di inizio del periodo",
+            "type": "string",
+            "pattern": "^[0-9]{2}-[0-9]{2}-[0-9]{4}$"
+          },
+          {
+            "name": "dataFine",
+            "in": "query",
+            "description": "La data di fine del periodo",
+            "type": "string",
+            "pattern": "^[0-9]{2}-[0-9]{2}-[0-9]{4}$"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tt-IdOperazione-CodiceApplicazioneChiamante"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tt-IdOperazione-CodiceOperazione"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tt-IdCorrelazione"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-CodiceABI"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-CodiceCanale"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-CodiceApplicazioneChiamante"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-Cliente-CodiceNdg"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-Cliente-CodiceUtenzaIb-Identificativo-Utente"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-Cliente-CodiceUtenzaCb-Identificativo-Utente"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-Cliente-CodiceUtenzaCb-Identificativo-Postazione"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-UtenzaInterna-Matricola"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-UtenzaInterna-CodiceUnitaOrganizzativa"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-Controparte-IdControparte"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "L'estratto conto della liquidità",
+            "headers": {
+              "Bbpm-Tt-IdOperazioneRichiesta-CodiceApplicazioneChiamante": {
+                "description": "Header Bbpm-Tt-IdOperazioneRichiesta-CodiceApplicazioneChiamante",
+                "type": "string",
+                "pattern": "^(?!\\s*$).+"
+              },
+              "Bbpm-Tt-IdCorrelazione": {
+                "description": "Header Bbpm-Tt-IdCorrelazione",
+                "type": "string",
+                "pattern": "^(?!\\s*$).+"
+              },
+              "Bbpm-Tt-IdOperazioneRichiesta-CodiceOperazione": {
+                "description": "Header Bbpm-Tt-IdOperazioneRichiesta-CodiceOperazione",
+                "type": "string",
+                "pattern": "^(?!\\s*$).+"
+              },
+              "Bbpm-Tt-CodiceOperazioneRisposta": {
+                "description": "Header Bbpm-Tt-CodiceOperazioneRisposta",
+                "type": "string",
+                "pattern": "^(?!\\s*$).+"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/ECLiquidita"
+            }
+          },
+          "400": {
+            "$ref": "#/responses/Errore400"
+          },
+          "500": {
+            "$ref": "#/responses/Errore500"
+          }
+        }
+      }
+    },
+    "/contratto/report/pdf": {
+      "get": {
+        "summary": "Genera un report di periodo in PDF",
+        "description": "Genera un report in formato PDF tra le date richieste contenente informazioni sul contratto",
+        "operationId": "generaReportPdf",
+        "produces": [
+          "application/pdf"
+        ],
+        "parameters": [
+          {
+            "name": "codice",
+            "in": "query",
+            "description": "Il codice del contratto in questione",
+            "required": true,
+            "type": "string",
+            "pattern": "^[A-Z0-9]{10}$"
+          },
+          {
+            "name": "dataInizio",
+            "in": "query",
+            "description": "La data di inizio del report",
+            "required": true,
+            "type": "string",
+            "pattern": "^[0-9]{2}-[0-9]{2}-[0-9]{4}$"
+          },
+          {
+            "name": "dataFine",
+            "in": "query",
+            "description": "La data di fine del report",
+            "required": true,
+            "type": "string",
+            "pattern": "^[0-9]{2}-[0-9]{2}-[0-9]{4}$"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tt-IdOperazione-CodiceApplicazioneChiamante"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tt-IdOperazione-CodiceOperazione"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tt-IdCorrelazione"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-CodiceABI"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-CodiceCanale"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-CodiceApplicazioneChiamante"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-Cliente-CodiceNdg"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-Cliente-CodiceUtenzaIb-Identificativo-Utente"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-Cliente-CodiceUtenzaCb-Identificativo-Utente"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-Cliente-CodiceUtenzaCb-Identificativo-Postazione"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-UtenzaInterna-Matricola"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-UtenzaInterna-CodiceUnitaOrganizzativa"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-Controparte-IdControparte"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "File PDF con il report",
+            "schema": {
+              "$ref": "#/definitions/File"
+            },
+            "headers": {
+              "Bbpm-Tt-IdOperazioneRichiesta-CodiceApplicazioneChiamante": {
+                "description": "Header Bbpm-Tt-IdOperazioneRichiesta-CodiceApplicazioneChiamante",
+                "type": "string",
+                "pattern": "^(?!\\s*$).+"
+              },
+              "Bbpm-Tt-IdCorrelazione": {
+                "description": "Header Bbpm-Tt-IdCorrelazione",
+                "type": "string",
+                "pattern": "^(?!\\s*$).+"
+              },
+              "Bbpm-Tt-IdOperazioneRichiesta-CodiceOperazione": {
+                "description": "Header Bbpm-Tt-IdOperazioneRichiesta-CodiceOperazione",
+                "type": "string",
+                "pattern": "^(?!\\s*$).+"
+              },
+              "Bbpm-Tt-CodiceOperazioneRisposta": {
+                "description": "Header Bbpm-Tt-CodiceOperazioneRisposta",
+                "type": "string",
+                "pattern": "^(?!\\s*$).+"
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/responses/Errore400"
+          },
+          "500": {
+            "$ref": "#/responses/Errore500"
+          }
+        }
+      }
+    },
+    "/genera-report-pdf/contratto": {
+      "get": {
+        "summary": "L’operazione avvia la generazione di un report pdf inerente la gestione patrimoniale.",
+        "description": "L’operazione avvia la generazione di un report pdf inerente la gestione patrimoniale della tipologia richiesta per il contratto indicato in input. Restituisce il codice univoco che identifica il nuovo report richiesto.",
+        "operationId": "alettiPlanetGeneraReportPdf",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "codice",
+            "in": "query",
+            "description": "Il codice del contratto",
+            "required": true,
+            "type": "string",
+            "pattern": "^[A-Z0-9]{10}$"
+          },
+          {
+            "name": "dataInizio",
+            "in": "query",
+            "description": "La data di inizio del report",
+            "required": true,
+            "type": "string",
+            "pattern": "^[0-9]{2}-[0-9]{2}-[0-9]{4}$"
+          },
+          {
+            "name": "dataFine",
+            "in": "query",
+            "description": "La data di fine del report",
+            "required": true,
+            "type": "string",
+            "pattern": "^[0-9]{2}-[0-9]{2}-[0-9]{4}$"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tt-IdOperazione-CodiceApplicazioneChiamante"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tt-IdOperazione-CodiceOperazione"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tt-IdCorrelazione"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-CodiceABI"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-CodiceCanale"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-CodiceApplicazioneChiamante"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-Cliente-CodiceNdg"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-Cliente-CodiceUtenzaIb-Identificativo-Utente"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-Cliente-CodiceUtenzaCb-Identificativo-Utente"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-Cliente-CodiceUtenzaCb-Identificativo-Postazione"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-UtenzaInterna-Matricola"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-UtenzaInterna-CodiceUnitaOrganizzativa"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-Controparte-IdControparte"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Risposta contenente il codice univoco che identifica il report richiesto",
+            "schema": {
+              "$ref": "#/definitions/AlettiPlanetRispostaGeneraReportPdf"
+            },
+            "headers": {
+              "Bbpm-Tt-IdOperazioneRichiesta-CodiceApplicazioneChiamante": {
+                "description": "Codice che identifica univocamente l'applicazione diretta chiamante, deve avere il medesimo valore di quanto ricevuto in input (obbligatorio)",
+                "type": "string",
+                "pattern": "^(?!\\s*$).+"
+              },
+              "Bbpm-Tt-IdCorrelazione": {
+                "description": "Codice univoco per la tracciatura su tutta la filiera delle chiamate (obbligatorio). Deve essere un UUID",
+                "type": "string",
+                "pattern": "^(?!\\s*$).+"
+              },
+              "Bbpm-Tt-IdOperazioneRichiesta-CodiceOperazione": {
+                "description": "Codice univoco dell'operazione generata dall'applicativo chiamante (obbligatorio per tutte le operazioni non di lettura)",
+                "type": "string",
+                "pattern": "^(?!\\s*$).+"
+              },
+              "Bbpm-Tt-CodiceOperazioneRisposta": {
+                "description": "Codice univoco associato generato dal servizio associato alla risposta. Utile nelle invocazioni asincrone",
+                "type": "string",
+                "pattern": "^(?!\\s*$).+"
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/responses/Errore400"
+          },
+          "500": {
+            "$ref": "#/responses/Errore500"
+          }
+        }
+      }
+    },
+    "/scarica-report-pdf/{codiceGenerazioneReportPdf}": {
+      "get": {
+        "summary": "L’operazione restituisce le informazioni sul report pdf richiesto",
+        "description": "La risposta contiene lo stato di genrazione report, se la generazione è completata contiene anche il report pdf in base 64",
+        "operationId": "alettiPlanetScaricaReportPdf",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/parameters/Bbpm-Tt-IdOperazione-CodiceApplicazioneChiamante"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tt-IdOperazione-CodiceOperazione"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tt-IdCorrelazione"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-CodiceABI"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-CodiceCanale"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-CodiceApplicazioneChiamante"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-Cliente-CodiceNdg"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-Cliente-CodiceUtenzaIb-Identificativo-Utente"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-Cliente-CodiceUtenzaCb-Identificativo-Utente"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-Cliente-CodiceUtenzaCb-Identificativo-Postazione"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-UtenzaInterna-Matricola"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-UtenzaInterna-CodiceUnitaOrganizzativa"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-Controparte-IdControparte"
+          },
+          {
+            "name": "codiceGenerazioneReportPdf",
+            "in": "path",
+            "description": "Codice univoco report pdf richiesto",
+            "required": true,
+            "type": "string",
+            "pattern": "^(?!\\s*$).+"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Informazioni sul report richiesto",
+            "schema": {
+              "$ref": "#/definitions/AlettiPlanetRispostaPdfBase64"
+            },
+            "headers": {
+              "Bbpm-Tt-IdOperazioneRichiesta-CodiceApplicazioneChiamante": {
+                "description": "Codice che identifica univocamente l'applicazione diretta chiamante, deve avere il medesimo valore di quanto ricevuto in input (obbligatorio)",
+                "type": "string",
+                "pattern": "^(?!\\s*$).+"
+              },
+              "Bbpm-Tt-IdCorrelazione": {
+                "description": "Codice univoco per la tracciatura su tutta la filiera delle chiamate (obbligatorio). Deve essere un UUID",
+                "type": "string",
+                "pattern": "^(?!\\s*$).+"
+              },
+              "Bbpm-Tt-IdOperazioneRichiesta-CodiceOperazione": {
+                "description": "Codice univoco dell'operazione generata dall'applicativo chiamante (obbligatorio per tutte le operazioni non di lettura)",
+                "type": "string",
+                "pattern": "^(?!\\s*$).+"
+              },
+              "Bbpm-Tt-CodiceOperazioneRisposta": {
+                "description": "Codice univoco associato generato dal servizio associato alla risposta. Utile nelle invocazioni asincrone",
+                "type": "string",
+                "pattern": "^(?!\\s*$).+"
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/responses/Errore400"
+          },
+          "500": {
+            "$ref": "#/responses/Errore500"
+          }
+        }
+      }
+    },
+    "/contratto/portafoglio/report/xls": {
+      "get": {
+        "summary": "Genera un report del portafoglio in XLS",
+        "description": "Genera un report in formato XLS alla data richiesta contenente informazioni sul portafoglio",
+        "operationId": "generaReportPortafoglioXls",
+        "produces": [
+          "application/vnd.ms-excel"
+        ],
+        "parameters": [
+          {
+            "name": "codice",
+            "in": "query",
+            "description": "Il codice del contratto in questione",
+            "required": true,
+            "type": "string",
+            "pattern": "^[A-Z0-9]{10}$"
+          },
+          {
+            "name": "dataValorizzazione",
+            "in": "query",
+            "description": "La data di valorizzazione del report",
+            "required": true,
+            "type": "string",
+            "pattern": "^[0-9]{2}-[0-9]{2}-[0-9]{4}$"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tt-IdOperazione-CodiceApplicazioneChiamante"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tt-IdOperazione-CodiceOperazione"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tt-IdCorrelazione"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-CodiceABI"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-CodiceCanale"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-CodiceApplicazioneChiamante"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-Cliente-CodiceNdg"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-Cliente-CodiceUtenzaIb-Identificativo-Utente"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-Cliente-CodiceUtenzaCb-Identificativo-Utente"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-Cliente-CodiceUtenzaCb-Identificativo-Postazione"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-UtenzaInterna-Matricola"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-UtenzaInterna-CodiceUnitaOrganizzativa"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-Controparte-IdControparte"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "File XLS con il report",
+            "schema": {
+              "$ref": "#/definitions/File"
+            },
+            "headers": {
+              "Bbpm-Tt-IdOperazioneRichiesta-CodiceApplicazioneChiamante": {
+                "description": "Header Bbpm-Tt-IdOperazioneRichiesta-CodiceApplicazioneChiamante",
+                "type": "string",
+                "pattern": "^(?!\\s*$).+"
+              },
+              "Bbpm-Tt-IdCorrelazione": {
+                "description": "Header Bbpm-Tt-IdCorrelazione",
+                "type": "string",
+                "pattern": "^(?!\\s*$).+"
+              },
+              "Bbpm-Tt-IdOperazioneRichiesta-CodiceOperazione": {
+                "description": "Header Bbpm-Tt-IdOperazioneRichiesta-CodiceOperazione",
+                "type": "string",
+                "pattern": "^(?!\\s*$).+"
+              },
+              "Bbpm-Tt-CodiceOperazioneRisposta": {
+                "description": "Header Bbpm-Tt-CodiceOperazioneRisposta",
+                "type": "string",
+                "pattern": "^(?!\\s*$).+"
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/responses/Errore400"
+          },
+          "500": {
+            "$ref": "#/responses/Errore500"
+          }
+        }
+      }
+    },
+    "/contratto/portafoglio/report/txt": {
+      "get": {
+        "summary": "Genera un report del portafoglio in TXT",
+        "description": "Genera un report in formato TXT alla data richiesta contenente informazioni sul portafoglio",
+        "operationId": "generaReportPortafoglioTxt",
+        "produces": [
+          "text/plain"
+        ],
+        "parameters": [
+          {
+            "name": "codice",
+            "in": "query",
+            "description": "Il codice del contratto in questione",
+            "required": true,
+            "type": "string",
+            "pattern": "^[A-Z0-9]{10}$"
+          },
+          {
+            "name": "dataValorizzazione",
+            "in": "query",
+            "description": "La data di valorizzazione del report",
+            "required": true,
+            "type": "string",
+            "pattern": "^[0-9]{2}-[0-9]{2}-[0-9]{4}$"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tt-IdOperazione-CodiceApplicazioneChiamante"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tt-IdOperazione-CodiceOperazione"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tt-IdCorrelazione"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-CodiceABI"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-CodiceCanale"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-CodiceApplicazioneChiamante"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-Cliente-CodiceNdg"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-Cliente-CodiceUtenzaIb-Identificativo-Utente"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-Cliente-CodiceUtenzaCb-Identificativo-Utente"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-Cliente-CodiceUtenzaCb-Identificativo-Postazione"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-UtenzaInterna-Matricola"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-UtenzaInterna-CodiceUnitaOrganizzativa"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-Controparte-IdControparte"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "File TXT con il report",
+            "schema": {
+              "$ref": "#/definitions/File"
+            },
+            "headers": {
+              "Bbpm-Tt-IdOperazioneRichiesta-CodiceApplicazioneChiamante": {
+                "description": "Header Bbpm-Tt-IdOperazioneRichiesta-CodiceApplicazioneChiamante",
+                "type": "string",
+                "pattern": "^(?!\\s*$).+"
+              },
+              "Bbpm-Tt-IdCorrelazione": {
+                "description": "Header Bbpm-Tt-IdCorrelazione",
+                "type": "string",
+                "pattern": "^(?!\\s*$).+"
+              },
+              "Bbpm-Tt-IdOperazioneRichiesta-CodiceOperazione": {
+                "description": "Header Bbpm-Tt-IdOperazioneRichiesta-CodiceOperazione",
+                "type": "string",
+                "pattern": "^(?!\\s*$).+"
+              },
+              "Bbpm-Tt-CodiceOperazioneRisposta": {
+                "description": "Header Bbpm-Tt-CodiceOperazioneRisposta",
+                "type": "string",
+                "pattern": "^(?!\\s*$).+"
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/responses/Errore400"
+          },
+          "500": {
+            "$ref": "#/responses/Errore500"
+          }
+        }
+      }
+    },
+    "/contratto/portafoglio/ec-movimenti-titoli/report/xls": {
+      "get": {
+        "summary": "Genera un report dell'estratto conto dei movimenti dei titoli in XLS",
+        "description": "Genera un report in formato XLS alla data richiesta contenente informazioni sull'estratto conto dei movimenti dei titoli",
+        "operationId": "generaReportECMovimentiTitoliXls",
+        "produces": [
+          "application/vnd.ms-excel"
+        ],
+        "parameters": [
+          {
+            "name": "codice",
+            "in": "query",
+            "description": "Il codice del contratto in questione",
+            "required": true,
+            "type": "string",
+            "pattern": "^[A-Z0-9]{10}$"
+          },
+          {
+            "name": "dataInizio",
+            "in": "query",
+            "description": "La data di inizio del report",
+            "required": true,
+            "type": "string",
+            "pattern": "^[0-9]{2}-[0-9]{2}-[0-9]{4}$"
+          },
+          {
+            "name": "dataFine",
+            "in": "query",
+            "description": "La data di fine del report",
+            "required": true,
+            "type": "string",
+            "pattern": "^[0-9]{2}-[0-9]{2}-[0-9]{4}$"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tt-IdOperazione-CodiceApplicazioneChiamante"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tt-IdOperazione-CodiceOperazione"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tt-IdCorrelazione"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-CodiceABI"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-CodiceCanale"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-CodiceApplicazioneChiamante"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-Cliente-CodiceNdg"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-Cliente-CodiceUtenzaIb-Identificativo-Utente"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-Cliente-CodiceUtenzaCb-Identificativo-Utente"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-Cliente-CodiceUtenzaCb-Identificativo-Postazione"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-UtenzaInterna-Matricola"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-UtenzaInterna-CodiceUnitaOrganizzativa"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-Controparte-IdControparte"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "File XLS con il report",
+            "schema": {
+              "$ref": "#/definitions/File"
+            },
+            "headers": {
+              "Bbpm-Tt-IdOperazioneRichiesta-CodiceApplicazioneChiamante": {
+                "description": "Header Bbpm-Tt-IdOperazioneRichiesta-CodiceApplicazioneChiamante",
+                "type": "string",
+                "pattern": "^(?!\\s*$).+"
+              },
+              "Bbpm-Tt-IdCorrelazione": {
+                "description": "Header Bbpm-Tt-IdCorrelazione",
+                "type": "string",
+                "pattern": "^(?!\\s*$).+"
+              },
+              "Bbpm-Tt-IdOperazioneRichiesta-CodiceOperazione": {
+                "description": "Header Bbpm-Tt-IdOperazioneRichiesta-CodiceOperazione",
+                "type": "string",
+                "pattern": "^(?!\\s*$).+"
+              },
+              "Bbpm-Tt-CodiceOperazioneRisposta": {
+                "description": "Header Bbpm-Tt-CodiceOperazioneRisposta",
+                "type": "string",
+                "pattern": "^(?!\\s*$).+"
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/responses/Errore400"
+          },
+          "500": {
+            "$ref": "#/responses/Errore500"
+          }
+        }
+      }
+    },
+    "/contratto/portafoglio/ec-movimenti-titoli/report/txt": {
+      "get": {
+        "summary": "Genera un report dell'estratto conto dei movimenti dei titoli in TXT",
+        "description": "Genera un report in formato TXT alla data richiesta contenente informazioni sull'estratto conto dei movimenti dei titoli",
+        "operationId": "generaReportECMovimentiTitoliTxt",
+        "produces": [
+          "text/plain"
+        ],
+        "parameters": [
+          {
+            "name": "codice",
+            "in": "query",
+            "description": "Il codice del contratto in questione",
+            "required": true,
+            "type": "string",
+            "pattern": "^[A-Z0-9]{10}$"
+          },
+          {
+            "name": "dataInizio",
+            "in": "query",
+            "description": "La data di inizio del report",
+            "required": true,
+            "type": "string",
+            "pattern": "^[0-9]{2}-[0-9]{2}-[0-9]{4}$"
+          },
+          {
+            "name": "dataFine",
+            "in": "query",
+            "description": "La data di fine del report",
+            "required": true,
+            "type": "string",
+            "pattern": "^[0-9]{2}-[0-9]{2}-[0-9]{4}$"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tt-IdOperazione-CodiceApplicazioneChiamante"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tt-IdOperazione-CodiceOperazione"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tt-IdCorrelazione"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-CodiceABI"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-CodiceCanale"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-CodiceApplicazioneChiamante"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-Cliente-CodiceNdg"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-Cliente-CodiceUtenzaIb-Identificativo-Utente"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-Cliente-CodiceUtenzaCb-Identificativo-Utente"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-Cliente-CodiceUtenzaCb-Identificativo-Postazione"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-UtenzaInterna-Matricola"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-UtenzaInterna-CodiceUnitaOrganizzativa"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-Controparte-IdControparte"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "File TXT con il report",
+            "schema": {
+              "$ref": "#/definitions/File"
+            },
+            "headers": {
+              "Bbpm-Tt-IdOperazioneRichiesta-CodiceApplicazioneChiamante": {
+                "description": "Header Bbpm-Tt-IdOperazioneRichiesta-CodiceApplicazioneChiamante",
+                "type": "string",
+                "pattern": "^(?!\\s*$).+"
+              },
+              "Bbpm-Tt-IdCorrelazione": {
+                "description": "Header Bbpm-Tt-IdCorrelazione",
+                "type": "string",
+                "pattern": "^(?!\\s*$).+"
+              },
+              "Bbpm-Tt-IdOperazioneRichiesta-CodiceOperazione": {
+                "description": "Header Bbpm-Tt-IdOperazioneRichiesta-CodiceOperazione",
+                "type": "string",
+                "pattern": "^(?!\\s*$).+"
+              },
+              "Bbpm-Tt-CodiceOperazioneRisposta": {
+                "description": "Header Bbpm-Tt-CodiceOperazioneRisposta",
+                "type": "string",
+                "pattern": "^(?!\\s*$).+"
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/responses/Errore400"
+          },
+          "500": {
+            "$ref": "#/responses/Errore500"
+          }
+        }
+      }
+    },
+    "/contratto/portafoglio/ec-liquidita/report/xls": {
+      "get": {
+        "summary": "Genera un report dell'estratto conto della liquidità in XLS",
+        "description": "Genera un report in formato XLS alla data richiesta contenente informazioni sulla liquidità",
+        "operationId": "generaReportECLiquiditaXls",
+        "produces": [
+          "application/vnd.ms-excel"
+        ],
+        "parameters": [
+          {
+            "name": "codice",
+            "in": "query",
+            "description": "Il codice del contratto in questione",
+            "required": true,
+            "type": "string",
+            "pattern": "^[A-Z0-9]{10}$"
+          },
+          {
+            "name": "dataInizio",
+            "in": "query",
+            "description": "La data di inizio del report",
+            "required": true,
+            "type": "string",
+            "pattern": "^[0-9]{2}-[0-9]{2}-[0-9]{4}$"
+          },
+          {
+            "name": "dataFine",
+            "in": "query",
+            "description": "La data di fine del report",
+            "required": true,
+            "type": "string",
+            "pattern": "^[0-9]{2}-[0-9]{2}-[0-9]{4}$"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tt-IdOperazione-CodiceApplicazioneChiamante"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tt-IdOperazione-CodiceOperazione"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tt-IdCorrelazione"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-CodiceABI"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-CodiceCanale"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-CodiceApplicazioneChiamante"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-Cliente-CodiceNdg"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-Cliente-CodiceUtenzaIb-Identificativo-Utente"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-Cliente-CodiceUtenzaCb-Identificativo-Utente"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-Cliente-CodiceUtenzaCb-Identificativo-Postazione"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-UtenzaInterna-Matricola"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-UtenzaInterna-CodiceUnitaOrganizzativa"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-Controparte-IdControparte"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "File XLS con il report",
+            "schema": {
+              "$ref": "#/definitions/File"
+            },
+            "headers": {
+              "Bbpm-Tt-IdOperazioneRichiesta-CodiceApplicazioneChiamante": {
+                "description": "Header Bbpm-Tt-IdOperazioneRichiesta-CodiceApplicazioneChiamante",
+                "type": "string",
+                "pattern": "^(?!\\s*$).+"
+              },
+              "Bbpm-Tt-IdCorrelazione": {
+                "description": "Header Bbpm-Tt-IdCorrelazione",
+                "type": "string",
+                "pattern": "^(?!\\s*$).+"
+              },
+              "Bbpm-Tt-IdOperazioneRichiesta-CodiceOperazione": {
+                "description": "Header Bbpm-Tt-IdOperazioneRichiesta-CodiceOperazione",
+                "type": "string",
+                "pattern": "^(?!\\s*$).+"
+              },
+              "Bbpm-Tt-CodiceOperazioneRisposta": {
+                "description": "Header Bbpm-Tt-CodiceOperazioneRisposta",
+                "type": "string",
+                "pattern": "^(?!\\s*$).+"
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/responses/Errore400"
+          },
+          "500": {
+            "$ref": "#/responses/Errore500"
+          }
+        }
+      }
+    },
+    "/contratto/portafoglio/ec-liquidita/report-barilla/xls": {
+      "get": {
+        "summary": "Genera un report dell'estratto conto della liquidità in XLS per Barilla",
+        "description": "Genera un report in formato XLS per Barilla alla data richiesta contenente informazioni sulla liquidità",
+        "operationId": "generaReportECLiquiditaBarillaXls",
+        "produces": [
+          "application/vnd.ms-excel"
+        ],
+        "parameters": [
+          {
+            "name": "codice",
+            "in": "query",
+            "description": "Il codice del contratto in questione",
+            "required": true,
+            "type": "string",
+            "pattern": "^[A-Z0-9]{10}$"
+          },
+          {
+            "name": "dataInizio",
+            "in": "query",
+            "description": "La data di inizio del report",
+            "required": true,
+            "type": "string",
+            "pattern": "^[0-9]{2}-[0-9]{2}-[0-9]{4}$"
+          },
+          {
+            "name": "dataFine",
+            "in": "query",
+            "description": "La data di fine del report",
+            "required": true,
+            "type": "string",
+            "pattern": "^[0-9]{2}-[0-9]{2}-[0-9]{4}$"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tt-IdOperazione-CodiceApplicazioneChiamante"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tt-IdOperazione-CodiceOperazione"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tt-IdCorrelazione"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-CodiceABI"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-CodiceCanale"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-CodiceApplicazioneChiamante"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-Cliente-CodiceNdg"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-Cliente-CodiceUtenzaIb-Identificativo-Utente"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-Cliente-CodiceUtenzaCb-Identificativo-Utente"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-Cliente-CodiceUtenzaCb-Identificativo-Postazione"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-UtenzaInterna-Matricola"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-UtenzaInterna-CodiceUnitaOrganizzativa"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-Controparte-IdControparte"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "File XLS con il report per Barilla",
+            "schema": {
+              "$ref": "#/definitions/File"
+            },
+            "headers": {
+              "Bbpm-Tt-IdOperazioneRichiesta-CodiceApplicazioneChiamante": {
+                "description": "Header Bbpm-Tt-IdOperazioneRichiesta-CodiceApplicazioneChiamante",
+                "type": "string",
+                "pattern": "^(?!\\s*$).+"
+              },
+              "Bbpm-Tt-IdCorrelazione": {
+                "description": "Header Bbpm-Tt-IdCorrelazione",
+                "type": "string",
+                "pattern": "^(?!\\s*$).+"
+              },
+              "Bbpm-Tt-IdOperazioneRichiesta-CodiceOperazione": {
+                "description": "Header Bbpm-Tt-IdOperazioneRichiesta-CodiceOperazione",
+                "type": "string",
+                "pattern": "^(?!\\s*$).+"
+              },
+              "Bbpm-Tt-CodiceOperazioneRisposta": {
+                "description": "Header Bbpm-Tt-CodiceOperazioneRisposta",
+                "type": "string",
+                "pattern": "^(?!\\s*$).+"
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/responses/Errore400"
+          },
+          "500": {
+            "$ref": "#/responses/Errore500"
+          }
+        }
+      }
+    },
+    "/contratto/portafoglio/ftt/report/csv": {
+      "get": {
+        "summary": "Genera un report della FTT in CSV",
+        "description": "Genera un report in formato CSV contenente informazioni sulla Financial Transaction Tax",
+        "operationId": "generaReportFttCsv",
+        "produces": [
+          "text/csv"
+        ],
+        "parameters": [
+          {
+            "name": "codice",
+            "in": "query",
+            "description": "Il codice del contratto in questione",
+            "required": true,
+            "type": "string",
+            "pattern": "^[A-Z0-9]{10}$"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tt-IdOperazione-CodiceApplicazioneChiamante"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tt-IdOperazione-CodiceOperazione"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tt-IdCorrelazione"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-CodiceABI"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-CodiceCanale"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-CodiceApplicazioneChiamante"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-Cliente-CodiceNdg"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-Cliente-CodiceUtenzaIb-Identificativo-Utente"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-Cliente-CodiceUtenzaCb-Identificativo-Utente"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-Cliente-CodiceUtenzaCb-Identificativo-Postazione"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-UtenzaInterna-Matricola"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-UtenzaInterna-CodiceUnitaOrganizzativa"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-Controparte-IdControparte"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "File CSV con il report",
+            "schema": {
+              "$ref": "#/definitions/File"
+            },
+            "headers": {
+              "Bbpm-Tt-IdOperazioneRichiesta-CodiceApplicazioneChiamante": {
+                "description": "Header Bbpm-Tt-IdOperazioneRichiesta-CodiceApplicazioneChiamante",
+                "type": "string",
+                "pattern": "^(?!\\s*$).+"
+              },
+              "Bbpm-Tt-IdCorrelazione": {
+                "description": "Header Bbpm-Tt-IdCorrelazione",
+                "type": "string",
+                "pattern": "^(?!\\s*$).+"
+              },
+              "Bbpm-Tt-IdOperazioneRichiesta-CodiceOperazione": {
+                "description": "Header Bbpm-Tt-IdOperazioneRichiesta-CodiceOperazione",
+                "type": "string",
+                "pattern": "^(?!\\s*$).+"
+              },
+              "Bbpm-Tt-CodiceOperazioneRisposta": {
+                "description": "Header Bbpm-Tt-CodiceOperazioneRisposta",
+                "type": "string",
+                "pattern": "^(?!\\s*$).+"
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/responses/Errore400"
+          },
+          "500": {
+            "$ref": "#/responses/Errore500"
+          }
+        }
+      }
+    },
+    "/contratto/portafoglio/tobin-tax/report/csv": {
+      "get": {
+        "summary": "Genera un report della Tobin Tax in CSV",
+        "description": "Genera un report in formato CSV contenente informazioni sulla Financial Transaction Tax",
+        "operationId": "generaReportTobinTaxCsv",
+        "produces": [
+          "text/csv"
+        ],
+        "parameters": [
+          {
+            "name": "codice",
+            "in": "query",
+            "description": "Il codice del contratto in questione",
+            "required": true,
+            "type": "string",
+            "pattern": "^[A-Z0-9]{10}$"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tt-IdOperazione-CodiceApplicazioneChiamante"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tt-IdOperazione-CodiceOperazione"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tt-IdCorrelazione"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-CodiceABI"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-CodiceCanale"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-CodiceApplicazioneChiamante"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-Cliente-CodiceNdg"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-Cliente-CodiceUtenzaIb-Identificativo-Utente"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-Cliente-CodiceUtenzaCb-Identificativo-Utente"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-Cliente-CodiceUtenzaCb-Identificativo-Postazione"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-UtenzaInterna-Matricola"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-UtenzaInterna-CodiceUnitaOrganizzativa"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-Controparte-IdControparte"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "File CSV con il report",
+            "schema": {
+              "$ref": "#/definitions/File"
+            },
+            "headers": {
+              "Bbpm-Tt-IdOperazioneRichiesta-CodiceApplicazioneChiamante": {
+                "description": "Header Bbpm-Tt-IdOperazioneRichiesta-CodiceApplicazioneChiamante",
+                "type": "string",
+                "pattern": "^(?!\\s*$).+"
+              },
+              "Bbpm-Tt-IdCorrelazione": {
+                "description": "Header Bbpm-Tt-IdCorrelazione",
+                "type": "string",
+                "pattern": "^(?!\\s*$).+"
+              },
+              "Bbpm-Tt-IdOperazioneRichiesta-CodiceOperazione": {
+                "description": "Header Bbpm-Tt-IdOperazioneRichiesta-CodiceOperazione",
+                "type": "string",
+                "pattern": "^(?!\\s*$).+"
+              },
+              "Bbpm-Tt-CodiceOperazioneRisposta": {
+                "description": "Header Bbpm-Tt-CodiceOperazioneRisposta",
+                "type": "string",
+                "pattern": "^(?!\\s*$).+"
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/responses/Errore400"
+          },
+          "500": {
+            "$ref": "#/responses/Errore500"
+          }
+        }
+      }
+    },
+    "/contratto/portafoglio/flusso-giornaliero/report/csv": {
+      "get": {
+        "summary": "Genera un report del flusso giornaliero in CSV",
+        "description": "Genera un report in formato CSV alla data richiesta contenente informazioni sul flusso giornaliero",
+        "operationId": "generaReportFlussoGiornalieroCsv",
+        "produces": [
+          "text/csv"
+        ],
+        "parameters": [
+          {
+            "name": "codice",
+            "in": "query",
+            "description": "Il codice del contratto in questione",
+            "required": true,
+            "type": "string",
+            "pattern": "^[A-Z0-9]{10}$"
+          },
+          {
+            "name": "data",
+            "in": "query",
+            "description": "La data del report",
+            "required": true,
+            "type": "string",
+            "pattern": "^[0-9]{2}-[0-9]{2}-[0-9]{4}$"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tt-IdOperazione-CodiceApplicazioneChiamante"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tt-IdOperazione-CodiceOperazione"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tt-IdCorrelazione"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-CodiceABI"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-CodiceCanale"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-CodiceApplicazioneChiamante"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-Cliente-CodiceNdg"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-Cliente-CodiceUtenzaIb-Identificativo-Utente"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-Cliente-CodiceUtenzaCb-Identificativo-Utente"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-Cliente-CodiceUtenzaCb-Identificativo-Postazione"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-UtenzaInterna-Matricola"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-UtenzaInterna-CodiceUnitaOrganizzativa"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-Controparte-IdControparte"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "File CSV con il report",
+            "schema": {
+              "$ref": "#/definitions/File"
+            },
+            "headers": {
+              "Bbpm-Tt-IdOperazioneRichiesta-CodiceApplicazioneChiamante": {
+                "description": "Header Bbpm-Tt-IdOperazioneRichiesta-CodiceApplicazioneChiamante",
+                "type": "string",
+                "pattern": "^(?!\\s*$).+"
+              },
+              "Bbpm-Tt-IdCorrelazione": {
+                "description": "Header Bbpm-Tt-IdCorrelazione",
+                "type": "string",
+                "pattern": "^(?!\\s*$).+"
+              },
+              "Bbpm-Tt-IdOperazioneRichiesta-CodiceOperazione": {
+                "description": "Header Bbpm-Tt-IdOperazioneRichiesta-CodiceOperazione",
+                "type": "string",
+                "pattern": "^(?!\\s*$).+"
+              },
+              "Bbpm-Tt-CodiceOperazioneRisposta": {
+                "description": "Header Bbpm-Tt-CodiceOperazioneRisposta",
+                "type": "string",
+                "pattern": "^(?!\\s*$).+"
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/responses/Errore400"
+          },
+          "500": {
+            "$ref": "#/responses/Errore500"
+          }
+        }
+      }
+    },
+    "/contratto/portafoglio/estrazione-mensile/report/xls": {
+      "get": {
+        "summary": "Genera un report dell'estrazione mensile in XLS",
+        "description": "Genera un report in formato XLS al mese richiesto contenente informazioni sull'estrazione mensile",
+        "operationId": "generaReportEstrazioneMensileXls",
+        "produces": [
+          "application/vnd.ms-excel"
+        ],
+        "parameters": [
+          {
+            "name": "codice",
+            "in": "query",
+            "description": "Il codice del contratto in questione",
+            "required": true,
+            "type": "string",
+            "pattern": "^[A-Z0-9]{10}$"
+          },
+          {
+            "name": "mese",
+            "in": "query",
+            "description": "Il mese (1 è Gennaio)",
+            "required": true,
+            "type": "number"
+          },
+          {
+            "name": "anno",
+            "in": "query",
+            "description": "L'anno",
+            "required": true,
+            "type": "number"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tt-IdOperazione-CodiceApplicazioneChiamante"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tt-IdOperazione-CodiceOperazione"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tt-IdCorrelazione"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-CodiceABI"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-CodiceCanale"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-CodiceApplicazioneChiamante"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-Cliente-CodiceNdg"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-Cliente-CodiceUtenzaIb-Identificativo-Utente"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-Cliente-CodiceUtenzaCb-Identificativo-Utente"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-Cliente-CodiceUtenzaCb-Identificativo-Postazione"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-UtenzaInterna-Matricola"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-UtenzaInterna-CodiceUnitaOrganizzativa"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-Controparte-IdControparte"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "File XLS con il report",
+            "schema": {
+              "$ref": "#/definitions/File"
+            },
+            "headers": {
+              "Bbpm-Tt-IdOperazioneRichiesta-CodiceApplicazioneChiamante": {
+                "description": "Header Bbpm-Tt-IdOperazioneRichiesta-CodiceApplicazioneChiamante",
+                "type": "string",
+                "pattern": "^(?!\\s*$).+"
+              },
+              "Bbpm-Tt-IdCorrelazione": {
+                "description": "Header Bbpm-Tt-IdCorrelazione",
+                "type": "string",
+                "pattern": "^(?!\\s*$).+"
+              },
+              "Bbpm-Tt-IdOperazioneRichiesta-CodiceOperazione": {
+                "description": "Header Bbpm-Tt-IdOperazioneRichiesta-CodiceOperazione",
+                "type": "string",
+                "pattern": "^(?!\\s*$).+"
+              },
+              "Bbpm-Tt-CodiceOperazioneRisposta": {
+                "description": "Header Bbpm-Tt-CodiceOperazioneRisposta",
+                "type": "string",
+                "pattern": "^(?!\\s*$).+"
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/responses/Errore400"
+          },
+          "500": {
+            "$ref": "#/responses/Errore500"
+          }
+        }
+      }
+    },
+    "/reportistica/dettaglio-operazioni": {
+      "get": {
+        "summary": "Restituisci la lista del dettaglio operazioni",
+        "description": "Restituisci la lista del dettaglio operazioni per la pagina di reportistica",
+        "operationId": "leggiDettaglioOperazioniReportistica",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "dataInizio",
+            "in": "query",
+            "description": "La data di inizio per filtrare la lista operazioni",
+            "required": true,
+            "type": "string",
+            "pattern": "^[0-9]{2}-[0-9]{2}-[0-9]{4}$"
+          },
+          {
+            "name": "dataFine",
+            "in": "query",
+            "description": "La data di fine per filtrare la lista operazioni",
+            "required": true,
+            "type": "string",
+            "pattern": "^[0-9]{2}-[0-9]{2}-[0-9]{4}$"
+          },
+          {
+            "name": "tipo",
+            "in": "query",
+            "description": "Il tipo cliente o controparte",
+            "required": true,
+            "type": "string",
+            "enum": [
+              "CLIENTE",
+              "CONTROPARTE"
+            ]
+          },
+          {
+            "name": "tipoOperazione",
+            "in": "query",
+            "description": "Il tipo di operazione",
+            "required": true,
+            "type": "string",
+            "pattern": "^(?!\\s*$).+"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tt-IdOperazione-CodiceApplicazioneChiamante"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tt-IdOperazione-CodiceOperazione"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tt-IdCorrelazione"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-CodiceABI"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-CodiceCanale"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-CodiceApplicazioneChiamante"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-Cliente-CodiceNdg"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-Cliente-CodiceUtenzaIb-Identificativo-Utente"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-Cliente-CodiceUtenzaCb-Identificativo-Utente"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-Cliente-CodiceUtenzaCb-Identificativo-Postazione"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-UtenzaInterna-Matricola"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-UtenzaInterna-CodiceUnitaOrganizzativa"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-Controparte-IdControparte"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Lista di dettaglio operazioni",
+            "schema": {
+              "$ref": "#/definitions/ReportisticaDettaglioOperazioni"
+            },
+            "headers": {
+              "Bbpm-Tt-IdOperazioneRichiesta-CodiceApplicazioneChiamante": {
+                "description": "Header Bbpm-Tt-IdOperazioneRichiesta-CodiceApplicazioneChiamante",
+                "type": "string",
+                "pattern": "^(?!\\s*$).+"
+              },
+              "Bbpm-Tt-IdCorrelazione": {
+                "description": "Header Bbpm-Tt-IdCorrelazione",
+                "type": "string",
+                "pattern": "^(?!\\s*$).+"
+              },
+              "Bbpm-Tt-IdOperazioneRichiesta-CodiceOperazione": {
+                "description": "Header Bbpm-Tt-IdOperazioneRichiesta-CodiceOperazione",
+                "type": "string",
+                "pattern": "^(?!\\s*$).+"
+              },
+              "Bbpm-Tt-CodiceOperazioneRisposta": {
+                "description": "Header Bbpm-Tt-CodiceOperazioneRisposta",
+                "type": "string",
+                "pattern": "^(?!\\s*$).+"
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/responses/Errore400"
+          },
+          "500": {
+            "$ref": "#/responses/Errore500"
+          }
+        }
+      }
+    },
+    "/reportistica/tipi-dettaglio-operazione": {
+      "get": {
+        "summary": "Restituisci la lista dei tipi di dettaglio operazione",
+        "description": "Restituisci la lista dei tipi di dettaglio operazione per la pagina di reportistica",
+        "operationId": "leggiListaTipiDettaglioOperazioniReportistica",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/parameters/Bbpm-Tt-IdOperazione-CodiceApplicazioneChiamante"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tt-IdOperazione-CodiceOperazione"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tt-IdCorrelazione"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-CodiceABI"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-CodiceCanale"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-CodiceApplicazioneChiamante"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-Cliente-CodiceNdg"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-Cliente-CodiceUtenzaIb-Identificativo-Utente"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-Cliente-CodiceUtenzaCb-Identificativo-Utente"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-Cliente-CodiceUtenzaCb-Identificativo-Postazione"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-UtenzaInterna-Matricola"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-UtenzaInterna-CodiceUnitaOrganizzativa"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-Controparte-IdControparte"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Lista dei tipi di dettaglio operazioni",
+            "schema": {
+              "$ref": "#/definitions/ReportisticaTipiDettaglioOperazione"
+            },
+            "headers": {
+              "Bbpm-Tt-IdOperazioneRichiesta-CodiceApplicazioneChiamante": {
+                "description": "Header Bbpm-Tt-IdOperazioneRichiesta-CodiceApplicazioneChiamante",
+                "type": "string",
+                "pattern": "^(?!\\s*$).+"
+              },
+              "Bbpm-Tt-IdCorrelazione": {
+                "description": "Header Bbpm-Tt-IdCorrelazione",
+                "type": "string",
+                "pattern": "^(?!\\s*$).+"
+              },
+              "Bbpm-Tt-IdOperazioneRichiesta-CodiceOperazione": {
+                "description": "Header Bbpm-Tt-IdOperazioneRichiesta-CodiceOperazione",
+                "type": "string",
+                "pattern": "^(?!\\s*$).+"
+              },
+              "Bbpm-Tt-CodiceOperazioneRisposta": {
+                "description": "Header Bbpm-Tt-CodiceOperazioneRisposta",
+                "type": "string",
+                "pattern": "^(?!\\s*$).+"
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/responses/Errore400"
+          },
+          "500": {
+            "$ref": "#/responses/Errore500"
+          }
+        }
+      }
+    },
+    "/utente/richiedi-invio-otp": {
+      "get": {
+        "security": [
+          {
+            "oauth-sec": [
+              "login_light"
+            ]
+          }
+        ],
+        "summary": "Richiede di mandare una nuovo codice OTP",
+        "description": "Richiede di mandare un nuovo codice OTP per l'autenticazione a due fattori",
+        "operationId": "richiediInvioOtp",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/parameters/Bbpm-Tt-IdOperazione-CodiceApplicazioneChiamante"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tt-IdOperazione-CodiceOperazione"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tt-IdCorrelazione"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-CodiceABI"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-CodiceCanale"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-CodiceApplicazioneChiamante"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-Cliente-CodiceNdg"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-Cliente-CodiceUtenzaIb-Identificativo-Utente"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-Cliente-CodiceUtenzaCb-Identificativo-Utente"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-Cliente-CodiceUtenzaCb-Identificativo-Postazione"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-UtenzaInterna-Matricola"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-UtenzaInterna-CodiceUnitaOrganizzativa"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-Controparte-IdControparte"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Otp reinviato correttamente",
+            "headers": {
+              "Bbpm-Tt-IdOperazioneRichiesta-CodiceApplicazioneChiamante": {
+                "description": "Header Bbpm-Tt-IdOperazioneRichiesta-CodiceApplicazioneChiamante",
+                "type": "string",
+                "pattern": "^(?!\\s*$).+"
+              },
+              "Bbpm-Tt-IdCorrelazione": {
+                "description": "Header Bbpm-Tt-IdCorrelazione",
+                "type": "string",
+                "pattern": "^(?!\\s*$).+"
+              },
+              "Bbpm-Tt-IdOperazioneRichiesta-CodiceOperazione": {
+                "description": "Header Bbpm-Tt-IdOperazioneRichiesta-CodiceOperazione",
+                "type": "string",
+                "pattern": "^(?!\\s*$).+"
+              },
+              "Bbpm-Tt-CodiceOperazioneRisposta": {
+                "description": "Header Bbpm-Tt-CodiceOperazioneRisposta",
+                "type": "string",
+                "pattern": "^(?!\\s*$).+"
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/responses/Errore400"
+          },
+          "500": {
+            "$ref": "#/responses/Errore500"
+          }
+        }
+      }
+    },
+    "/utente/leggi-informazioni-utente": {
+      "get": {
+        "summary": "Legge le informazioni dell'utente",
+        "description": "Legge le informazioni dell'utente necessarie per il frontend",
+        "operationId": "leggiInformazioniUtente",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/parameters/Bbpm-Tt-IdOperazione-CodiceApplicazioneChiamante"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tt-IdOperazione-CodiceOperazione"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tt-IdCorrelazione"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-CodiceABI"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-CodiceCanale"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-CodiceApplicazioneChiamante"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-Cliente-CodiceNdg"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-Cliente-CodiceUtenzaIb-Identificativo-Utente"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-Cliente-CodiceUtenzaCb-Identificativo-Utente"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-Cliente-CodiceUtenzaCb-Identificativo-Postazione"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-UtenzaInterna-Matricola"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-UtenzaInterna-CodiceUnitaOrganizzativa"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-Controparte-IdControparte"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Informazioni dell'utente da mostrate a frontend",
+            "headers": {
+              "Bbpm-Tt-IdOperazioneRichiesta-CodiceApplicazioneChiamante": {
+                "description": "Header Bbpm-Tt-IdOperazioneRichiesta-CodiceApplicazioneChiamante",
+                "type": "string",
+                "pattern": "^(?!\\s*$).+"
+              },
+              "Bbpm-Tt-IdCorrelazione": {
+                "description": "Header Bbpm-Tt-IdCorrelazione",
+                "type": "string",
+                "pattern": "^(?!\\s*$).+"
+              },
+              "Bbpm-Tt-IdOperazioneRichiesta-CodiceOperazione": {
+                "description": "Header Bbpm-Tt-IdOperazioneRichiesta-CodiceOperazione",
+                "type": "string",
+                "pattern": "^(?!\\s*$).+"
+              },
+              "Bbpm-Tt-CodiceOperazioneRisposta": {
+                "description": "Header Bbpm-Tt-CodiceOperazioneRisposta",
+                "type": "string",
+                "pattern": "^(?!\\s*$).+"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/InformazioniUtente"
+            }
+          },
+          "400": {
+            "$ref": "#/responses/Errore400"
+          },
+          "500": {
+            "$ref": "#/responses/Errore500"
+          }
+        }
+      }
+    },
+    "/utente/modifica-password": {
+      "post": {
+        "summary": "Permette all'utente di impostare una nuova password",
+        "description": "Permette all'utente di impostare una nuova password diversa da quella precedente",
+        "operationId": "modificaPassword",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "richiestaModificaPassword",
+            "in": "body",
+            "description": "Body di richiesta invio password",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/RichiestaModificaPassword"
+            }
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tt-IdOperazione-CodiceApplicazioneChiamante"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tt-IdOperazione-CodiceOperazione"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tt-IdCorrelazione"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-CodiceABI"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-CodiceCanale"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-CodiceApplicazioneChiamante"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-Cliente-CodiceNdg"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-Cliente-CodiceUtenzaIb-Identificativo-Utente"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-Cliente-CodiceUtenzaCb-Identificativo-Utente"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-Cliente-CodiceUtenzaCb-Identificativo-Postazione"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-UtenzaInterna-Matricola"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-UtenzaInterna-CodiceUnitaOrganizzativa"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-Controparte-IdControparte"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Password modificata correttamente",
+            "headers": {
+              "Bbpm-Tt-IdOperazioneRichiesta-CodiceApplicazioneChiamante": {
+                "description": "Header Bbpm-Tt-IdOperazioneRichiesta-CodiceApplicazioneChiamante",
+                "type": "string",
+                "pattern": "^(?!\\s*$).+"
+              },
+              "Bbpm-Tt-IdCorrelazione": {
+                "description": "Header Bbpm-Tt-IdCorrelazione",
+                "type": "string",
+                "pattern": "^(?!\\s*$).+"
+              },
+              "Bbpm-Tt-IdOperazioneRichiesta-CodiceOperazione": {
+                "description": "Header Bbpm-Tt-IdOperazioneRichiesta-CodiceOperazione",
+                "type": "string",
+                "pattern": "^(?!\\s*$).+"
+              },
+              "Bbpm-Tt-CodiceOperazioneRisposta": {
+                "description": "Header Bbpm-Tt-CodiceOperazioneRisposta",
+                "type": "string",
+                "pattern": "^(?!\\s*$).+"
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/responses/Errore400"
+          },
+          "500": {
+            "$ref": "#/responses/Errore500"
+          }
+        }
+      }
+    }
+  },
+  "parameters": {
+    "Bbpm-Tt-IdOperazione-CodiceApplicazioneChiamante": {
+      "in": "header",
+      "name": "Bbpm-Tt-IdOperazione-CodiceApplicazioneChiamante",
+      "description": "Header Bbpm-Tt-IdOperazione-CodiceApplicazioneChiamante",
+      "type": "string",
+      "required": true,
+      "pattern": "^(?!\\s*$).+"
+    },
+    "Bbpm-Tt-IdOperazione-CodiceOperazione": {
+      "in": "header",
+      "name": "Bbpm-Tt-IdOperazione-CodiceOperazione",
+      "description": "Header Bbpm-Tt-IdOperazione-CodiceOperazione",
+      "type": "string",
+      "required": true,
+      "pattern": "^(?!\\s*$).+"
+    },
+    "Bbpm-Tt-IdCorrelazione": {
+      "in": "header",
+      "name": "Bbpm-Tt-IdCorrelazione",
+      "description": "Header Bbpm-Tt-IdCorrelazione",
+      "type": "string",
+      "required": true,
+      "pattern": "^(?!\\s*$).+"
+    },
+    "Bbpm-Tc-CodiceABI": {
+      "in": "header",
+      "name": "Bbpm-Tc-CodiceABI",
+      "description": "Header Bbpm-Tc-CodiceABI",
+      "type": "string",
+      "required": true,
+      "pattern": "^[0-9]{5}$"
+    },
+    "Bbpm-Tc-CodiceCanale": {
+      "in": "header",
+      "name": "Bbpm-Tc-CodiceCanale",
+      "description": "Codice del canale di origine della chiamata",
+      "type": "string",
+      "required": true,
+      "enum": [
+        "SITO_PUBBLICO",
+        "CORPORATE_BANKING",
+        "INTERNET_BANKING",
+        "PSD2",
+        "FILIALE_CORPORATE",
+        "AGENZIA_RETAIL",
+        "UFFICI",
+        "MOBILE_PRIVATI",
+        "MOBILE_CORPORATE",
+        "ATM",
+        "BANCA_TELEFONICA",
+        "BANCA_TELEFONICA_CORPORATE"
+      ]
+    },
+    "Bbpm-Tc-CodiceApplicazioneChiamante": {
+      "in": "header",
+      "name": "Bbpm-Tc-CodiceApplicazioneChiamante",
+      "description": "Header Bbpm-Tc-CodiceApplicazioneChiamante",
+      "type": "string",
+      "required": true,
+      "pattern": "^(?!\\s*$).+"
+    },
+    "Bbpm-Tc-Cliente-CodiceNdg": {
+      "in": "header",
+      "name": "Bbpm-Tc-Cliente-CodiceNdg",
+      "description": "Header Bbpm-Tc-Cliente-CodiceNdg",
+      "type": "string",
+      "required": false,
+      "pattern": "^[0-9]{1,9}$"
+    },
+    "Bbpm-Tc-Cliente-CodiceUtenzaIb-Identificativo-Utente": {
+      "in": "header",
+      "name": "Bbpm-Tc-Cliente-CodiceUtenzaIb-Identificativo-Utente",
+      "description": "Header Bbpm-Tc-Cliente-CodiceUtenzaIb-Identificativo-Utente",
+      "type": "string",
+      "required": false,
+      "pattern": "^(?!\\s*$).+"
+    },
+    "Bbpm-Tc-Cliente-CodiceUtenzaCb-Identificativo-Utente": {
+      "in": "header",
+      "name": "Bbpm-Tc-Cliente-CodiceUtenzaCb-Identificativo-Utente",
+      "description": "Header Bbpm-Tc-Cliente-CodiceUtenzaCb-Identificativo-Utente",
+      "type": "string",
+      "required": false,
+      "pattern": "^(?!\\s*$).+"
+    },
+    "Bbpm-Tc-Cliente-CodiceUtenzaCb-Identificativo-Postazione": {
+      "in": "header",
+      "name": "Bbpm-Tc-Cliente-CodiceUtenzaCb-Identificativo-Postazione",
+      "description": "Header Bbpm-Tc-Cliente-CodiceUtenzaCb-Identificativo-Postazione",
+      "type": "string",
+      "required": false,
+      "pattern": "^(?!\\s*$).+"
+    },
+    "Bbpm-Tc-UtenzaInterna-Matricola": {
+      "in": "header",
+      "name": "Bbpm-Tc-UtenzaInterna-Matricola",
+      "description": "Header Bbpm-Tc-UtenzaInterna-Matricola",
+      "type": "string",
+      "required": false,
+      "pattern": "^(?!\\s*$).+"
+    },
+    "Bbpm-Tc-UtenzaInterna-CodiceUnitaOrganizzativa": {
+      "in": "header",
+      "name": "Bbpm-Tc-UtenzaInterna-CodiceUnitaOrganizzativa",
+      "description": "Header Bbpm-Tc-UtenzaInterna-CodiceUnitaOrganizzativa",
+      "type": "string",
+      "required": false,
+      "pattern": "^(?!\\s*$).+"
+    },
+    "Bbpm-Tc-Controparte-IdControparte": {
+      "in": "header",
+      "name": "Bbpm-Tc-Controparte-IdControparte",
+      "description": "Header Bbpm-Tc-Controparte-IdControparte",
+      "type": "string",
+      "required": false,
+      "pattern": "^(?!\\s*$).+"
+    }
+  },
+  "responses": {
+    "Errore400": {
+      "description": "Richiesta malformata",
+      "headers": {
+        "Bbpm-Tt-IdOperazioneRichiesta-CodiceApplicazioneChiamante": {
+          "description": "Header Bbpm-Tt-IdOperazioneRichiesta-CodiceApplicazioneChiamante",
+          "type": "string",
+          "pattern": "^(?!\\s*$).+"
+        },
+        "Bbpm-Tt-IdCorrelazione": {
+          "description": "Header Bbpm-Tt-IdCorrelazione",
+          "type": "string",
+          "pattern": "^(?!\\s*$).+"
+        },
+        "Bbpm-Tt-IdOperazioneRichiesta-CodiceOperazione": {
+          "description": "Header Bbpm-Tt-IdOperazioneRichiesta-CodiceOperazione",
+          "type": "string",
+          "pattern": "^(?!\\s*$).+"
+        },
+        "Bbpm-Tt-CodiceOperazioneRisposta": {
+          "description": "Header Bbpm-Tt-CodiceOperazioneRisposta",
+          "type": "string",
+          "pattern": "^(?!\\s*$).+"
+        }
+      },
+      "schema": {
+        "$ref": "#/definitions/ErroreGenerico"
+      }
+    },
+    "Errore500": {
+      "description": "Errore del server",
+      "headers": {
+        "Bbpm-Tt-IdOperazioneRichiesta-CodiceApplicazioneChiamante": {
+          "description": "Header Bbpm-Tt-IdOperazioneRichiesta-CodiceApplicazioneChiamante",
+          "type": "string",
+          "pattern": "^(?!\\s*$).+"
+        },
+        "Bbpm-Tt-IdCorrelazione": {
+          "description": "Header Bbpm-Tt-IdCorrelazione",
+          "type": "string",
+          "pattern": "^(?!\\s*$).+"
+        },
+        "Bbpm-Tt-IdOperazioneRichiesta-CodiceOperazione": {
+          "description": "Header Bbpm-Tt-IdOperazioneRichiesta-CodiceOperazione",
+          "type": "string",
+          "pattern": "^(?!\\s*$).+"
+        },
+        "Bbpm-Tt-CodiceOperazioneRisposta": {
+          "description": "Header Bbpm-Tt-CodiceOperazioneRisposta",
+          "type": "string",
+          "pattern": "^(?!\\s*$).+"
+        }
+      },
+      "schema": {
+        "$ref": "#/definitions/ErroreGenerico"
+      }
+    }
+  },
+  "definitions": {
+    "ErroreGenerico": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "codice",
+        "messaggio",
+        "layer"
+      ],
+      "properties": {
+        "codice": {
+          "description": "Il codice dell'errore",
+          "type": "string",
+          "pattern": "^(?!\\s*$).+"
+        },
+        "messaggio": {
+          "description": "Il messaggio di errore",
+          "type": "string",
+          "pattern": "^(?!\\s*$).+"
+        },
+        "layer": {
+          "description": "Il layer che ha generato l'errore",
+          "type": "string",
+          "pattern": "^(?!\\s*$).+"
+        }
+      }
+    },
+    "RispostaLeggiListaContratti": {
+      "description": "Risposta contenente i contratti",
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "listaContratti": {
+          "description": "Lista dei contratti per i filtri selezionati",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Contratto"
+          }
+        },
+        "totale": {
+          "description": "Il numero totale di contratti esistenti",
+          "type": "number"
+        }
+      }
+    },
+    "Contratto": {
+      "description": "Il singolo contratto",
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "codice": {
+          "description": "Il codice identificativo del contratto",
+          "type": "string",
+          "pattern": "^[A-Z0-9]{10}$"
+        },
+        "codiceCliente": {
+          "description": "Il codice identificativo del cliente del contratto",
+          "type": "string",
+          "pattern": "^[A-Z0-9]{10}$"
+        },
+        "nominativoCliente": {
+          "description": "Il nominativo del cliente del contratto",
+          "type": "string",
+          "pattern": "^(?!\\s*$).+"
+        },
+        "codiceAbi": {
+          "description": "Il codice ABI dell'istituto di credito",
+          "type": "string",
+          "pattern": "^(?!\\s*$).+"
+        },
+        "codiceFiliale": {
+          "description": "Il codice della filiale dell'istituto di credito",
+          "type": "string",
+          "pattern": "^(?!\\s*$).+"
+        },
+        "descrizioneFiliale": {
+          "description": "La descrizione della filiale dell'istituto di credito",
+          "type": "string",
+          "pattern": "^(?!\\s*$).+",
+          "x-nullable": true
+        },
+        "codiceLinea": {
+          "description": "Il codice della linea di gestione",
+          "type": "string",
+          "pattern": "^(?!\\s*$).+"
+        },
+        "descrizioneLinea": {
+          "description": "La descrizione della linea di gestione",
+          "type": "string",
+          "pattern": "^(?!\\s*$).+"
+        },
+        "dataApertura": {
+          "description": "La data di apertura del contratto",
+          "type": "string",
+          "pattern": "^[0-9]{2}-[0-9]{2}-[0-9]{4}$"
+        },
+        "levaFinanziaria": {
+          "description": "Il valore della leva finanziaria",
+          "type": "number"
+        },
+        "chiuso": {
+          "description": "Indica se il contratto è aperto o chiuso",
+          "type": "boolean"
+        }
+      }
+    },
+    "AnagraficaContratto": {
+      "description": "Le informazioni anagrafiche relative ad un contratto",
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "codice": {
+          "description": "Il codice identificativo del contratto",
+          "type": "string",
+          "pattern": "^[A-Z0-9]{10}$"
+        },
+        "codiceAbi": {
+          "description": "Il codice ABI dell'istituto di credito",
+          "type": "string",
+          "pattern": "^(?!\\s*$).+"
+        },
+        "codiceFiliale": {
+          "description": "Il codice della filiale dell'istituto di credito",
+          "type": "string",
+          "pattern": "^(?!\\s*$).+"
+        },
+        "descrizioneFiliale": {
+          "description": "La descrizione della filiale dell'istituto di credito",
+          "type": "string",
+          "pattern": "^(?!\\s*$).+",
+          "x-nullable": true
+        },
+        "tipoImposizione": {
+          "description": "Il regime di tassazione",
+          "type": "string",
+          "pattern": "^(?!\\s*$).+"
+        },
+        "tipoImpostaRedditiDaCapitale": {
+          "description": "Il tipo di imposta per redditi da capitale",
+          "type": "string",
+          "pattern": "^(?!\\s*$).+"
+        },
+        "lineaInvestimento": {
+          "description": "La linea di investimento del contratto",
+          "type": "string",
+          "pattern": "^(?!\\s*$).+"
+        },
+        "levaFinanziaria": {
+          "description": "Il valore della leva finanziaria",
+          "type": "number"
+        },
+        "dataApertura": {
+          "description": "La data di apertura del contratto",
+          "type": "string",
+          "pattern": "^[0-9]{2}-[0-9]{2}-[0-9]{4}$"
+        },
+        "dataChiusura": {
+          "description": "La data di chiusura del contratto oppure null",
+          "type": "string",
+          "pattern": "^[0-9]{2}-[0-9]{2}-[0-9]{4}$",
+          "x-nullable": true
+        },
+        "dataRichiestaChiusura": {
+          "description": "La data di richiesta chiusura del contratto oppure null",
+          "type": "string",
+          "pattern": "^[0-9]{2}-[0-9]{2}-[0-9]{4}$",
+          "x-nullable": true
+        },
+        "stato": {
+          "description": "Lo stato del contratto, ad esempio APERTO o CHIUSO",
+          "type": "string",
+          "pattern": "^(?!\\s*$).+",
+          "x-nullable": true
+        },
+        "classificazioneMifid": {
+          "description": "La classificazione della clientela secondo la Mifid",
+          "type": "string",
+          "pattern": "^(?!\\s*$).+"
+        },
+        "tunnelDiUscita": {
+          "description": "Il tunnel di uscita del contratto",
+          "type": "string",
+          "pattern": "^(?!\\s*$).+",
+          "x-nullable": true
+        },
+        "dataInizioPegno": {
+          "description": "La data di inizio pegno",
+          "type": "string",
+          "pattern": "^[0-9]{2}-[0-9]{2}-[0-9]{4}$",
+          "x-nullable": true
+        },
+        "dataFinePegno": {
+          "description": "La data di fine pegno",
+          "type": "string",
+          "pattern": "^[0-9]{2}-[0-9]{2}-[0-9]{4}$",
+          "x-nullable": true
+        },
+        "commissioni": {
+          "$ref": "#/definitions/CommissioniContratto"
+        },
+        "benchmark": {
+          "$ref": "#/definitions/BenchmarkContratto"
+        },
+        "corrispondenza": {
+          "$ref": "#/definitions/CorrispondenzaContratto"
+        }
+      }
+    },
+    "CommissioniContratto": {
+      "description": "Informazioni sui vari tipi di commissioni di un contratto",
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "gestione": {
+          "$ref": "#/definitions/CommissioneContratto"
+        },
+        "performance": {
+          "$ref": "#/definitions/CommissioneContratto"
+        },
+        "ingresso": {
+          "$ref": "#/definitions/CommissioneContratto"
+        },
+        "uscita": {
+          "$ref": "#/definitions/CommissioneContratto"
+        }
+      }
+    },
+    "CommissioneContratto": {
+      "description": "Informazioni su una specifica commissione di un contratto",
+      "type": "object",
+      "x-nullable": true,
+      "additionalProperties": false,
+      "properties": {
+        "valorePercentuale": {
+          "description": "Il valore percentuale della commissione",
+          "type": "number",
+          "x-nullable": true
+        },
+        "minimo": {
+          "description": "Il minimo valore della commissione",
+          "type": "number",
+          "x-nullable": true
+        },
+        "codice": {
+          "description": "Il codice della commissione",
+          "type": "string",
+          "pattern": "^(?!\\s*$).+",
+          "x-nullable": true
+        },
+        "scontoPercentuale": {
+          "description": "Il valore percentuale dello sconto",
+          "type": "number",
+          "x-nullable": true
+        }
+      }
+    },
+    "BenchmarkContratto": {
+      "description": "Informazioni sul benchmark del contratto",
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "codice": {
+          "description": "Il codice del benchmark",
+          "type": "string",
+          "pattern": "^(?!\\s*$).+"
+        },
+        "descrizione": {
+          "description": "La descrizione del benchmark",
+          "type": "string",
+          "pattern": "^(?!\\s*$).+"
+        },
+        "composizione": {
+          "description": "I componenti del benchmark del contratto",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ComponenteBenchmarkContratto"
+          }
+        }
+      }
+    },
+    "ComponenteBenchmarkContratto": {
+      "description": "Componente del benchmark di un contratto",
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "pesoPercentuale": {
+          "description": "Il peso percentuale del componente",
+          "type": "number"
+        },
+        "indice": {
+          "description": "L'indice di riferimento",
+          "type": "string",
+          "pattern": "^(?!\\s*$).+"
+        }
+      }
+    },
+    "CorrispondenzaContratto": {
+      "description": "Informazioni sulla corrispondenza lato cliente del contratto",
+      "type": "object",
+      "x-nullable": true,
+      "additionalProperties": false,
+      "properties": {
+        "nominativo": {
+          "description": "Il nominativo del cliente",
+          "type": "string",
+          "pattern": "^(?!\\s*$).+"
+        },
+        "secondaRiga": {
+          "description": "La seconda riga del nominativo del cliente",
+          "type": "string",
+          "pattern": "^(?!\\s*$).+"
+        },
+        "indirizzo": {
+          "$ref": "#/definitions/Indirizzo"
+        }
+      }
+    },
+    "Indirizzo": {
+      "description": "Informazioni sull'indirizzo",
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "localita": {
+          "description": "La località",
+          "type": "string",
+          "pattern": "^(?!\\s*$).+",
+          "x-nullable": true
+        },
+        "indirizzo": {
+          "description": "L'indirizzo",
+          "type": "string",
+          "pattern": "^(?!\\s*$).+",
+          "x-nullable": true
+        },
+        "cap": {
+          "description": "Il CAP",
+          "type": "string",
+          "pattern": "^(?!\\s*$).+",
+          "x-nullable": true
+        },
+        "provincia": {
+          "description": "L'indirizzo",
+          "type": "string",
+          "pattern": "^(?!\\s*$).+",
+          "x-nullable": true
+        },
+        "nazione": {
+          "description": "L'indirizzo",
+          "type": "string",
+          "pattern": "^(?!\\s*$).+",
+          "x-nullable": true
+        }
+      }
+    },
+    "AnagraficaCliente": {
+      "description": "Informazioni anagrafiche dei clienti legati ad un contratto",
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "legami": {
+          "description": "Lista dei legami tra contratto e cliente",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/LegameCliente"
+          }
+        }
+      }
+    },
+    "LegameCliente": {
+      "description": "Un legame tra cliente e contratto",
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "codiceLegame": {
+          "description": "Il codice del legame",
+          "type": "string",
+          "pattern": "^(?!\\s*$).+"
+        },
+        "descrizioneLegame": {
+          "description": "La descrizione del legame",
+          "type": "string",
+          "pattern": "^(?!\\s*$).+"
+        },
+        "anagrafica": {
+          "$ref": "#/definitions/AnagraficaPersona"
+        }
+      }
+    },
+    "AnagraficaPersona": {
+      "description": "Informazioni anagrafiche di una persona fisica",
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "codice": {
+          "description": "Il codice identificativo della persona",
+          "type": "string",
+          "pattern": "^[A-Z0-9]{10}$"
+        },
+        "cognome": {
+          "description": "Il cognome anagrafico",
+          "type": "string",
+          "pattern": "^(?!\\s*$).+"
+        },
+        "nome": {
+          "description": "Il nome anagrafico",
+          "type": "string",
+          "pattern": "^(?!\\s*$).+"
+        },
+        "indirizzoResidenza": {
+          "$ref": "#/definitions/Indirizzo"
+        },
+        "codiceFiscale": {
+          "description": "Il codice fiscale della persona",
+          "type": "string",
+          "pattern": "^(?!\\s*$).+",
+          "x-nullable": true
+        },
+        "dataNascita": {
+          "description": "La data di nascita",
+          "type": "string",
+          "pattern": "^[0-9]{2}-[0-9]{2}-[0-9]{4}$",
+          "x-nullable": true
+        },
+        "localitaNascita": {
+          "description": "La località di nascita",
+          "type": "string",
+          "pattern": "^(?!\\s*$).+",
+          "x-nullable": true
+        },
+        "provinciaNascita": {
+          "description": "La provincia di nascita",
+          "type": "string",
+          "pattern": "^(?!\\s*$).+",
+          "x-nullable": true
+        },
+        "sesso": {
+          "description": "Il sesso della persona",
+          "type": "string",
+          "pattern": "^(?!\\s*$).+",
+          "x-nullable": true
+        },
+        "tipoDocumento": {
+          "description": "Il tipo di documento",
+          "type": "string",
+          "pattern": "^(?!\\s*$).+",
+          "x-nullable": true
+        },
+        "numeroDocumento": {
+          "description": "Il numero del documento",
+          "type": "string",
+          "pattern": "^(?!\\s*$).+",
+          "x-nullable": true
+        },
+        "dataRilascioDocumento": {
+          "description": "La data di rilascio del documento",
+          "type": "string",
+          "pattern": "^[0-9]{2}-[0-9]{2}-[0-9]{4}$",
+          "x-nullable": true
+        },
+        "enteRilascioDocumento": {
+          "description": "L'ente che ha rilasciato il documento",
+          "type": "string",
+          "pattern": "^(?!\\s*$).+",
+          "x-nullable": true
+        }
+      }
+    },
+    "RispostaLeggiListaCausali": {
+      "description": "Risposta con la lista delle causali disponibili",
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "causali": {
+          "description": "Lista delle causali",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Causale"
+          }
+        }
+      }
+    },
+    "Causale": {
+      "description": "Causale di un'operazione",
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "codice": {
+          "description": "Il codice identificativo della causale",
+          "type": "string",
+          "pattern": "^(?!\\s*$).+"
+        },
+        "descrizione": {
+          "description": "La descrizione della causale",
+          "type": "string",
+          "pattern": "^(?!\\s*$).+"
+        }
+      }
+    },
+    "File": {
+      "description": "Un file in formato binario",
+      "type": "string",
+      "format": "binary",
+      "pattern": "^.*$"
+    },
+    "RendimentiPeriodo": {
+      "description": "I rendimenti di periodo di un contratto",
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "consistenzaIniziale": {
+          "description": "La consistenza all'inizio del periodo",
+          "type": "number"
+        },
+        "consistenzaFinale": {
+          "description": "La consistenza alla fine del periodo",
+          "type": "number"
+        },
+        "apportiPeriodo": {
+          "description": "La somma degli apporti durante il periodo",
+          "type": "number"
+        },
+        "prelieviPeriodo": {
+          "description": "La somma dei prelievi durante il periodo",
+          "type": "number"
+        },
+        "giorni": {
+          "description": "Il numero di giorni del periodo",
+          "type": "number"
+        },
+        "benchmark": {
+          "description": "La performance percentuale rispetto al benchmark",
+          "type": "number"
+        },
+        "rendimento": {
+          "description": "Il rendimento percentuale",
+          "type": "number"
+        },
+        "datiTemporali": {
+          "description": "I dati temporali della consistenza nel tempo",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/DatoTemporale"
+          }
+        }
+      }
+    },
+    "DatoTemporale": {
+      "description": "Un dato temporale utilizzato per le serie dei grafici",
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "nome": {
+          "description": "L'etichetta del dato",
+          "type": "string",
+          "pattern": "^(?!\\s*$).+"
+        },
+        "valore": {
+          "description": "Il valore del dato",
+          "type": "number"
+        }
+      }
+    },
+    "RendimentiDaInizioGestione": {
+      "description": "I rendimenti da inizio gestione di un contratto",
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "dataInizioGestione": {
+          "description": "La data di inizio gestione",
+          "type": "string",
+          "pattern": "^[0-9]{2}-[0-9]{2}-[0-9]{4}$"
+        },
+        "giorniPeriodo": {
+          "description": "Il numero totale di giorni del periodo",
+          "type": "number"
+        },
+        "rendimentoPeriodoPercentuale": {
+          "description": "Il rendimento percentuale di periodo",
+          "type": "number"
+        },
+        "rendimentoAnnualizzato": {
+          "description": "Il rendimento percentuale annualizzato",
+          "type": "number"
+        },
+        "consistenzaFinale": {
+          "description": "La consistenza alla fine del periodo",
+          "type": "number"
+        },
+        "apportiPeriodo": {
+          "description": "La somma degli apporti durante il periodo",
+          "type": "number"
+        },
+        "prelieviPeriodo": {
+          "description": "La somma dei prelievi durante il periodo",
+          "type": "number"
+        },
+        "plusMinus": {
+          "description": "Le plusvalenze o minusvalenze generate",
+          "type": "number"
+        },
+        "datiTemporali": {
+          "description": "I dati temporali della consistenza nel tempo",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/DatoTemporale"
+          }
+        }
+      }
+    },
+    "RendimentiPeriodoMultilinea": {
+      "description": "I rendimenti di periodo di un contratto multilinea",
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "inizioPeriodo": {
+          "description": "L'inizio del periodo",
+          "type": "string",
+          "pattern": "^[0-9]{2}-[0-9]{2}-[0-9]{4}$",
+          "x-nullable": true
+        },
+        "finePeriodo": {
+          "description": "La fine del periodo",
+          "type": "string",
+          "pattern": "^[0-9]{2}-[0-9]{2}-[0-9]{4}$",
+          "x-nullable": true
+        },
+        "codiceContratto": {
+          "description": "Il codice del contratto multilinea principale",
+          "type": "string",
+          "pattern": "^(?!\\s*$).+",
+          "x-nullable": true
+        },
+        "descrizioneLineaGestione": {
+          "description": "La descrizione della linea gestione",
+          "type": "string",
+          "pattern": "^(?!\\s*$).+",
+          "x-nullable": true
+        },
+        "ndg": {
+          "description": "Il codice ndg del cliente",
+          "type": "string",
+          "pattern": "^(?!\\s*$).+",
+          "x-nullable": true
+        },
+        "descrizioneCliente": {
+          "description": "La descrizione del cliente",
+          "type": "string",
+          "pattern": "^(?!\\s*$).+",
+          "x-nullable": true
+        },
+        "sottoContratti": {
+          "description": "I rendimenti dei sotto-contratti del contratto multilinea",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/RendimentiPeriodoSottoContratto"
+          }
+        }
+      }
+    },
+    "RendimentiPeriodoSottoContratto": {
+      "description": "I rendimenti di periodo di un sotto-contratto parte di un contratto multilinea",
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "codice": {
+          "description": "Il codice del sotto-contratto",
+          "type": "string",
+          "pattern": "^[A-Z0-9]{10}$",
+          "x-nullable": true
+        },
+        "tipoGestione": {
+          "description": "Il tipo di gestione",
+          "type": "string",
+          "pattern": "^(?!\\s*$).+",
+          "x-nullable": true
+        },
+        "descrizione": {
+          "description": "La descrizione del sotto-contratto",
+          "type": "string",
+          "pattern": "^(?!\\s*$).+",
+          "x-nullable": true
+        },
+        "consistenzaFinale": {
+          "description": "La consistenza alla fine del periodo",
+          "type": "number",
+          "x-nullable": true
+        },
+        "apportiPeriodo": {
+          "description": "La somma degli apporti durante il periodo",
+          "type": "number",
+          "x-nullable": true
+        },
+        "prelieviPeriodo": {
+          "description": "La somma dei prelievi durante il periodo",
+          "type": "number",
+          "x-nullable": true
+        },
+        "percentualeContrattuale": {
+          "description": "La percentuale da contratto",
+          "type": "number",
+          "x-nullable": true
+        },
+        "percentualeComposizione": {
+          "description": "La percentuale di composizione",
+          "type": "number",
+          "x-nullable": true
+        },
+        "delta": {
+          "description": "Il delta nel periodo",
+          "type": "number",
+          "x-nullable": true
+        },
+        "datiTemporali": {
+          "description": "I dati temporali della consistenza nel tempo",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/DatoTemporale"
+          }
+        }
+      }
+    },
+    "RendicontoTrimestrale": {
+      "description": "Il rendiconto trimestrale",
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "listaMesiAnni": {
+          "description": "La lista delle coppie mese-anno selezionabili",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/MeseAnno"
+          }
+        },
+        "rolling": {
+          "description": "Il valore del rolling",
+          "type": "number",
+          "x-nullable": true
+        },
+        "patrimonioTrimestrePrecedente": {
+          "description": "Il patrimonio del trimestre precedente",
+          "type": "number",
+          "x-nullable": true
+        },
+        "conferimenti": {
+          "description": "I conferimenti nel trimestre",
+          "type": "number",
+          "x-nullable": true
+        },
+        "prelievi": {
+          "description": "I prelievi nel trimestre",
+          "type": "number",
+          "x-nullable": true
+        },
+        "totalePatrimonioTrimestre": {
+          "description": "Il totale del patrimonio nel trimestre",
+          "type": "number",
+          "x-nullable": true
+        },
+        "portafoglioTitoli": {
+          "description": "Il totale del portafoglio titoli",
+          "type": "number",
+          "x-nullable": true
+        },
+        "saldoLiquido": {
+          "description": "Il saldo liquido",
+          "type": "number",
+          "x-nullable": true
+        },
+        "margini": {
+          "description": "I margini",
+          "type": "number",
+          "x-nullable": true
+        },
+        "finanziamenti": {
+          "description": "I finanziamenti",
+          "type": "number",
+          "x-nullable": true
+        },
+        "plusMinus": {
+          "description": "Le plusvalenze o minusvalenze",
+          "type": "number",
+          "x-nullable": true
+        },
+        "oneri": {
+          "description": "Gli oneri",
+          "type": "number",
+          "x-nullable": true
+        },
+        "proventi": {
+          "description": "I proventi",
+          "type": "number",
+          "x-nullable": true
+        },
+        "totalePatrimonioFinale": {
+          "description": "Il totale del patrimonio alla fine del trimestre",
+          "type": "number",
+          "x-nullable": true
+        },
+        "utileTrimestre": {
+          "description": "L'utile del trimestre",
+          "type": "number",
+          "x-nullable": true
+        },
+        "utileCumulativo": {
+          "description": "L'utile cumulativo",
+          "type": "number",
+          "x-nullable": true
+        },
+        "interessiAccreditati": {
+          "description": "Gli interessi accreditati",
+          "type": "number",
+          "x-nullable": true
+        },
+        "operazioniDaRegolare": {
+          "description": "Le operazioni da regolare",
+          "type": "number",
+          "x-nullable": true
+        },
+        "saldoImpegnato": {
+          "description": "Il saldo impegnato",
+          "type": "number",
+          "x-nullable": true
+        },
+        "commissioniNegoziazione": {
+          "description": "Le commissioni di negoziazione",
+          "type": "number",
+          "x-nullable": true
+        },
+        "commissioniGestione": {
+          "description": "Le commissioni di gestione",
+          "type": "number",
+          "x-nullable": true
+        },
+        "impostaAddebitata": {
+          "description": "L'imposta addebitata",
+          "type": "number",
+          "x-nullable": true
+        },
+        "spese": {
+          "description": "Le spese",
+          "type": "number",
+          "x-nullable": true
+        },
+        "ritenuta": {
+          "description": "La ritenuta",
+          "type": "number",
+          "x-nullable": true
+        },
+        "minusResidua": {
+          "description": "La minus residua",
+          "type": "number",
+          "x-nullable": true
+        },
+        "impostaMaturata": {
+          "description": "L'imposta maturata",
+          "type": "number",
+          "x-nullable": true
+        },
+        "rendimentoNettoPeriodo": {
+          "description": "Il rendimento netto del periodo",
+          "type": "number",
+          "x-nullable": true
+        },
+        "rendimentoLordoPeriodo": {
+          "description": "Il rendimento lordo del periodo",
+          "type": "number",
+          "x-nullable": true
+        },
+        "benchmarkPeriodo": {
+          "description": "Il benchmark del periodo",
+          "type": "number",
+          "x-nullable": true
+        },
+        "rendimentoNettoAnnuo": {
+          "description": "Il rendimento netto annuo",
+          "type": "number",
+          "x-nullable": true
+        },
+        "rendimentoLordoAnnuo": {
+          "description": "Il rendimento lordo annuo",
+          "type": "number",
+          "x-nullable": true
+        },
+        "benchmarkAnnuo": {
+          "description": "Il benchmark annuo",
+          "type": "number",
+          "x-nullable": true
+        }
+      }
+    },
+    "EstrazioneMensile": {
+      "description": "L'estrazione mensile",
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "listaMesiAnni": {
+          "description": "La lista delle coppie mese-anno selezionabili",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/MeseAnno"
+          }
+        },
+        "listaEstrazioniGiornaliere": {
+          "description": "La lista delle estrazioni giornaliere",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/EstrazioneGiornaliera"
+          }
+        }
+      }
+    },
+    "MeseAnno": {
+      "description": "Una coppia mese-anno",
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "mese": {
+          "description": "Il numero del mese (1 è Gennaio)",
+          "type": "number"
+        },
+        "anno": {
+          "description": "L'anno",
+          "type": "number"
+        }
+      }
+    },
+    "EstrazioneGiornaliera": {
+      "description": "L'estrazione giornaliera",
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "data": {
+          "description": "La data del giorno",
+          "type": "string",
+          "pattern": "^[0-9]{2}-[0-9]{2}-[0-9]{4}$"
+        },
+        "patrimonio": {
+          "description": "Il patrimonio complessivo",
+          "type": "number",
+          "x-nullable": true
+        },
+        "conferimenti": {
+          "description": "I conferimenti",
+          "type": "number",
+          "x-nullable": true
+        },
+        "prelievi": {
+          "description": "I prelievi",
+          "type": "number",
+          "x-nullable": true
+        },
+        "commissioniFisco": {
+          "description": "Le commissioni al fisco",
+          "type": "number",
+          "x-nullable": true
+        }
+      }
+    },
+    "FiscalitaPosizione": {
+      "description": "La fiscalità della posizione",
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "listaFiscalitaPosizione": {
+          "description": "La lista della fiscalità della posizione anno per anno",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/FiscalitaPosizioneAnnua"
+          }
+        },
+        "listaFiscalitaPosizioneMultilinea": {
+          "description": "La lista della fiscalità della posizione anno per anno per un contratto multilinea",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/FiscalitaPosizioneMultilineaAnnua"
+          }
+        }
+      }
+    },
+    "FiscalitaPosizioneAnnua": {
+      "description": "La fiscalità della posizione annua",
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "anno": {
+          "description": "L'anno di riferimento",
+          "type": "number"
+        },
+        "patrimonioFinaleNonEsente": {
+          "description": "Il patrimonio finale non esente",
+          "type": "number",
+          "x-nullable": true
+        },
+        "valoriEsenti": {
+          "description": "I valori esenti",
+          "type": "number",
+          "x-nullable": true
+        },
+        "rettifica": {
+          "description": "La rettifica",
+          "type": "number",
+          "x-nullable": true
+        },
+        "plusAnno": {
+          "description": "Il plusvalore annuo",
+          "type": "number",
+          "x-nullable": true
+        },
+        "minusUtilizzata": {
+          "description": "La minusvalenza utilizzata",
+          "type": "number",
+          "x-nullable": true
+        },
+        "minusResidua": {
+          "description": "La minusvalenza residua",
+          "type": "number",
+          "x-nullable": true
+        },
+        "recuperoMinus": {
+          "description": "Il recupero della minusvalenza",
+          "type": "number",
+          "x-nullable": true
+        },
+        "ritenute": {
+          "description": "Le ritenute",
+          "type": "number",
+          "x-nullable": true
+        }
+      }
+    },
+    "FiscalitaPosizioneMultilineaAnnua": {
+      "description": "La fiscalità della posizione annua per un contratto multilinea",
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "anno": {
+          "description": "L'anno di riferimento",
+          "type": "number"
+        },
+        "minusUtilizzata": {
+          "description": "La minusvalenza utilizzata",
+          "type": "number",
+          "x-nullable": true
+        },
+        "minusResidua": {
+          "description": "La minusvalenza residua",
+          "type": "number",
+          "x-nullable": true
+        }
+      }
+    },
+    "ConferimentiPrelievi": {
+      "description": "I conferimenti e prelievi",
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "listaConferimentiPrelievi": {
+          "description": "La lista dei conferimenti e prelievi",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ConferimentoPrelievo"
+          }
+        },
+        "totaleVersamentiGestione": {
+          "description": "Il totale dei versamenti da inizio gestione",
+          "type": "number"
+        },
+        "totalePrelieviGestione": {
+          "description": "Il totale dei prelievi da inizio gestione",
+          "type": "number"
+        },
+        "totaleVersamentiDaInizioAnno": {
+          "description": "Il totale dei versamenti da inizio anno",
+          "type": "number"
+        },
+        "totalePrelieviDaInizioAnno": {
+          "description": "Il totale dei prelievi da inizio anno",
+          "type": "number"
+        }
+      }
+    },
+    "ConferimentoPrelievo": {
+      "description": "Un conferimento o prelievo",
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "codiceTitolo": {
+          "description": "Il codice del titolo",
+          "type": "string",
+          "pattern": "^(?!\\s*$).+",
+          "x-nullable": true
+        },
+        "descrizioneTitolo": {
+          "description": "La descrizione del titolo",
+          "type": "string",
+          "pattern": "^(?!\\s*$).+",
+          "x-nullable": true
+        },
+        "dataOperazione": {
+          "description": "La data dell'operazione",
+          "type": "string",
+          "pattern": "^[0-9]{2}-[0-9]{2}-[0-9]{4}$"
+        },
+        "dataValuta": {
+          "description": "La data della valuta",
+          "type": "string",
+          "pattern": "^[0-9]{2}-[0-9]{2}-[0-9]{4}$",
+          "x-nullable": true
+        },
+        "codiceOperazione": {
+          "description": "Il codice dell'operazione",
+          "type": "string",
+          "pattern": "^(?!\\s*$).+",
+          "x-nullable": true
+        },
+        "descrizioneOperazione": {
+          "description": "La descrizione dell'operazione",
+          "type": "string",
+          "pattern": "^(?!\\s*$).+",
+          "x-nullable": true
+        },
+        "quantita": {
+          "description": "La quantità conferita o prelevata",
+          "type": "number",
+          "x-nullable": true
+        },
+        "controvalore": {
+          "description": "Il controvalore",
+          "type": "number",
+          "x-nullable": true
+        },
+        "divisa": {
+          "description": "La divisa",
+          "type": "number",
+          "x-nullable": true
+        },
+        "cambio": {
+          "description": "Il cambio",
+          "type": "number",
+          "x-nullable": true
+        },
+        "codiceRete": {
+          "description": "Il codice della rete",
+          "type": "string",
+          "pattern": "^(?!\\s*$).+",
+          "x-nullable": true
+        },
+        "codiceAgente": {
+          "description": "Il codice dell'agente",
+          "type": "string",
+          "pattern": "^(?!\\s*$).+",
+          "x-nullable": true
+        },
+        "descrizioneAgente": {
+          "description": "La descrizione dell'agente",
+          "type": "string",
+          "pattern": "^(?!\\s*$).+",
+          "x-nullable": true
+        }
+      }
+    },
+    "FinancialTransactionTax": {
+      "description": "Le Financial Transaction Tax",
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "listaFtt": {
+          "description": "La lista delle FTT",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/FTT"
+          }
+        },
+        "listaTobinTax": {
+          "description": "La lista delle Tobin Tax",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/TobinTax"
+          }
+        }
+      }
+    },
+    "FTT": {
+      "description": "La Financial Transaction Tax",
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "titolo": {
+          "description": "Il codice del titolo di riferimento",
+          "type": "string",
+          "pattern": "^(?!\\s*$).+"
+        },
+        "isin": {
+          "description": "L'ISIN del titolo",
+          "type": "string",
+          "pattern": "^(?!\\s*$).+"
+        },
+        "divisa": {
+          "description": "La divisa",
+          "type": "string",
+          "pattern": "^(?!\\s*$).+"
+        },
+        "descrizione": {
+          "description": "La descrizione del titolo",
+          "type": "string",
+          "pattern": "^(?!\\s*$).+"
+        },
+        "dataOperazione": {
+          "description": "La data dell'operazione",
+          "type": "string",
+          "pattern": "^[0-9]{2}-[0-9]{2}-[0-9]{4}$"
+        },
+        "dataValuta": {
+          "description": "La data della valuta",
+          "type": "string",
+          "pattern": "^[0-9]{2}-[0-9]{2}-[0-9]{4}$"
+        },
+        "quantita": {
+          "description": "L'ammontare della tassa",
+          "type": "number"
+        },
+        "prezzoMedio": {
+          "description": "Il prezzo medio",
+          "type": "number"
+        },
+        "cambioMedio": {
+          "description": "Il cambio medio",
+          "type": "number"
+        },
+        "controvalore": {
+          "description": "Il controvalore",
+          "type": "number"
+        },
+        "aliquota": {
+          "description": "L'aliquota",
+          "type": "number"
+        },
+        "bollo": {
+          "description": "Il bollo",
+          "type": "number"
+        },
+        "dataRiferimento": {
+          "description": "La data di riferimento",
+          "type": "string",
+          "pattern": "^[0-9]{2}-[0-9]{2}-[0-9]{4}$"
+        }
+      }
+    },
+    "TobinTax": {
+      "description": "La Tobin Tax",
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "titolo": {
+          "description": "Il codice del titolo di riferimento",
+          "type": "string",
+          "pattern": "^(?!\\s*$).+"
+        },
+        "isin": {
+          "description": "L'ISIN del titolo",
+          "type": "string",
+          "pattern": "^(?!\\s*$).+"
+        },
+        "divisa": {
+          "description": "La divisa",
+          "type": "string",
+          "pattern": "^(?!\\s*$).+"
+        },
+        "descrizione": {
+          "description": "La descrizione del titolo",
+          "type": "string",
+          "pattern": "^(?!\\s*$).+"
+        },
+        "dataValuta": {
+          "description": "La data della valuta",
+          "type": "string",
+          "pattern": "^[0-9]{2}-[0-9]{2}-[0-9]{4}$"
+        },
+        "quantita": {
+          "description": "L'ammontare della tassa",
+          "type": "number"
+        },
+        "prezzoMedio": {
+          "description": "Il prezzo medio",
+          "type": "number"
+        },
+        "imponibile": {
+          "description": "L'imponibile",
+          "type": "number"
+        },
+        "aliquota": {
+          "description": "L'aliquota",
+          "type": "number"
+        },
+        "bollo": {
+          "description": "Il bollo",
+          "type": "number"
+        },
+        "dataRiferimento": {
+          "description": "La data di riferimento",
+          "type": "string",
+          "pattern": "^[0-9]{2}-[0-9]{2}-[0-9]{4}$"
+        }
+      }
+    },
+    "Portafoglio": {
+      "description": "Il portafoglio di titoli",
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "listaTitoli": {
+          "description": "La lista dei titoli nel portafoglio",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/TitoloPortafoglio"
+          }
+        },
+        "totali": {
+          "$ref": "#/definitions/TotaliPortafoglio"
+        }
+      }
+    },
+    "TotaliPortafoglio": {
+      "description": "Il sommario dei totali del portafoglio",
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "controvaloreTitoli": {
+          "description": "Il controvalore dei titoli",
+          "type": "number",
+          "x-nullable": true
+        },
+        "controvaloreTitoliImpegnati": {
+          "description": "Il controvalore dei  impegnati",
+          "type": "number",
+          "x-nullable": true
+        },
+        "controvaloreRatei": {
+          "description": "Il controvalore dei ratei",
+          "type": "number",
+          "x-nullable": true
+        },
+        "liquidita": {
+          "description": "La liquidita",
+          "type": "number",
+          "x-nullable": true
+        },
+        "liquiditaImpegnata": {
+          "description": "La liquidita impegnata",
+          "type": "number",
+          "x-nullable": true
+        },
+        "totalePortafoglio": {
+          "description": "Il totale del portafoglio",
+          "type": "number",
+          "x-nullable": true
+        },
+        "totaleInizioAnno": {
+          "description": "Il totale del portafoglio a inizio anno",
+          "type": "number",
+          "x-nullable": true
+        },
+        "levaFinanziaria": {
+          "description": "La leva finanziaria",
+          "type": "number",
+          "x-nullable": true
+        }
+      }
+    },
+    "TitoloPortafoglio": {
+      "description": "Un titolo nel portafoglio",
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "codice": {
+          "description": "Il codice del titolo",
+          "type": "string",
+          "pattern": "^(?!\\s*$).+",
+          "x-nullable": true
+        },
+        "descrizione": {
+          "description": "La descrizione del titolo",
+          "type": "string",
+          "pattern": "^(?!\\s*$).+",
+          "x-nullable": true
+        },
+        "isin": {
+          "description": "L'ISIN del titolo",
+          "type": "string",
+          "pattern": "^(?!\\s*$).+",
+          "x-nullable": true
+        },
+        "divisa": {
+          "description": "La divisa",
+          "type": "string",
+          "pattern": "^(?!\\s*$).+",
+          "x-nullable": true
+        },
+        "dataScadenza": {
+          "description": "La data di scadenza",
+          "type": "string",
+          "pattern": "^[0-9]{2}-[0-9]{2}-[0-9]{4}$",
+          "x-nullable": true
+        },
+        "quantita": {
+          "description": "La quantità del titolo",
+          "type": "number",
+          "x-nullable": true
+        },
+        "prezzo": {
+          "description": "Il prezzo",
+          "type": "number",
+          "x-nullable": true
+        },
+        "cambio": {
+          "description": "Il cambio",
+          "type": "number",
+          "x-nullable": true
+        },
+        "controvaloreMercato": {
+          "description": "Il controvalore di mercato",
+          "type": "number",
+          "x-nullable": true
+        },
+        "rateo": {
+          "description": "Il rateo",
+          "type": "number",
+          "x-nullable": true
+        },
+        "controvaloreRateo": {
+          "description": "Il controvalore del rateo",
+          "type": "number",
+          "x-nullable": true
+        },
+        "indiceInflazione": {
+          "description": "L'indice di inflazione",
+          "type": "number",
+          "x-nullable": true
+        },
+        "costoMedio": {
+          "description": "Il costo medio",
+          "type": "number",
+          "x-nullable": true
+        },
+        "costoMedioInizioAnno": {
+          "description": "Il costo medio ad inizio anno",
+          "type": "number",
+          "x-nullable": true
+        },
+        "cambioMedio": {
+          "description": "Il cambio medio",
+          "type": "number",
+          "x-nullable": true
+        },
+        "cambioMedioInizioAnno": {
+          "description": "Il cambio medio ad inizio anno",
+          "type": "number",
+          "x-nullable": true
+        },
+        "controvaloreAcquisto": {
+          "description": "Il controvalore di acquisto",
+          "type": "number",
+          "x-nullable": true
+        }
+      }
+    },
+    "Composizioni": {
+      "description": "Le composizioni",
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "listaComposizioni": {
+          "description": "La lista di composizioni",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Componente"
+          }
+        }
+      }
+    },
+    "Componente": {
+      "description": "La singola componente del contratto",
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "descrizione": {
+          "description": "La descrizione della componente del contratto",
+          "type": "string",
+          "pattern": "^(?!\\s*$).+",
+          "x-nullable": true
+        },
+        "controvalore": {
+          "description": "Il controvalore",
+          "type": "number",
+          "x-nullable": true
+        },
+        "percentualeEffettiva": {
+          "description": "La percentuale effettiva",
+          "type": "number",
+          "x-nullable": true
+        }
+      }
+    },
+    "ECMovimentiTitoli": {
+      "description": "L'estratto conto dei movimenti dei titoli",
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "listaMovimentiTitolo": {
+          "description": "La lista dei titoli con i loro movimenti",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/MovimentiTitolo"
+          }
+        }
+      }
+    },
+    "MovimentiTitolo": {
+      "description": "I movimenti di un titolo",
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "codiceTitolo": {
+          "description": "Il codice del titolo",
+          "type": "string",
+          "pattern": "^(?!\\s*$).+"
+        },
+        "nome": {
+          "description": "Il nome del titolo",
+          "type": "string",
+          "pattern": "^(?!\\s*$).+"
+        },
+        "saldoIniziale": {
+          "description": "Il saldo iniziale",
+          "type": "number"
+        },
+        "saldoFinale": {
+          "description": "Il saldo finale",
+          "type": "number"
+        },
+        "listaMovimenti": {
+          "description": "La lista dei movimenti del titolo",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/MovimentoTitolo"
+          }
+        }
+      }
+    },
+    "MovimentoTitolo": {
+      "description": "Un movimento di un titolo",
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "data": {
+          "description": "La data del movimento",
+          "type": "string",
+          "pattern": "^[0-9]{2}-[0-9]{2}-[0-9]{4}$"
+        },
+        "dataInserimento": {
+          "description": "La data di inserimento",
+          "type": "string",
+          "pattern": "^[0-9]{2}-[0-9]{2}-[0-9]{4}$",
+          "x-nullable": true
+        },
+        "valuta": {
+          "description": "La valuta",
+          "type": "string",
+          "x-nullable": true,
+          "pattern": "^(?!\\s*$).+"
+        },
+        "movimento": {
+          "description": "Il codice identificativo del movimento",
+          "type": "string",
+          "pattern": "^(?!\\s*$).+",
+          "x-nullable": true
+        },
+        "descrizione": {
+          "description": "La descrizione del movimento",
+          "type": "string",
+          "pattern": "^(?!\\s*$).+",
+          "x-nullable": true
+        },
+        "quantita": {
+          "description": "La quantità",
+          "type": "number",
+          "x-nullable": true
+        },
+        "prezzo": {
+          "description": "Il prezzo",
+          "type": "number",
+          "x-nullable": true
+        },
+        "rateo": {
+          "description": "Il rateo",
+          "type": "number",
+          "x-nullable": true
+        },
+        "indiceInflazione": {
+          "description": "L'indice di inflazione",
+          "type": "number",
+          "x-nullable": true
+        },
+        "cambio": {
+          "description": "Il cambio",
+          "type": "number",
+          "x-nullable": true
+        },
+        "ritenute": {
+          "description": "Le ritenute",
+          "type": "number",
+          "x-nullable": true
+        },
+        "scartoEmissione": {
+          "description": "Lo scarto di emissione",
+          "type": "number",
+          "x-nullable": true
+        },
+        "bolli": {
+          "description": "I bolli",
+          "type": "number",
+          "x-nullable": true
+        },
+        "spese": {
+          "description": "Le spese",
+          "type": "number",
+          "x-nullable": true
+        },
+        "commissioni": {
+          "description": "Le commissioni",
+          "type": "number",
+          "x-nullable": true
+        },
+        "regolamento": {
+          "description": "Il regolamento",
+          "type": "number",
+          "x-nullable": true
+        }
+      }
+    },
+    "ECLiquidita": {
+      "description": "L'estratto conto della liquidità",
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "listaMovimentiTitolo": {
+          "description": "La lista delle liquidità con i loro movimenti",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/MovimentiLiquidita"
+          }
+        }
+      }
+    },
+    "MovimentiLiquidita": {
+      "description": "I movimenti di una liquidità",
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "contoLiquidita": {
+          "description": "Il nome del conto liquidità",
+          "type": "string",
+          "pattern": "^(?!\\s*$).+"
+        },
+        "nome": {
+          "description": "Il nome della liquidità",
+          "type": "string",
+          "pattern": "^(?!\\s*$).+"
+        },
+        "saldoIniziale": {
+          "description": "Il saldo iniziale",
+          "type": "number"
+        },
+        "saldoFinale": {
+          "description": "Il saldo finale",
+          "type": "number"
+        },
+        "listaMovimenti": {
+          "description": "La lista dei movimenti della liquidità",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/MovimentoLiquidita"
+          }
+        }
+      }
+    },
+    "MovimentoLiquidita": {
+      "description": "Un movimento di un titolo",
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "data": {
+          "description": "La data del movimento",
+          "type": "string",
+          "pattern": "^[0-9]{2}-[0-9]{2}-[0-9]{4}$",
+          "x-nullable": true
+        },
+        "dataInserimento": {
+          "description": "La data di inserimento",
+          "type": "string",
+          "pattern": "^[0-9]{2}-[0-9]{2}-[0-9]{4}$",
+          "x-nullable": true
+        },
+        "valuta": {
+          "description": "La valuta",
+          "type": "string",
+          "pattern": "^(?!\\s*$).+",
+          "x-nullable": true
+        },
+        "movimento": {
+          "description": "Il codice identificativo del movimento",
+          "type": "string",
+          "pattern": "^(?!\\s*$).+",
+          "x-nullable": true
+        },
+        "isin": {
+          "description": "Il codice ISIN del titolo che ha generato la liquidità",
+          "type": "string",
+          "pattern": "^(?!\\s*$).+",
+          "x-nullable": true
+        },
+        "descrizione": {
+          "description": "La descrizione del movimento",
+          "type": "string",
+          "pattern": "^(?!\\s*$).+",
+          "x-nullable": true
+        },
+        "quantita": {
+          "description": "La quantità",
+          "type": "number",
+          "x-nullable": true
+        },
+        "prezzo": {
+          "description": "Il prezzo",
+          "type": "number",
+          "x-nullable": true
+        },
+        "rateo": {
+          "description": "Il rateo",
+          "type": "number",
+          "x-nullable": true
+        },
+        "cambio": {
+          "description": "Il cambio",
+          "type": "number",
+          "x-nullable": true
+        },
+        "ritenute": {
+          "description": "Le ritenute",
+          "type": "number",
+          "x-nullable": true
+        },
+        "bolli": {
+          "description": "I bolli",
+          "type": "number",
+          "x-nullable": true
+        },
+        "spese": {
+          "description": "Le spese",
+          "type": "number",
+          "x-nullable": true
+        },
+        "commissioni": {
+          "description": "Le commissioni",
+          "type": "number",
+          "x-nullable": true
+        },
+        "vsDare": {
+          "description": "Il dare",
+          "type": "number",
+          "x-nullable": true
+        },
+        "vsAvere": {
+          "description": "L'avere",
+          "type": "number",
+          "x-nullable": true
+        }
+      }
+    },
+    "ReportisticaDettaglioOperazioni": {
+      "description": "La lista di dettaglio operazioni per reportistica",
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "listaOperazioni": {
+          "description": "La lista delle liquidità con i loro movimenti",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ReportisticaDettaglioOperazione"
+          }
+        }
+      }
+    },
+    "ReportisticaDettaglioOperazione": {
+      "description": "Il dettaglio operazione per reportistica",
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "codiceContratto": {
+          "description": "Il codiceContratto",
+          "type": "string",
+          "pattern": "^(?!\\s*$).+",
+          "x-nullable": true
+        },
+        "codiceCliente": {
+          "description": "Il codiceCliente",
+          "type": "string",
+          "pattern": "^(?!\\s*$).+",
+          "x-nullable": true
+        },
+        "nome": {
+          "description": "Il nome",
+          "type": "string",
+          "pattern": "^(?!\\s*$).+",
+          "x-nullable": true
+        },
+        "abi": {
+          "description": "Il codice abi",
+          "type": "string",
+          "pattern": "^(?!\\s*$).+",
+          "x-nullable": true
+        },
+        "fil": {
+          "description": "Il codice filiale",
+          "type": "string",
+          "pattern": "^(?!\\s*$).+",
+          "x-nullable": true
+        },
+        "conto": {
+          "description": "Il conto",
+          "type": "string",
+          "pattern": "^(?!\\s*$).+",
+          "x-nullable": true
+        },
+        "importo": {
+          "description": "L'importo",
+          "type": "number",
+          "x-nullable": true
+        },
+        "ritenuta": {
+          "description": "La ritenuta",
+          "type": "number",
+          "x-nullable": true
+        },
+        "cambio": {
+          "description": "Il dettaglio operazione per reportistica",
+          "type": "number",
+          "x-nullable": true
+        },
+        "divisa": {
+          "description": "La divisa",
+          "type": "string",
+          "pattern": "^(?!\\s*$).+",
+          "x-nullable": true
+        },
+        "dataOperazioni": {
+          "description": "La data operazione",
+          "type": "string",
+          "pattern": "^(?!\\s*$).+",
+          "x-nullable": true
+        },
+        "valuta": {
+          "description": "La data valuta",
+          "type": "string",
+          "pattern": "^(?!\\s*$).+",
+          "x-nullable": true
+        },
+        "dataInserimento": {
+          "description": "La data inserimento",
+          "type": "string",
+          "pattern": "^(?!\\s*$).+",
+          "x-nullable": true
+        }
+      }
+    },
+    "ReportisticaTipiDettaglioOperazione": {
+      "description": "La lista dei tipi dettaglio operazioni per reportistica",
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "listaTipi": {
+          "description": "La lista dei tipi",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ReportisticaTipoDettaglioOperazione"
+          }
+        }
+      }
+    },
+    "ReportisticaTipoDettaglioOperazione": {
+      "description": "Il dettaglio operazione per reportistica",
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "codice": {
+          "description": "Il codice del tipo operazione",
+          "type": "string",
+          "pattern": "^(?!\\s*$).+"
+        },
+        "descrizione": {
+          "description": "La descrizione del tipo operazione",
+          "type": "string",
+          "pattern": "^(?!\\s*$).+"
+        }
+      }
+    },
+    "RichiestaModificaPassword": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "passwordCorrente",
+        "passwordNuova"
+      ],
+      "properties": {
+        "passwordCorrente": {
+          "description": "La password corrente",
+          "type": "string",
+          "pattern": "^(?!\\s*$).+"
+        },
+        "passwordNuova": {
+          "description": "La password nuova",
+          "type": "string",
+          "pattern": "^(?!\\s*$).+"
+        }
+      }
+    },
+    "InformazioniUtente": {
+      "description": "Informazioni dell'utente",
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "username": {
+          "description": "L'username utilizzato per la login",
+          "type": "string",
+          "pattern": "^.*$"
+        },
+        "nome": {
+          "description": "Il nome dell'utente",
+          "type": "string",
+          "pattern": "^.*$",
+          "x-nullable": true
+        },
+        "cognome": {
+          "description": "Il cognome dell'utente",
+          "type": "string",
+          "pattern": "^.*$",
+          "x-nullable": true
+        },
+        "mail": {
+          "description": "L'email dell'utente",
+          "type": "string",
+          "pattern": "^.*$",
+          "x-nullable": true
+        },
+        "ultimoAccesso": {
+          "description": "L'email dell'utente",
+          "type": "string",
+          "pattern": "^[0-9]{2}-[0-9]{2}-[0-9]{4} [0-9]{2}:[0-9]{2}:[0-9]{2}$",
+          "x-nullable": true
+        },
+        "passwordScaduta": {
+          "description": "Indica se la password e scaduta",
+          "type": "boolean"
+        },
+        "primoCambioPassword": {
+          "description": "Indica che è necessario eseguire il primo cambio password",
+          "type": "boolean"
+        }
+      }
+    },
+    "AlettiPlanetRispostaGeneraReportPdf": {
+      "description": "Risposta contente il codice univoco che identifica il nuovo report richiesto",
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "codiceGenerazioneReportPdf": {
+          "description": "Codice univoco report pdf richiesto",
+          "type": "string",
+          "pattern": "^(?!\\s*$).+"
+        }
+      }
+    },
+    "AlettiPlanetRispostaPdfBase64": {
+      "description": "Risposta contente il pdf codificato in base64",
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "statoGenerazione": {
+          "description": "Stato di generazione del report pdf",
+          "type": "string",
+          "enum": [
+            "COMPLETATO",
+            "GENERAZIONE_IN_CORSO",
+            "ERRORE"
+          ],
+          "example": "COMPLETATO"
+        },
+        "reportPdf": {
+          "$ref": "#/definitions/AlettiPlanetReportPdfGestionePatrimoniale"
+        }
+      },
+      "required": [
+        "statoGenerazione"
+      ]
+    },
+    "AlettiPlanetReportPdfGestionePatrimoniale": {
+      "description": "Il pdf generato in convertito in base64 della gestione patrimoniale del cliente",
+      "type": "object",
+      "x-nullable": true,
+      "additionalProperties": false,
+      "properties": {
+        "contenuto": {
+          "description": "Il pdf generato in convertito in base64 della gestione patrimoniale del cliente",
+          "type": "string",
+          "pattern": "^[A-Za-z0-9+/]*={0,2}$",
+          "example": "VGVzdG8gZGkgcHJvdmE="
+        },
+        "hash": {
+          "$ref": "#/definitions/AlettiPlanetHash"
+        }
+      },
+      "required": [
+        "contenuto",
+        "hash"
+      ]
+    },
+    "AlettiPlanetHash": {
+      "description": "Hash del documento prima della conversione in base64",
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "valoreHash": {
+          "description": "Risultato hash secondo algoritmo indicato come parametro, convertito in base64",
+          "type": "string",
+          "pattern": "^[A-Za-z0-9+/]*={0,2}$",
+          "example": "mGCKobikKwZe3FxRDYJDSSCBUxZSYIq7IXZqHK90SQw="
+        },
+        "algoritmo": {
+          "description": "Algoritmo con cui è stato calcolato l’hash a partire dai dati",
+          "type": "string",
+          "enum": [
+            "SHA-256"
+          ],
+          "example": "SHA-256"
+        }
+      },
+      "required": [
+        "valoreHash",
+        "algoritmo"
+      ]
+    }
+  }
+}
