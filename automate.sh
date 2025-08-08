@@ -35,7 +35,7 @@ fi
 MAIN_PROJECT_NAME=$1    # Nome del progetto principale, utilizzato tale per creazione git project
 GITLAB_GROUP_NAME=$2    # Nome del gruppo da creare su GitLab (passato da riga di comando)
 SECOND_GROUP_NAME="rtc"  # Nome del sottogruppo sempre uguale (rtc)
-GITLAB_GROUP_ID="9424"  # ID del gruppo GitLab dove creare i gruppi e progetti (bbpm-svil-automation/Projects) (personale lrubboli)
+GITLAB_GROUP_ID="9637"  # ID del gruppo GitLab dove creare i gruppi e progetti (bbpm-svil-automation/Projects) (personale lrubboli)
 #GITLAB_GROUP_ID="434"    # ID del gruppo GitLab BPM (bancoBPM/Axway-Gateway-Projects/sources)
 
 # Imposta l'archetipo Maven (default o alternativo)
@@ -147,12 +147,18 @@ GROUP_ID=$(get_group_id "$GITLAB_GROUP_NAME")
 if [ "$GROUP_ID" == "null" ] || [ -z "$GROUP_ID" ]; then
   # Il gruppo non esiste, quindi crealo
   echo "Creating main group on GitLab..."
+  curl_message=$(curl --silent --header "Private-Token: $GITLAB_TOKEN" \
+       --data "name=$GITLAB_GROUP_NAME" \
+       --data "path=$GITLAB_GROUP_NAME" \
+       --data "visibility=private" \
+       https://git.imolinfo.it/api/v4/groups)
   GROUP_RESPONSE=$(curl --silent --header "Private-Token: $GITLAB_TOKEN" \
        --data "name=$GITLAB_GROUP_NAME" \
        --data "path=$GITLAB_GROUP_NAME" \
        --data "parent_id=$GITLAB_GROUP_ID" \
        --data "visibility=private" \
        https://git.imolinfo.it/api/v4/groups)
+  printf "Response: %s\n" "$GROUP_RESPONSE"
 
   # Estrai l'ID del gruppo principale creato
   GROUP_ID=$(echo $GROUP_RESPONSE | jq -r '.id')
@@ -333,7 +339,7 @@ git commit -m "Initial commit for $MAIN_PROJECT_NAME on branch develop"
 
 ### MODIFICARE QUI CON PROPRIO URL GIT ###
 
-git remote add origin "https://git.imolinfo.it/bpm-svil-automation/projects/$GITLAB_GROUP_NAME/$SECOND_GROUP_NAME/$MAIN_PROJECT_NAME.git"
+git remote add origin "https://git.imolinfo.it/fromanalisytoaxway/projects/$GITLAB_GROUP_NAME/$SECOND_GROUP_NAME/$MAIN_PROJECT_NAME.git"
 
 ######
 
@@ -396,7 +402,7 @@ if [ "$SKIP_MOCK" = false ]; then
     git commit -m "Initial commit for $MOCK_PROJECT_NAME on branch develop"
 
     # Configura il remote origin e fai il push del branch develop per il progetto mock
-    git remote add origin "https://git.imolinfo.it/bancoBPM/Axway-Gateway-Projects/sources/$GITLAB_GROUP_NAME/$SECOND_GROUP_NAME/$MOCK_PROJECT_NAME.git"
+    git remote add origin "https://git.imolinfo.it/fromanalisytoaxway/$GITLAB_GROUP_NAME/$SECOND_GROUP_NAME/$MOCK_PROJECT_NAME.git"
     git push -u origin develop
 
     echo "Branch develop for mock project $MOCK_PROJECT_NAME pushed to GitLab successfully."
