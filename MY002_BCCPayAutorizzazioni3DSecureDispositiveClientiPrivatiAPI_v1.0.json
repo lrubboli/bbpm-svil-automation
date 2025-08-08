@@ -1,0 +1,500 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "description": "Il servizio permette di gestire le autorizzazioni 3D Secure legate a pagamenti online effettuati con carte (credito, debito, prepagate). L’autorizzazione è fornita dal cliente dal proprio dispositivo mobile attraverso le applicazioni YOUAPP o WEAPP che integrano l’SDK Ireth per la gestione dei token TOTP (time-based one-time passwords). Il servizio è utilizzabile dal gruppo Banco BPM per i clienti privati.",
+    "version": "1.0",
+    "title": "BCCPayAutorizzazioni3DSecureDispositiveClientiPrivatiAPI_v1"
+  },
+  "basePath": "/my002/BCCPayAutorizzazioni3DSecureDispositiveClientiPrivatiAPI/v1",
+  "paths": {
+    "/richiediAutorizzazioneOperazione": {
+      "post": {
+        "description": "L’operazione consente di inviare una richiesta di autorizzazione 3D Secure al cliente legata ad un’operazione di pagamento. Il cliente può approvare o meno la richiesta attraverso l’applicazione mobile (YouApp, WeApp) che integra l’SDK Ireth per la gestione silente dei TOTP.  L’operazione fornirà un esito positivo se la richiesta sarà stata presa correttamente in carico dai sistemi Banco BPM.",
+        "summary": "L’operazione consente di inviare una richiesta di autorizzazione 3D Secure al cliente legata ad un’operazione di pagamento.",
+        "operationId": "richiediAutorizzazioneOperazione",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/parameters/Bbpm-Tt-IdOperazione-CodiceApplicazioneChiamante"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tt-IdOperazione-CodiceOperazione"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tt-IdCorrelazione"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-CodiceABI"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-CodiceCanale"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-CodiceApplicazioneChiamante"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-Cliente-CodiceNdg"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-Cliente-CodiceUtenzaIb-Identificativo-Utente"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-Cliente-CodiceUtenzaCb-Identificativo-Postazione"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-Cliente-CodiceUtenzaCb-Identificativo-Utente"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-UtenzaInterna-Matricola"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-UtenzaInterna-CodiceUnitaOrganizzativa"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-Controparte-IdControparte"
+          },
+          {
+            "name": "richiediAutorizzazioneOperazioneRequest",
+            "in": "body",
+            "description": "Parametri di input",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/RichiediAutorizzazioneOperazioneRequest"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "$ref": "#/responses/RichiediAutorizzazioneOperazioneResponse"
+          },
+          "400": {
+            "$ref": "#/responses/Error400"
+          },
+          "500": {
+            "$ref": "#/responses/Error500"
+          },
+          "504": {
+            "$ref": "#/responses/Error504"
+          }
+        }
+      }
+    }
+  },
+  "parameters": {
+    "Bbpm-Tt-IdOperazione-CodiceApplicazioneChiamante": {
+      "name": "Bbpm-Tt-IdOperazione-CodiceApplicazioneChiamante",
+      "description": "Codice che identifica univocamente l'applicazione diretta chiamante. Sono ammesse stringhe non vuote (es. APSD2, YOUWEB, HD005 ...)",
+      "in": "header",
+      "required": true,
+      "type": "string",
+      "pattern": "^(?!\\s*$).+"
+    },
+    "Bbpm-Tt-IdOperazione-CodiceOperazione": {
+      "name": "Bbpm-Tt-IdOperazione-CodiceOperazione",
+      "description": "Codice univoco dell'operazione generata dall'applicativo chiamante. L'applicativo chiamante deve garantire l'univocità di questo codice all'interno del suo perimetro. È obbligatorio solo nelle operazione di non lettura",
+      "in": "header",
+      "required": true,
+      "type": "string",
+      "pattern": "^(?!\\s*$).+"
+    },
+    "Bbpm-Tt-IdCorrelazione": {
+      "name": "Bbpm-Tt-IdCorrelazione",
+      "description": "Codice univoco per la tracciatura su tutta la filiera delle chiamate (end to end).",
+      "in": "header",
+      "required": true,
+      "type": "string",
+      "pattern": "^(?!\\s*$).+"
+    },
+    "Bbpm-Tc-CodiceABI": {
+      "name": "Bbpm-Tc-CodiceABI",
+      "description": "Codice dell'istituto target del servizio. Sono ammesse stringhe numeriche composte esattamente da 5 caratteri (es. 05034, 03045, 03102 ...)",
+      "in": "header",
+      "required": true,
+      "type": "string",
+      "minLength": 5,
+      "maxLength": 5,
+      "pattern": "^[0-9]{5}$"
+    },
+    "Bbpm-Tc-CodiceCanale": {
+      "name": "Bbpm-Tc-CodiceCanale",
+      "description": "Codice del canale di origine della chiamata",
+      "in": "header",
+      "required": true,
+      "type": "string",
+      "enum": [
+        "SITO_PUBBLICO",
+        "CORPORATE_BANKING",
+        "INTERNET_BANKING",
+        "PSD2",
+        "FILIALE_CORPORATE",
+        "AGENZIA_RETAIL",
+        "UFFICI",
+        "MOBILE_PRIVATI",
+        "MOBILE_CORPORATE",
+        "ATM",
+        "BANCA_TELEFONICA",
+        "BANCA_TELEFONICA_CORPORATE",
+        "OPENBANKING_AZIENDE"
+      ]
+    },
+    "Bbpm-Tc-CodiceApplicazioneChiamante": {
+      "name": "Bbpm-Tc-CodiceApplicazioneChiamante",
+      "description": "Codice che identifica univocamente l'applicazione chiamante di canale dalla quale è partita la chiamata (FACEBOOK, APP, YOUWEB, NSR ...)",
+      "in": "header",
+      "required": true,
+      "type": "string",
+      "pattern": "^(?!\\s*$).+"
+    },
+    "Bbpm-Tc-Cliente-CodiceNdg": {
+      "name": "Bbpm-Tc-Cliente-CodiceNdg",
+      "description": "Codice ndg del cliente che sta effetutando l'operazione. Sono ammesse stringhe numeriche con lunghezza minima 1 e massima 9 (es. 000007865 ...)",
+      "in": "header",
+      "required": false,
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 9,
+      "pattern": "^[0-9]{1,9}$"
+    },
+    "Bbpm-Tc-Cliente-CodiceUtenzaIb-Identificativo-Utente": {
+      "name": "Bbpm-Tc-Cliente-CodiceUtenzaIb-Identificativo-Utente",
+      "description": "Identificativo dell'utente privato. Sono ammesse stringhe non vuote",
+      "in": "header",
+      "required": false,
+      "type": "string",
+      "pattern": "^(?!\\s*$).+"
+    },
+    "Bbpm-Tc-Cliente-CodiceUtenzaCb-Identificativo-Postazione": {
+      "name": "Bbpm-Tc-Cliente-CodiceUtenzaCb-Identificativo-Postazione",
+      "description": "Identificativo postazione dell'utente corporate. Sono ammesse stringhe non vuote",
+      "in": "header",
+      "required": false,
+      "type": "string",
+      "pattern": "^(?!\\s*$).+"
+    },
+    "Bbpm-Tc-Cliente-CodiceUtenzaCb-Identificativo-Utente": {
+      "name": "Bbpm-Tc-Cliente-CodiceUtenzaCb-Identificativo-Utente",
+      "description": "Identificativo dell'utente corporate. Sono ammesse stringhe non vuote",
+      "in": "header",
+      "required": false,
+      "type": "string",
+      "pattern": "^(?!\\s*$).+"
+    },
+    "Bbpm-Tc-UtenzaInterna-Matricola": {
+      "name": "Bbpm-Tc-UtenzaInterna-Matricola",
+      "description": "Matricola dell'utente interno. Sono ammesse stringhe non vuote",
+      "in": "header",
+      "required": false,
+      "type": "string",
+      "pattern": "^(?!\\s*$).{1,8}$",
+      "minLength": 1,
+      "maxLength": 8
+    },
+    "Bbpm-Tc-UtenzaInterna-CodiceUnitaOrganizzativa": {
+      "name": "Bbpm-Tc-UtenzaInterna-CodiceUnitaOrganizzativa",
+      "description": "Codice dell'ufficio dell'utente interno. Sono ammesse stringhe non vuote",
+      "in": "header",
+      "required": false,
+      "type": "string",
+      "pattern": "^(?!\\s*$).+"
+    },
+    "Bbpm-Tc-Controparte-IdControparte": {
+      "name": "Bbpm-Tc-Controparte-IdControparte",
+      "description": "Identificativo di un eventuale entità esterna alla banca (es. PSD2, partner commerciale) che consuma servizi esposti dalla banca. Più precisamente è valorizzato con il nome o il codice della controparte (es. Facebook Inc). Sono ammesse stringhe non vuote",
+      "in": "header",
+      "required": false,
+      "type": "string",
+      "pattern": "^(?!\\s*$).+"
+    }
+  },
+  "responses": {
+    "RichiediAutorizzazioneOperazioneResponse": {
+      "description": "Richiesta di invio autorizzazione al cliente presa in carico correttamente",
+      "headers": {
+        "Bbpm-Tt-IdOperazioneRichiesta-CodiceApplicazioneChiamante": {
+          "type": "string",
+          "pattern": "^(?!\\s*$).+",
+          "description": "Codice che identifica univocamente l'applicazione diretta chiamante, deve avere il medesimo valore di quanto ricevuto in input (obbligatorio)"
+        },
+        "Bbpm-Tt-IdOperazioneRichiesta-CodiceOperazione": {
+          "type": "string",
+          "pattern": "^(?!\\s*$).+",
+          "description": "Codice univoco dell'operazione generata dall'applicativo chiamante (obbligatorio per tutte le operazioni non di lettura)"
+        },
+        "Bbpm-Tt-IdCorrelazione": {
+          "type": "string",
+          "pattern": "^(?!\\s*$).+",
+          "description": "Codice univoco per la tracciatura su tutta la filiera delle chiamate (obbligatorio). Deve essere un UUID"
+        },
+        "Bbpm-Tt-CodiceOperazioneRisposta": {
+          "type": "string",
+          "pattern": "^(?!\\s*$).+",
+          "description": "Codice univoco associato generato dal servizio associato alla risposta. Utile nelle invocazioni asincrone"
+        }
+      }
+    },
+    "Error400": {
+      "description": "Errore applicativo, ad esempio richiesta non valida",
+      "schema": {
+        "$ref": "#/definitions/Error"
+      },
+      "headers": {
+        "Bbpm-Tt-IdOperazioneRichiesta-CodiceApplicazioneChiamante": {
+          "type": "string",
+          "pattern": "^(?!\\s*$).+",
+          "description": "Codice che identifica univocamente l'applicazione diretta chiamante, deve avere il medesimo valore di quanto ricevuto in input (obbligatorio)"
+        },
+        "Bbpm-Tt-IdOperazioneRichiesta-CodiceOperazione": {
+          "type": "string",
+          "pattern": "^(?!\\s*$).+",
+          "description": "Codice univoco dell'operazione generata dall'applicativo chiamante (obbligatorio per tutte le operazioni non di lettura)"
+        },
+        "Bbpm-Tt-IdCorrelazione": {
+          "type": "string",
+          "pattern": "^(?!\\s*$).+",
+          "description": "Codice univoco per la tracciatura su tutta la filiera delle chiamate (obbligatorio). Deve essere un UUID"
+        },
+        "Bbpm-Tt-CodiceOperazioneRisposta": {
+          "type": "string",
+          "pattern": "^(?!\\s*$).+",
+          "description": "Codice univoco associato generato dal servizio associato alla risposta. Utile nelle invocazioni asincrone"
+        }
+      }
+    },
+    "Error500": {
+      "description": "Errore sistemistico e/o errore generico",
+      "schema": {
+        "$ref": "#/definitions/Error"
+      },
+      "headers": {
+        "Bbpm-Tt-IdOperazioneRichiesta-CodiceApplicazioneChiamante": {
+          "type": "string",
+          "pattern": "^(?!\\s*$).+",
+          "description": "Codice che identifica univocamente l'applicazione diretta chiamante, deve avere il medesimo valore di quanto ricevuto in input (obbligatorio)"
+        },
+        "Bbpm-Tt-IdOperazioneRichiesta-CodiceOperazione": {
+          "type": "string",
+          "pattern": "^(?!\\s*$).+",
+          "description": "Codice univoco dell'operazione generata dall'applicativo chiamante (obbligatorio per tutte le operazioni non di lettura)"
+        },
+        "Bbpm-Tt-IdCorrelazione": {
+          "type": "string",
+          "pattern": "^(?!\\s*$).+",
+          "description": "Codice univoco per la tracciatura su tutta la filiera delle chiamate (obbligatorio). Deve essere un UUID"
+        },
+        "Bbpm-Tt-CodiceOperazioneRisposta": {
+          "type": "string",
+          "pattern": "^(?!\\s*$).+",
+          "description": "Codice univoco associato generato dal servizio associato alla risposta. Utile nelle invocazioni asincrone"
+        }
+      }
+    },
+    "Error504": {
+      "description": "Errore di timeout",
+      "schema": {
+        "$ref": "#/definitions/Error"
+      },
+      "headers": {
+        "Bbpm-Tt-IdOperazioneRichiesta-CodiceApplicazioneChiamante": {
+          "type": "string",
+          "pattern": "^(?!\\s*$).+",
+          "description": "Codice che identifica univocamente l'applicazione diretta chiamante, deve avere il medesimo valore di quanto ricevuto in input (obbligatorio)"
+        },
+        "Bbpm-Tt-IdOperazioneRichiesta-CodiceOperazione": {
+          "type": "string",
+          "pattern": "^(?!\\s*$).+",
+          "description": "Codice univoco dell'operazione generata dall'applicativo chiamante (obbligatorio per tutte le operazioni non di lettura)"
+        },
+        "Bbpm-Tt-IdCorrelazione": {
+          "type": "string",
+          "pattern": "^(?!\\s*$).+",
+          "description": "Codice univoco per la tracciatura su tutta la filiera delle chiamate (obbligatorio). Deve essere un UUID"
+        },
+        "Bbpm-Tt-CodiceOperazioneRisposta": {
+          "type": "string",
+          "pattern": "^(?!\\s*$).+",
+          "description": "Codice univoco associato generato dal servizio associato alla risposta. Utile nelle invocazioni asincrone"
+        }
+      }
+    }
+  },
+  "definitions": {
+    "RichiediAutorizzazioneOperazioneRequest": {
+      "type": "object",
+      "description": "parametri di input dell'operazione richiediAutorizzazioneOperazione",
+      "required": [
+        "destinatario",
+        "datiOperazione"
+      ],
+      "properties": {
+        "destinatario": {
+          "$ref": "#/definitions/DestinatarioNotifica"
+        },
+        "datiOperazione": {
+          "$ref": "#/definitions/DatiOperazione"
+        }
+      },
+      "additionalProperties": false
+    },
+    "DestinatarioNotifica": {
+      "type": "object",
+      "description": "Destinatario a cui inviare la richiesta di autorizzazione",
+      "required": [
+        "prodotto",
+        "identificativoClienteNumia"
+      ],
+      "properties": {
+        "prodotto": {
+          "$ref": "#/definitions/Prodotto"
+        },
+        "identificativoClienteNumia": {
+          "$ref": "#/definitions/IdentificativoClienteNumia"
+        }
+      },
+      "additionalProperties": false
+    },
+    "Prodotto": {
+      "type": "string",
+      "description": "Informazione che identifica l’applicazione mobile da notificare e l’ABI della carta utilizzata dal cliente. Questo valore deve essere coerente con quello fornito in fase di enrollment dell’applicazione mobile.",
+      "enum": [
+        "APP_WEBANK",
+        "APP_YOUAPP",
+        "APP_ALETTI"
+      ],
+      "example": "APP_WEBANK"
+    },
+    "IdentificativoClienteNumia": {
+      "type": "string",
+      "description": "Codice chCode con il quale Numia identifica il cliente banca.  Non è passato un riferimento alla carta utilizzata perché si assume che il cliente autorizzi a prescindere qualsiasi operazione sulle proprie carte.",
+      "minLength": 1,
+      "maxLength": 16,
+      "pattern": "^(?!\\s*$).+$",
+      "example": 83270000778654
+    },
+    "DatiOperazione": {
+      "type": "object",
+      "description": "Dati dell’operazione che saranno visualizzati sulla notifica",
+      "required": [
+        "identificativoOperazione",
+        "dataOperazione",
+        "importoOperazione",
+        "beneficiarioOperazione",
+        "panCarta",
+        "otpChallenge",
+        "redirectUrl"
+      ],
+      "properties": {
+        "identificativoOperazione": {
+          "minLength": 1,
+          "maxLength": 50,
+          "pattern": "^(?!\\s*$).+$",
+          "type": "string",
+          "description": "Identificativo univoco dell’operazione dispositiva da autorizzare",
+          "example": "001234578"
+        },
+        "dataOperazione": {
+          "type": "string",
+          "description": "Data e ora dell’operazione",
+          "format": "date-time",
+          "example": "2025-02-18T15:19:29.413+01:00"
+        },
+        "importoOperazione": {
+          "required": [
+            "divisa",
+            "importo"
+          ],
+          "type": "object",
+          "properties": {
+            "importo": {
+              "$ref": "#/definitions/Importo2Decimali"
+            },
+            "divisa": {
+              "$ref": "#/definitions/Divisa"
+            }
+          },
+          "additionalProperties": false,
+          "description": "Importo e divisa dell’operazione"
+        },
+        "beneficiarioOperazione": {
+          "minLength": 1,
+          "pattern": "^(?!\\s*$).+$",
+          "type": "string",
+          "description": "Beneficiario del pagamento",
+          "example": "UberDirectIT_PBV"
+        },
+        "panCarta": {
+          "minLength": 1,
+          "maxLength": 16,
+          "pattern": "^(?!\\s*$).+$",
+          "type": "string",
+          "description": "Pan offuscato della carta con cui si sta eseguendo l’operazione",
+          "example": "**1609"
+        },
+        "otpChallenge": {
+          "minLength": 1,
+          "maxLength": 50,
+          "pattern": "^(?!\\s*$).+$",
+          "type": "string",
+          "description": "Codice OTP che l’applicazione mobile deve validare per autenticare la richiesta di autorizzazione",
+          "example": "12345678"
+        },
+        "redirectUrl": {
+          "minLength": 1,
+          "pattern": "^(?!\\s*$).+$",
+          "type": "string",
+          "description": "U",
+          "example": "https://www.nuovosito.com/pagina1"
+        }
+      },
+      "additionalProperties": false
+    },
+    "Importo2Decimali": {
+      "multipleOf": 0.01,
+      "type": "number",
+      "description": "Importo con precisione 2 decimali",
+      "example": 100.99
+    },
+    "Divisa": {
+      "maxLength": 3,
+      "minLength": 3,
+      "pattern": "^[A-Z]{3}$",
+      "type": "string",
+      "description": "Codice a 3 lettere identificativo della divisa/valuta come definito dallo standard ISO-4217",
+      "example": "EUR"
+    },
+    "Error": {
+      "type": "object",
+      "description": "Error",
+      "required": [
+        "codice",
+        "messaggio",
+        "layer"
+      ],
+      "properties": {
+        "codice": {
+          "type": "string",
+          "pattern": "^(?!\\s*$).+",
+          "description": "Codice dell'errore",
+          "example": "A1234"
+        },
+        "messaggio": {
+          "type": "string",
+          "pattern": "^(?!\\s*$).+",
+          "description": "Messaggio dell'errore",
+          "example": "Errore nel sistema chiamato"
+        },
+        "layer": {
+          "type": "string",
+          "pattern": "^(?!\\s*$).+",
+          "description": "Layer dell'errore",
+          "example": "Layer dell'errore"
+        }
+      },
+      "additionalProperties": false
+    }
+  }
+}
