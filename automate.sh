@@ -35,7 +35,8 @@ fi
 MAIN_PROJECT_NAME=$1    # Nome del progetto principale, utilizzato tale per creazione git project
 GITLAB_GROUP_NAME=$2    # Nome del gruppo da creare su GitLab (passato da riga di comando)
 SECOND_GROUP_NAME="rtc"  # Nome del sottogruppo sempre uguale (rtc)
-GITLAB_GROUP_ID="9637"  # ID del gruppo GitLab dove creare i gruppi e progetti (bbpm-svil-automation/Projects) (personale lrubboli)
+GITLAB_GROUP_ID="9637"  # ID del gruppo GitLab dove creare i gruppi e progetti () (personale fpanico)
+#GITLAB_GROUP_ID="8477"  # ID del gruppo GitLab dove creare i gruppi e progetti (bbpm-svil-automation/Projects) (personale lrubboli)
 #GITLAB_GROUP_ID="434"    # ID del gruppo GitLab BPM (bancoBPM/Axway-Gateway-Projects/sources)
 
 # Imposta l'archetipo Maven (default o alternativo)
@@ -339,7 +340,11 @@ git commit -m "Initial commit for $MAIN_PROJECT_NAME on branch develop"
 
 ### MODIFICARE QUI CON PROPRIO URL GIT ###
 
+# FRANCESCO P.
 git remote add origin "https://git.imolinfo.it/fromanalisytoaxway/projects/$GITLAB_GROUP_NAME/$SECOND_GROUP_NAME/$MAIN_PROJECT_NAME.git"
+
+# LORENZO R.
+#git remote add origin "https://git.imolinfo.it/bpm-svil-automation/projects/$GITLAB_GROUP_NAME/$SECOND_GROUP_NAME/$MAIN_PROJECT_NAME.git"
 
 ######
 
@@ -357,6 +362,7 @@ git push -u origin master
 
 echo "Branches develop and master for project $MAIN_PROJECT_NAME pushed to GitLab successfully."
 
+: <<'LOGICA-MOCK'
 # Verifica se deve saltare la creazione del progetto mock
 if [ "$SKIP_MOCK" = false ]; then
     # Crea progetto parallelo con prefisso "mock" allo stesso livello del progetto principale
@@ -402,13 +408,18 @@ if [ "$SKIP_MOCK" = false ]; then
     git commit -m "Initial commit for $MOCK_PROJECT_NAME on branch develop"
 
     # Configura il remote origin e fai il push del branch develop per il progetto mock
+    # FRANCESCO P.
     git remote add origin "https://git.imolinfo.it/fromanalisytoaxway/$GITLAB_GROUP_NAME/$SECOND_GROUP_NAME/$MOCK_PROJECT_NAME.git"
+    # LORENZO R.
+    #git remote add origin "https://git.imolinfo.it/bancoBPM/Axway-Gateway-Projects/sources/$GITLAB_GROUP_NAME/$SECOND_GROUP_NAME/$MOCK_PROJECT_NAME.git"
     git push -u origin develop
 
     echo "Branch develop for mock project $MOCK_PROJECT_NAME pushed to GitLab successfully."
 else
     echo "Skipping mock project creation as per --no-mock option."
 fi
+
+LOGICA-MOCK
 
 # Opzionale: Unprotect project branches
 # Definisci le variabili necessarie
@@ -425,7 +436,7 @@ RESPONSE=$(curl --write-out "%{http_code}" --silent --output /dev/null --request
 if [ "$RESPONSE" == "204" ] || [ "$RESPONSE" == "200" ] || [ "$RESPONSE" == "202" ]; then
   echo "Branch '$BRANCH_NAME' unprotected successfully."
 elif [ "$RESPONSE" == "404" ]; then
-  echo "Branch '$BRANCH_NAME' not found or already unprotected (404)."
+  echo "Branch '$BRANCH_NAME' not found (404) or already unprotected."
 else
   echo "Failed to unprotect branch '$BRANCH_NAME'. HTTP status: $RESPONSE"
 fi

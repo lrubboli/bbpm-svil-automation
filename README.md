@@ -1,15 +1,16 @@
 # bbpm-svil-automation
 
-*3 archetipi attuali*
+*4 archetipi per branch istanza4*
 1. passthrough-solo-manager-rest
 2. passthrough-manager-gateway-rest
-3. junit
+3. passthrough-manager-gateway-rest-istanza4
+4. junit
 
-*lo script gestisce sempre contemporanemente due archetipi (rest + junit) e crea sempre progetto e progetto mock*
+*lo script gestisce sempre contemporanemente due archetipi (rest + junit) e crea sempre progetto e progetto mock (altrimenti usare --no-mock)*
 
 ## <u>ATTENZIONE</u>
 
-Testare nel proprio Git (per non voler impattare i sources di BPM) modificare/commentare righe de **GITLAB_GROUP_ID=<id_group>**
+Testare nel proprio Git (per non voler impattare i sources di BPM o altri contenitori) modificare/commentare righe de **GITLAB_GROUP_ID=<id_group>**
 
 Inoltre costruire l'indirizzo su misura alla riga commento **Configura il remote origin e fai il push del branch develop** per pushare nei propri progetti.
 
@@ -24,7 +25,7 @@ Inoltre costruire l'indirizzo su misura alla riga commento **Configura il remote
 ```
 *nome gruppo Git da verificare in slug (a volte nome maiuscolo, ma nello slug minuscolo)*
 
-#### N.B. in caso di utilizzo di archetipo alternativo (al momento solo quello manager+gateway) usare il seguente comando:
+#### N.B. in caso di utilizzo di archetipo alternativo (default solo-manager) usare il seguente comando:
 ```
 ./automate.sh <sigla_nomeservizio_versione> <nome_gruppo_git> --archetype <archetipo_alternativo>
 ```
@@ -33,7 +34,7 @@ Inoltre costruire l'indirizzo su misura alla riga commento **Configura il remote
 - file locale .env con *GITLAB_TOKEN*
 - jq command line tool 
   (```pip install jq``` altrimenti (per windows) ```curl -L -o /usr/bin/jq.exe https://github.com/jqlang/jq/releases/latest/download/jq-win64.exe```)
-- archetipi correttamente installati
+- archetipi correttamente installati (possono sorgere problemi con le dipendenze perche le repo JFrog sono non funzionanti)
 
 ## Installazione archetipi
 - aggiornare in base ad esigenza le versioni delle dipendenze
