@@ -1,0 +1,889 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "GestioneDelCreditoAntiriciclaggioService_v1",
+    "description": "Lo scopo del servizio è esporre funzionalità relative alle verifiche e gli adempimenti delle normative antiriciclaggio, relativamente all'ambito del GestioneDelCredito.",
+    "version": "1.0"
+  },
+  "host": "api.example.com",
+  "basePath": "/gdc01/GestioneDelCreditoAntiriciclaggioService/v1",
+  "schemes": [
+    "https"
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/recuperaProfiloDiRischioPerCodiciNDG": {
+      "post": {
+        "summary": "Recupera Profilo Di Rischio Per Codici NDG",
+        "description": "L'operazione consente di recuperare tutte le informazioni sul Profilo di Rischio di una lista di clienti identificati tramite CodiceNDG.",
+        "operationId": "recuperaProfiloDiRischioPerCodiciNDG",
+        "parameters": [
+          {
+            "$ref": "#/parameters/Bbpm-Tt-IdOperazione-CodiceApplicazioneChiamante"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tt-IdOperazione-CodiceOperazione"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tt-IdCorrelazione"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-CodiceABI"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-CodiceCanale"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-CodiceApplicazioneChiamante"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-Cliente-CodiceNdg"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-Cliente-CodiceUtenzaIb-Identificativo-Utente"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-Cliente-CodiceUtenzaCb-Identificativo-Postazione"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-Cliente-CodiceUtenzaCb-Identificativo-Utente"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-UtenzaInterna-Matricola"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-UtenzaInterna-CodiceUnitaOrganizzativa"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-Controparte-IdControparte"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/recuperaProfiloDiRischioPerCodiciNDG_Input"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/recuperaProfiloDiRischioPerCodiciNDG_Success"
+          },
+          "400": {
+            "$ref": "#/responses/Error400"
+          },
+          "401": {
+            "$ref": "#/responses/Error401"
+          },
+          "500": {
+            "$ref": "#/responses/Error500"
+          },
+          "504": {
+            "$ref": "#/responses/Error504"
+          }
+        }
+      }
+    },
+    "/recuperaDatiAntiriciclaggioPerCodiceNDG": {
+      "post": {
+        "summary": "Recupera Dati Antiriciclaggio Per Codice NDG",
+        "description": "L'operazione consente di recuperare tutte le informazioni relative all'antiriciclaggio di un NDG.",
+        "operationId": "recuperaDatiAntiriciclaggioPerCodiceNDG",
+        "parameters": [
+          {
+            "$ref": "#/parameters/Bbpm-Tt-IdOperazione-CodiceApplicazioneChiamante"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tt-IdOperazione-CodiceOperazione"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tt-IdCorrelazione"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-CodiceABI"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-CodiceCanale"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-CodiceApplicazioneChiamante"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-Cliente-CodiceNdg"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-Cliente-CodiceUtenzaIb-Identificativo-Utente"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-Cliente-CodiceUtenzaCb-Identificativo-Postazione"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-Cliente-CodiceUtenzaCb-Identificativo-Utente"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-UtenzaInterna-Matricola"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-UtenzaInterna-CodiceUnitaOrganizzativa"
+          },
+          {
+            "$ref": "#/parameters/Bbpm-Tc-Controparte-IdControparte"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/recuperaDatiAntiriciclaggioPerCodiceNDG_Input"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/recuperaDatiAntiriciclaggioPerCodiceNDG_Success"
+          },
+          "204": {
+            "$ref": "#/responses/Accepted"
+          },
+          "400": {
+            "$ref": "#/responses/Error400"
+          },
+          "401": {
+            "$ref": "#/responses/Error401"
+          },
+          "500": {
+            "$ref": "#/responses/Error500"
+          },
+          "504": {
+            "$ref": "#/responses/Error504"
+          }
+        }
+      }
+    }
+  },
+  "parameters": {
+    "Bbpm-Tt-IdOperazione-CodiceApplicazioneChiamante": {
+      "name": "Bbpm-Tt-IdOperazione-CodiceApplicazioneChiamante",
+      "in": "header",
+      "description": "Codice che identifica univocamente l'applicazione diretta chiamante. Sono ammesse stringhe non vuote (es. APSD2, YOUWEB, HD005 ...)",
+      "required": true,
+      "type": "string",
+      "pattern": "^(?!\\s*$).+"
+    },
+    "Bbpm-Tt-IdOperazione-CodiceOperazione": {
+      "name": "Bbpm-Tt-IdOperazione-CodiceOperazione",
+      "in": "header",
+      "description": "Codice univoco dell'operazione generata dall'applicativo chiamante. L'applicativo chiamante deve garantire l'univocità di questo codice all'interno del suo perimetro. È obbligatorio solo nelle operazione di non lettura",
+      "required": true,
+      "type": "string",
+      "pattern": "^(?!\\s*$).+"
+    },
+    "Bbpm-Tt-IdCorrelazione": {
+      "name": "Bbpm-Tt-IdCorrelazione",
+      "in": "header",
+      "description": "Codice univoco per la tracciatura su tutta la filiera delle chiamate (end to end).",
+      "required": true,
+      "type": "string",
+      "pattern": "^(?!\\s*$).+"
+    },
+    "Bbpm-Tc-CodiceABI": {
+      "name": "Bbpm-Tc-CodiceABI",
+      "in": "header",
+      "description": "Codice dell'istituto target del servizio. Sono ammesse stringhe numeriche composte esattamente da 5 caratteri (es. 05034, 03045, 03102 ...)",
+      "required": true,
+      "type": "string",
+      "pattern": "^[0-9]{5}$",
+      "minLength": 5,
+      "maxLength": 5
+    },
+    "Bbpm-Tc-CodiceCanale": {
+      "name": "Bbpm-Tc-CodiceCanale",
+      "in": "header",
+      "description": "Codice del canale di origine della chiamata",
+      "required": true,
+      "type": "string",
+      "enum": [
+        "SITO_PUBBLICO",
+        "CORPORATE_BANKING",
+        "INTERNET_BANKING",
+        "PSD2",
+        "FILIALE_CORPORATE",
+        "AGENZIA_RETAIL",
+        "UFFICI",
+        "MOBILE_PRIVATI",
+        "MOBILE_CORPORATE",
+        "ATM",
+        "BANCA_TELEFONICA",
+        "BANCA_TELEFONICA_CORPORATE",
+        "OPENBANKING_AZIENDE"
+      ]
+    },
+    "Bbpm-Tc-CodiceApplicazioneChiamante": {
+      "name": "Bbpm-Tc-CodiceApplicazioneChiamante",
+      "in": "header",
+      "description": "Codice che identifica univocamente l'applicazione chiamante di canale dalla quale è partita la chiamata (FACEBOOK, APP, YOUWEB, NSR ...)",
+      "required": true,
+      "type": "string",
+      "pattern": "^(?!\\s*$).+"
+    },
+    "Bbpm-Tc-Cliente-CodiceNdg": {
+      "name": "Bbpm-Tc-Cliente-CodiceNdg",
+      "in": "header",
+      "description": "Codice ndg del cliente che sta effetutando l'operazione. Sono ammesse stringhe numeriche con lunghezza minima 1 e massima 9 (es. 000007865 ...)",
+      "required": false,
+      "type": "string",
+      "pattern": "^[0-9]{1,9}$",
+      "minLength": 1,
+      "maxLength": 9
+    },
+    "Bbpm-Tc-Cliente-CodiceUtenzaIb-Identificativo-Utente": {
+      "name": "Bbpm-Tc-Cliente-CodiceUtenzaIb-Identificativo-Utente",
+      "in": "header",
+      "description": "Identificativo dell'utente privato. Sono ammesse stringhe non vuote",
+      "required": false,
+      "type": "string",
+      "pattern": "^(?!\\s*$).+"
+    },
+    "Bbpm-Tc-Cliente-CodiceUtenzaCb-Identificativo-Postazione": {
+      "name": "Bbpm-Tc-Cliente-CodiceUtenzaCb-Identificativo-Postazione",
+      "in": "header",
+      "description": "Identificativo postazione dell'utente corporate. Sono ammesse stringhe non vuote",
+      "required": false,
+      "type": "string",
+      "pattern": "^(?!\\s*$).+"
+    },
+    "Bbpm-Tc-Cliente-CodiceUtenzaCb-Identificativo-Utente": {
+      "name": "Bbpm-Tc-Cliente-CodiceUtenzaCb-Identificativo-Utente",
+      "in": "header",
+      "description": "Identificativo dell'utente corporate. Sono ammesse stringhe non vuote",
+      "required": false,
+      "type": "string",
+      "pattern": "^(?!\\s*$).+"
+    },
+    "Bbpm-Tc-UtenzaInterna-Matricola": {
+      "name": "Bbpm-Tc-UtenzaInterna-Matricola",
+      "in": "header",
+      "description": "Matricola dell'utente interno. Sono ammesse stringhe non vuote",
+      "required": false,
+      "type": "string",
+      "pattern": "^(?!\\s*$).{1,8}$",
+      "minLength": 1,
+      "maxLength": 8
+    },
+    "Bbpm-Tc-UtenzaInterna-CodiceUnitaOrganizzativa": {
+      "name": "Bbpm-Tc-UtenzaInterna-CodiceUnitaOrganizzativa",
+      "in": "header",
+      "description": "Codice dell'ufficio dell'utente interno. Sono ammesse stringhe non vuote",
+      "required": false,
+      "type": "string",
+      "pattern": "^(?!\\s*$).+"
+    },
+    "Bbpm-Tc-Controparte-IdControparte": {
+      "name": "Bbpm-Tc-Controparte-IdControparte",
+      "in": "header",
+      "description": "Identificativo di un eventuale entità esterna alla banca (es. PSD2, partner commerciale) che consuma servizi esposti dalla banca. Più precisamente è valorizzato con il nome o il codice della controparte (es. Facebook Inc). Sono ammesse stringhe non vuote",
+      "required": false,
+      "type": "string",
+      "pattern": "^(?!\\s*$).+"
+    }
+  },
+  "responses": {
+    "recuperaProfiloDiRischioPerCodiciNDG_Success": {
+      "description": "OK",
+      "schema": {
+        "$ref": "#/definitions/recuperaProfiloDiRischioPerCodiciNDG_Output"
+      },
+      "headers": {
+        "Bbpm-Tt-IdOperazioneRichiesta-CodiceApplicazioneChiamante": {
+          "type": "string",
+          "pattern": "^(?!\\s*$).+",
+          "description": "Codice che identifica univocamente l'applicazione diretta chiamante, deve avere il medesimo valore di quanto ricevuto in input (obbligatorio)"
+        },
+        "Bbpm-Tt-IdOperazioneRichiesta-CodiceOperazione": {
+          "type": "string",
+          "pattern": "^(?!\\s*$).+",
+          "description": "Codice univoco dell'operazione generata dall'applicativo chiamante (obbligatorio per tutte le operazioni non di lettura)"
+        },
+        "Bbpm-Tt-IdCorrelazione": {
+          "type": "string",
+          "pattern": "^(?!\\s*$).+",
+          "description": "Codice univoco per la tracciatura su tutta la filiera delle chiamate (obbligatorio). Deve essere un UUID"
+        },
+        "Bbpm-Tt-CodiceOperazioneRisposta": {
+          "type": "string",
+          "pattern": "^(?!\\s*$).+",
+          "description": "Codice univoco associato generato dal servizio associato alla risposta. Utile nelle invocazioni asincrone"
+        }
+      }
+    },
+    "recuperaDatiAntiriciclaggioPerCodiceNDG_Success": {
+      "description": "OK",
+      "schema": {
+        "$ref": "#/definitions/recuperaDatiAntiriciclaggioPerCodiceNDG_Output"
+      },
+      "headers": {
+        "Bbpm-Tt-IdOperazioneRichiesta-CodiceApplicazioneChiamante": {
+          "type": "string",
+          "pattern": "^(?!\\s*$).+",
+          "description": "Codice che identifica univocamente l'applicazione diretta chiamante, deve avere il medesimo valore di quanto ricevuto in input (obbligatorio)"
+        },
+        "Bbpm-Tt-IdOperazioneRichiesta-CodiceOperazione": {
+          "type": "string",
+          "pattern": "^(?!\\s*$).+",
+          "description": "Codice univoco dell'operazione generata dall'applicativo chiamante (obbligatorio per tutte le operazioni non di lettura)"
+        },
+        "Bbpm-Tt-IdCorrelazione": {
+          "type": "string",
+          "pattern": "^(?!\\s*$).+",
+          "description": "Codice univoco per la tracciatura su tutta la filiera delle chiamate (obbligatorio). Deve essere un UUID"
+        },
+        "Bbpm-Tt-CodiceOperazioneRisposta": {
+          "type": "string",
+          "pattern": "^(?!\\s*$).+",
+          "description": "Codice univoco associato generato dal servizio associato alla risposta. Utile nelle invocazioni asincrone"
+        }
+      }
+    },
+    "Accepted": {
+      "description": "Accepted - Dati non presenti",
+      "headers": {
+        "Bbpm-Tt-IdOperazioneRichiesta-CodiceApplicazioneChiamante": {
+          "type": "string",
+          "pattern": "^(?!\\s*$).+",
+          "description": "Codice che identifica univocamente l'applicazione diretta chiamante, deve avere il medesimo valore di quanto ricevuto in input (obbligatorio)"
+        },
+        "Bbpm-Tt-IdOperazioneRichiesta-CodiceOperazione": {
+          "type": "string",
+          "pattern": "^(?!\\s*$).+",
+          "description": "Codice univoco dell'operazione generata dall'applicativo chiamante (obbligatorio per tutte le operazioni non di lettura)"
+        },
+        "Bbpm-Tt-IdCorrelazione": {
+          "type": "string",
+          "pattern": "^(?!\\s*$).+",
+          "description": "Codice univoco per la tracciatura su tutta la filiera delle chiamate (obbligatorio). Deve essere un UUID"
+        },
+        "Bbpm-Tt-CodiceOperazioneRisposta": {
+          "type": "string",
+          "pattern": "^(?!\\s*$).+",
+          "description": "Codice univoco associato generato dal servizio associato alla risposta. Utile nelle invocazioni asincrone"
+        }
+      }
+    },
+    "Error400": {
+      "description": "Bad Request - Errore generico per richiesta non valida",
+      "schema": {
+        "$ref": "#/definitions/Error"
+      },
+      "headers": {
+        "Bbpm-Tt-IdOperazioneRichiesta-CodiceApplicazioneChiamante": {
+          "type": "string",
+          "pattern": "^(?!\\s*$).+",
+          "description": "Codice che identifica univocamente l'applicazione diretta chiamante, deve avere il medesimo valore di quanto ricevuto in input (obbligatorio)"
+        },
+        "Bbpm-Tt-IdOperazioneRichiesta-CodiceOperazione": {
+          "type": "string",
+          "pattern": "^(?!\\s*$).+",
+          "description": "Codice univoco dell'operazione generata dall'applicativo chiamante (obbligatorio per tutte le operazioni non di lettura)"
+        },
+        "Bbpm-Tt-IdCorrelazione": {
+          "type": "string",
+          "pattern": "^(?!\\s*$).+",
+          "description": "Codice univoco per la tracciatura su tutta la filiera delle chiamate (obbligatorio). Deve essere un UUID"
+        },
+        "Bbpm-Tt-CodiceOperazioneRisposta": {
+          "type": "string",
+          "pattern": "^(?!\\s*$).+",
+          "description": "Codice univoco associato generato dal servizio associato alla risposta. Utile nelle invocazioni asincrone"
+        }
+      }
+    },
+    "Error401": {
+      "description": "Unauthorized - Accesso non autorizzato",
+      "schema": {
+        "$ref": "#/definitions/Error"
+      },
+      "headers": {
+        "Bbpm-Tt-IdOperazioneRichiesta-CodiceApplicazioneChiamante": {
+          "type": "string",
+          "pattern": "^(?!\\s*$).+",
+          "description": "Codice che identifica univocamente l'applicazione diretta chiamante, deve avere il medesimo valore di quanto ricevuto in input (obbligatorio)"
+        },
+        "Bbpm-Tt-IdOperazioneRichiesta-CodiceOperazione": {
+          "type": "string",
+          "pattern": "^(?!\\s*$).+",
+          "description": "Codice univoco dell'operazione generata dall'applicativo chiamante (obbligatorio per tutte le operazioni non di lettura)"
+        },
+        "Bbpm-Tt-IdCorrelazione": {
+          "type": "string",
+          "pattern": "^(?!\\s*$).+",
+          "description": "Codice univoco per la tracciatura su tutta la filiera delle chiamate (obbligatorio). Deve essere un UUID"
+        },
+        "Bbpm-Tt-CodiceOperazioneRisposta": {
+          "type": "string",
+          "pattern": "^(?!\\s*$).+",
+          "description": "Codice univoco associato generato dal servizio associato alla risposta. Utile nelle invocazioni asincrone"
+        }
+      }
+    },
+    "Error500": {
+      "description": "Internal Server Error - Errore generico del servizio",
+      "schema": {
+        "$ref": "#/definitions/Error"
+      },
+      "headers": {
+        "Bbpm-Tt-IdOperazioneRichiesta-CodiceApplicazioneChiamante": {
+          "type": "string",
+          "pattern": "^(?!\\s*$).+",
+          "description": "Codice che identifica univocamente l'applicazione diretta chiamante, deve avere il medesimo valore di quanto ricevuto in input (obbligatorio)"
+        },
+        "Bbpm-Tt-IdOperazioneRichiesta-CodiceOperazione": {
+          "type": "string",
+          "pattern": "^(?!\\s*$).+",
+          "description": "Codice univoco dell'operazione generata dall'applicativo chiamante (obbligatorio per tutte le operazioni non di lettura)"
+        },
+        "Bbpm-Tt-IdCorrelazione": {
+          "type": "string",
+          "pattern": "^(?!\\s*$).+",
+          "description": "Codice univoco per la tracciatura su tutta la filiera delle chiamate (obbligatorio). Deve essere un UUID"
+        },
+        "Bbpm-Tt-CodiceOperazioneRisposta": {
+          "type": "string",
+          "pattern": "^(?!\\s*$).+",
+          "description": "Codice univoco associato generato dal servizio associato alla risposta. Utile nelle invocazioni asincrone"
+        }
+      }
+    },
+    "Error504": {
+      "description": "Gateway Timeout - Errore di timeout",
+      "schema": {
+        "$ref": "#/definitions/Error"
+      },
+      "headers": {
+        "Bbpm-Tt-IdOperazioneRichiesta-CodiceApplicazioneChiamante": {
+          "type": "string",
+          "pattern": "^(?!\\s*$).+",
+          "description": "Codice che identifica univocamente l'applicazione diretta chiamante, deve avere il medesimo valore di quanto ricevuto in input (obbligatorio)"
+        },
+        "Bbpm-Tt-IdOperazioneRichiesta-CodiceOperazione": {
+          "type": "string",
+          "pattern": "^(?!\\s*$).+",
+          "description": "Codice univoco dell'operazione generata dall'applicativo chiamante (obbligatorio per tutte le operazioni non di lettura)"
+        },
+        "Bbpm-Tt-IdCorrelazione": {
+          "type": "string",
+          "pattern": "^(?!\\s*$).+",
+          "description": "Codice univoco per la tracciatura su tutta la filiera delle chiamate (obbligatorio). Deve essere un UUID"
+        },
+        "Bbpm-Tt-CodiceOperazioneRisposta": {
+          "type": "string",
+          "pattern": "^(?!\\s*$).+",
+          "description": "Codice univoco associato generato dal servizio associato alla risposta. Utile nelle invocazioni asincrone"
+        }
+      }
+    }
+  },
+  "definitions": {
+    "Error": {
+      "type": "object",
+      "required": [
+        "codice",
+        "messaggio",
+        "layer"
+      ],
+      "properties": {
+        "codice": {
+          "type": "string",
+          "description": "Codice dell'errore",
+          "pattern": "^(?!\\s*$).+",
+          "example": "xxxx"
+        },
+        "messaggio": {
+          "type": "string",
+          "description": "Descrizione dell'errore",
+          "pattern": "^(?!\\s*$).+",
+          "example": "<<descrizione dell'errore ricevuto dal servizio chiamato>>"
+        },
+        "layer": {
+          "type": "string",
+          "description": "Layer in cui si è verificato l'errore",
+          "pattern": "^(?!\\s*$).+",
+          "example": "GDC01"
+        }
+      },
+      "additionalProperties": false
+    },
+    "CodiceABI": {
+      "type": "string",
+      "description": "Codice univoco numerico assegnato dall'ABI (Associazione Bancaria Italiana) ad ogni istituto di credito.",
+      "maxLength": 5,
+      "minLength": 5,
+      "pattern": "^[0-9]{5}$",
+      "example": "05034"
+    },
+    "CodiceNDG": {
+      "type": "integer",
+      "description": "Codice NDG (Numero Direzione Generale) del Cliente",
+      "format": "int64",
+      "minimum": 1,
+      "maximum": 999999999,
+      "example": 128846
+    },
+    "Data": {
+      "type": "string",
+      "description": "Data in formato ISO 8601 (https://datatracker.ietf.org/doc/html/rfc3339#section-5.6)",
+      "format": "date",
+      "example": "2024-12-03"
+    },
+    "IdentificativoCliente": {
+      "type": "object",
+      "description": "Identificativo del cliente composto da codiceABI e codiceNDG",
+      "required": [
+        "codiceABI",
+        "codiceNDG"
+      ],
+      "properties": {
+        "codiceABI": {
+          "$ref": "#/definitions/CodiceABI"
+        },
+        "codiceNDG": {
+          "$ref": "#/definitions/CodiceNDG"
+        }
+      },
+      "additionalProperties": false
+    },
+    "recuperaProfiloDiRischioPerCodiciNDG_Input": {
+      "type": "object",
+      "required": [
+        "codiceABI",
+        "codiciNDG"
+      ],
+      "properties": {
+        "codiceABI": {
+          "$ref": "#/definitions/CodiceABI"
+        },
+        "codiciNDG": {
+          "type": "array",
+          "description": "Lista di ndg per i quali recuperare il profilo di rischio",
+          "minItems": 1,
+          "maxItems": 100,
+          "items": {
+            "$ref": "#/definitions/CodiceNDG"
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    "recuperaProfiloDiRischioPerCodiciNDG_Output": {
+      "type": "object",
+      "required": [
+        "profiliDiRischio"
+      ],
+      "properties": {
+        "profiliDiRischio": {
+          "type": "array",
+          "description": "Lista di profili di rischio associato al codiceNDG",
+          "maxItems": 100,
+          "items": {
+            "$ref": "#/definitions/ProfiloDiRischioPerNDG"
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    "ProfiloDiRischioPerNDG": {
+      "type": "object",
+      "required": [
+        "codiceNDG"
+      ],
+      "properties": {
+        "codiceNDG": {
+          "$ref": "#/definitions/CodiceNDG"
+        },
+        "profiloDiRischio": {
+          "$ref": "#/definitions/ProfiloDiRischio"
+        },
+        "identificativoPraticaGestioneProfiloDiRischio": {
+          "type": "string",
+          "description": "Identificativa pratica di calcolo del profilo di rischio in corso. Non presente se non è in atto un ricalcolo del profilo.",
+          "pattern": "^(?!\\s*$).+",
+          "example": "PRAT_12345"
+        }
+      },
+      "additionalProperties": false
+    },
+    "ProfiloDiRischio": {
+      "description": "Profilo di rischio associato all'utente. Non presente se l'NDG non è stato trovato oppure se non è presente il profilo di rischio",
+      "type": "object",
+      "required": [
+        "fasciaDiRischio",
+        "punteggioDiRischio",
+        "dataCalcolo",
+        "dataScadenza"
+      ],
+      "properties": {
+        "fasciaDiRischio": {
+          "type": "string",
+          "description": "Livello della fascia di rischio di riciclaggio di denaro e finanziamento del terrorismo (ML/FT - Money Laundering / Financing of Terrorism), del soggetto",
+          "enum": [
+            "RISCHIO_IRRILEVANTE",
+            "RISCHIO_BASSO",
+            "RISCHIO_MEDIO",
+            "RISCHIO_ALTO"
+          ]
+        },
+        "punteggioDiRischio": {
+          "type": "integer",
+          "description": "Punteggio del livello di rischio (massimo 2 cifre) da 0 a 99",
+          "minimum": 0,
+          "maximum": 99,
+          "example": 50
+        },
+        "dataCalcolo": {
+          "$ref": "#/definitions/Data"
+        },
+        "dataScadenza": {
+          "type": "string",
+          "description": "Data in cui scadrà il profilo di rischio",
+          "format": "date",
+          "example": "2024-12-03"
+        }
+      },
+      "additionalProperties": false
+    },
+    "recuperaDatiAntiriciclaggioPerCodiceNDG_Input": {
+      "type": "object",
+      "required": [
+        "identificativoCliente"
+      ],
+      "properties": {
+        "identificativoCliente": {
+          "$ref": "#/definitions/IdentificativoCliente"
+        }
+      },
+      "additionalProperties": false
+    },
+    "recuperaDatiAntiriciclaggioPerCodiceNDG_Output": {
+      "type": "object",
+      "properties": {
+        "professione": {
+          "type": "string",
+          "description": "Professione del soggetto. Assente nel caso in cui il dato non sia mai stato acquisito o in caso di Persona Giuridica",
+          "enum": [
+            "IMPRENDITORE",
+            "LAVORATORE_AUTONOMO",
+            "LIBERO_PROFESSIONISTA",
+            "LAVORATORE_DIPENDENTE",
+            "PENSIONATO",
+            "NON_OCCUPATO",
+            "SOGGETTO_APICALE"
+          ]
+        },
+        "localitaPrevalente": {
+          "$ref": "#/definitions/LocalitaPrevalente"
+        },
+        "riscontriEconomici": {
+          "$ref": "#/definitions/RiscontriEconomici"
+        },
+        "elementiDiRischioRiciclaggio": {
+          "$ref": "#/definitions/ElementiDiRischioRiciclaggio"
+        },
+        "nazioneSocietaPartecipativa": {
+          "type": "string",
+          "description": "Indica la nazione della sede legale/amministrativa della Fiduciaria / Trust / Fondazione / Società Anonima presente nella catena partecipativa",
+          "pattern": "^[A-Z]{3}$",
+          "minLength": 3,
+          "maxLength": 3,
+          "example": "ITA"
+        },
+        "nazioneRelazioneAffari": {
+          "type": "array",
+          "description": "Elenco di nazioni con cui il soggetto ha instaurato rapporti d'affari",
+          "maxItems": 3,
+          "items": {
+            "type": "string",
+            "pattern": "^[A-Z]{3}$",
+            "minLength": 3,
+            "maxLength": 3,
+            "example": "FRA"
+          }
+        },
+        "datiEsecutore": {
+          "$ref": "#/definitions/DatiEsecutore"
+        },
+        "datiTitolareEffettivo": {
+          "type": "array",
+          "description": "Dati titolare effettivo",
+          "maxItems": 30,
+          "items": {
+            "$ref": "#/definitions/DatiTitolareEffettivo"
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    "LocalitaPrevalente": {
+      "type": "object",
+      "description": "Località Prevalente",
+      "properties": {
+        "provinciaItaliana": {
+          "type": "string",
+          "description": "Codice provincia dove il soggetto ha dichiarato di svolgere l'attività principale (Sigla automobilistica), valorizzato solo in caso di nazione Italia.",
+          "pattern": "^[A-Z]{2}$",
+          "minLength": 2,
+          "maxLength": 2,
+          "example": "MI"
+        },
+        "nazioneEstera": {
+          "type": "integer",
+          "description": "Codice provincia dove il soggetto ha dichiarato di svolgere l'attività principale, se diversa da Italia (sigla secondo codifica UIC)",
+          "minimum": 0,
+          "maximum": 999,
+          "example": 48
+        }
+      },
+      "additionalProperties": false
+    },
+    "RiscontriEconomici": {
+      "type": "object",
+      "description": "Riscontri economici relativi al reddito e/o al patrimonio",
+      "properties": {
+        "risultatoEconomico": {
+          "type": "string",
+          "description": "Risultato Economico Persone Giuridica",
+          "enum": [
+            "UTILE",
+            "PERDITA",
+            "ALTRO"
+          ]
+        },
+        "importo": {
+          "type": "number",
+          "description": "Importo risultato economico persona giuridica in €",
+          "example": 150000.5
+        },
+        "fatturato": {
+          "type": "string",
+          "description": "Fatturato Persona Giuridica",
+          "enum": [
+            "PRIVO_DI_FATTURATO",
+            "FINO_A_500000",
+            "DA_500001_A_2500000",
+            "OLTRE_2500000"
+          ]
+        },
+        "patrimonio": {
+          "type": "string",
+          "description": "Patrimonio Persona Giuridica",
+          "enum": [
+            "PRIVO_DI_PATRIMONIO_O_ALTRO",
+            "FINO_A_500000",
+            "DA_500001_A_2500000",
+            "OLTRE_2500000"
+          ]
+        }
+      },
+      "additionalProperties": false
+    },
+    "DatiEsecutore": {
+      "type": "object",
+      "description": "Dati esecutore",
+      "properties": {
+        "codiceNDG": {
+          "$ref": "#/definitions/CodiceNDG"
+        },
+        "relazioneClienteEsecutore": {
+          "type": "string",
+          "description": "Indica il tipo di relazione tra cliente ed esecutore.",
+          "pattern": "^[0-9]{2}$",
+          "minLength": 2,
+          "maxLength": 2,
+          "enum": [
+            "04",
+            "05",
+            "06",
+            "07"
+          ]
+        },
+        "noteRelazione": {
+          "type": "string",
+          "description": "Indica le note alla relazione tra cliente ed esecutore, presenti solo se campo relazioneClienteEsecutore= 07",
+          "maxLength": 100,
+          "pattern": "^(?!\\s*$).+"
+        },
+        "tipoAttivitaEconomica": {
+          "type": "string",
+          "description": "Indica il codice del tipo di attività economica dell'esecutore (TAE) vedi tabella TAE",
+          "pattern": "^[0-9]{1,3}$",
+          "minLength": 1,
+          "maxLength": 3,
+          "example": "463"
+        }
+      },
+      "additionalProperties": false
+    },
+    "DatiTitolareEffettivo": {
+      "type": "object",
+      "description": "Dati titolare effettivo",
+      "properties": {
+        "codiceNDG": {
+          "$ref": "#/definitions/CodiceNDG"
+        },
+        "relazioneClienteTitolareEffettivo": {
+          "type": "string",
+          "description": "Indica il tipo di relazione tra cliente e titolare effettivo.",
+          "pattern": "^[0-9]{2}$",
+          "minLength": 2,
+          "maxLength": 2,
+          "enum": [
+            "04",
+            "05",
+            "06",
+            "07"
+          ]
+        },
+        "noteRelazione": {
+          "type": "string",
+          "description": "Indica le note alla relazione tra cliente ed esecutore, presenti solo se campo relazioneClienteTitolareEffettivo= 07",
+          "maxLength": 100,
+          "pattern": "^(?!\\s*$).+"
+        }
+      },
+      "additionalProperties": false
+    },
+    "ElementiDiRischioRiciclaggio": {
+      "type": "object",
+      "description": "Elementi che concorrono a creare dei rischi per potenziale riciclaggio",
+      "required": [
+        "operanteInCryptoAsset",
+        "partecipanteAdAppaltiPubblici",
+        "beneficianteDiFinanziamentiPubblici",
+        "emissioneAzioniAlPortatore"
+      ],
+      "properties": {
+        "operanteInCryptoAsset": {
+          "type": "boolean",
+          "description": "Attributo che indica se il soggetto ha dichiarato di operare in Crypto Asset"
+        },
+        "partecipanteAdAppaltiPubblici": {
+          "type": "boolean",
+          "description": "Attributo che indica se il soggetto ha dichiarato di aver partecipato ad appalti pubblici"
+        },
+        "beneficianteDiFinanziamentiPubblici": {
+          "type": "boolean",
+          "description": "Attributo che indica se il soggetto ha dichiarato di aver ricevuto finanziamenti pubblici"
+        },
+        "emissioneAzioniAlPortatore": {
+          "type": "boolean",
+          "description": "Attributo che indica se il soggetto ha dichiarato di aver emesso azioni al portatore"
+        }
+      },
+      "additionalProperties": false
+    }
+  }
+}

@@ -35,9 +35,9 @@ fi
 MAIN_PROJECT_NAME=$1    # Nome del progetto principale, utilizzato tale per creazione git project
 GITLAB_GROUP_NAME=$2    # Nome del gruppo da creare su GitLab (passato da riga di comando)
 SECOND_GROUP_NAME="rtc"  # Nome del sottogruppo sempre uguale (rtc)
-GITLAB_GROUP_ID="9637"  # ID del gruppo GitLab dove creare i gruppi e progetti () (personale fpanico)
+#GITLAB_GROUP_ID="9637"  # ID del gruppo GitLab dove creare i gruppi e progetti () (personale fpanico)
 #GITLAB_GROUP_ID="8477"  # ID del gruppo GitLab dove creare i gruppi e progetti (bbpm-svil-automation/Projects) (personale lrubboli)
-#GITLAB_GROUP_ID="434"    # ID del gruppo GitLab BPM (bancoBPM/Axway-Gateway-Projects/sources)
+GITLAB_GROUP_ID="434"    # ID del gruppo GitLab BPM (bancoBPM/Axway-Gateway-Projects/sources)
 
 # Imposta l'archetipo Maven (default o alternativo)
 ARTECHTYPE_DEFAULT="passthrough-solo-manager-rest"
@@ -57,19 +57,6 @@ if [ ! -f "$CONFIG_FILE" ]; then
   echo "Errore: file di configurazione $CONFIG_FILE non trovato."
   exit 1
 fi
-
-# Costruisce la stringa di parametri -D a partire dal file properties
-while IFS='=' read -r key value || [ -n "$key" ]; do
-  # Rimuovi spazi bianchi iniziali e finali, incluso il newline
-  key=$(echo "$key" | tr -d '[:space:]')
-  value=$(echo "$value" | tr -d '[:space:]')
-
-  # Salta righe con chiave o valore vuoti, o commenti
-  [[ -z "$key" || -z "$value" || "$key" == \#* ]] && continue
-
-   EXTRA_MVN_PARAMS="$EXTRA_MVN_PARAMS -D${key}=${value}"
-done < "$CONFIG_FILE"
-
 
 
 # Parsing degli argomenti opzionali
@@ -214,7 +201,7 @@ if [ "$PROJECT_ID" == "null" ] || [ -z "$PROJECT_ID" ]; then
        https://git.imolinfo.it/api/v4/projects)
 
   PROJECT_ID=$(echo $PROJECT_RESPONSE | jq -r '.id')
-  echo $PROJECT_RESPONSE
+# echo $PROJECT_RESPONSE
 
   if [ "$PROJECT_ID" == "null" ]; then
     echo "Error creating project. Exiting..."
@@ -225,9 +212,9 @@ else
   echo "Project $MAIN_PROJECT_NAME already exists with ID: $PROJECT_ID"
 fi
 
-# Procedi con la generazione del progetto e il caricamento dei file
 echo "Generating project scaffolding with archetype $SELECTED_ARCHETYPE..."
-# Costruzione array
+
+# Costruzione array base
 MVN_ARGS=(
   "-DarchetypeGroupId=$ARCHETYPE_GROUP_ID"
   "-DarchetypeArtifactId=$SELECTED_ARCHETYPE"
@@ -241,18 +228,43 @@ MVN_ARGS=(
   "-DcurrentDate=$(date +%d-%m-%Y)"
   "-DinteractiveMode=false"
 )
+# --- BLOCCO DI PARSING DEL FILE DI CONFIGURAZIONE (UNIFICATO E CORRETTO) ---
 
-# Legge dal file e aggiunge i parametri extra
+# Aggiungi dal file di configurazione
 while IFS='=' read -r key value; do
-  # Rimuovi spazi bianchi iniziali e finali, incluso il newline
-  key=$(echo "$key" | tr -d '[:space:]')
-  value=$(echo "$value" | tr -d '[:space:]')
+    # Pulizia della chiave: Rimuove spazi, tabulazioni e il carattere di ritorno a capo (\r) di Windows.
+    key=$(echo "$key" | tr -d '[:space:]\r') 
+    
+    # Rimuove spazi iniziali/finali e \r dal valore
+    value=$(echo "$value" | sed -e 's/^[[:space:]]*//' -e 's/[[:space:]]*$//' | tr -d '\r') 
 
-  [[ -z "$key" || "$key" =~ ^# ]] && continue
-  MVN_ARGS+=("-D${key}=${value}")
+    [[ -z "$key" || "$key" =~ ^# ]] && continue
+
+    case "$key" in
+        resourcePath)
+            # 1. Rimuove il prefisso Windows/Git Bash dal valore subito dopo la lettura (C:/Program Files/Git).
+            value=$(echo "$value" | sed 's#C:/Program Files/Git##g' | sed 's#C:\\Program Files\\Git##g')
+
+            # 2. Normalizza il percorso.
+            value=$(echo "$value" | sed 's|^//|/|')
+            
+            # 3. Aggiungi agli argomenti Maven. Il valore è ora pulito.
+            MVN_ARGS+=("-D${key}=$value")
+            ;;
+        description) 
+            MVN_ARGS+=("-D${key}=$value")
+            ;;
+        *)
+            MVN_ARGS+=("-D${key}=$value")
+            ;;
+    esac
 done < "$CONFIG_FILE"
 
-# Lancia Maven
+# --- FINE BLOCCO DI PARSING ---
+
+echo ">>> Lancio Maven archetype con args:"
+printf '%s\n' "${MVN_ARGS[@]}"
+
 mvn archetype:generate "${MVN_ARGS[@]}"
 
 # Verifica che la directory sia stata creata correttamente
@@ -293,7 +305,7 @@ ls -la
 
 # Torna alla directory principale del progetto
 cd ../../..
-echo "Current directory PRIMA DI COPIARE JSON: $(pwd)"
+echo "Current directory PRIMA DI COPIARE SWAGGER JSON: $(pwd)"
 ls -la
 
 # Gestione file JSON da copiare (con lo stesso nome del progetto)
@@ -341,7 +353,7 @@ git commit -m "Initial commit for $MAIN_PROJECT_NAME on branch develop"
 ### MODIFICARE QUI CON PROPRIO URL GIT ###
 
 # FRANCESCO P.
-git remote add origin "https://git.imolinfo.it/fromanalisytoaxway/projects/$GITLAB_GROUP_NAME/$SECOND_GROUP_NAME/$MAIN_PROJECT_NAME.git"
+#git remote add origin "https://git.imolinfo.it/fromanalisytoaxway/projects/$GITLAB_GROUP_NAME/$SECOND_GROUP_NAME/$MAIN_PROJECT_NAME.git"
 
 # LORENZO R.
 #git remote add origin "https://git.imolinfo.it/bpm-svil-automation/projects/$GITLAB_GROUP_NAME/$SECOND_GROUP_NAME/$MAIN_PROJECT_NAME.git"
@@ -349,7 +361,7 @@ git remote add origin "https://git.imolinfo.it/fromanalisytoaxway/projects/$GITL
 ######
 
 # URL remoto BancoBPM
-#git remote add origin "https://git.imolinfo.it/bancoBPM/Axway-Gateway-Projects/sources/$GITLAB_GROUP_NAME/$SECOND_GROUP_NAME/$MAIN_PROJECT_NAME.git"
+git remote add origin "https://git.imolinfo.it/bancoBPM/Axway-Gateway-Projects/sources/$GITLAB_GROUP_NAME/$SECOND_GROUP_NAME/$MAIN_PROJECT_NAME.git"
 git push -u origin develop
 
 # Crea il branch master come orfano con solo README.md
@@ -420,6 +432,8 @@ else
 fi
 
 LOGICA-MOCK
+
+git checkout develop
 
 # Opzionale: Unprotect project branches
 # Definisci le variabili necessarie
